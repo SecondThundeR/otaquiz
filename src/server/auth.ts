@@ -5,7 +5,9 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import OsuProvider from "next-auth/providers/osu";
+// import VkProvider from "next-auth/providers/vk";
+import ShikimoriProvider from "@/providers/shikimori";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
 
@@ -47,10 +49,18 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
+    OsuProvider({
+      clientId: env.OSU_CLIENT_ID,
+      clientSecret: env.OSU_CLIENT_SECRET,
     }),
+    ShikimoriProvider({
+      clientId: env.SHIKIMORI_CLIENT_ID,
+      clientSecret: env.SHIKIMORI_CLIENT_SECRET,
+    }),
+    // VkProvider({
+    //   clientId: process.env.VK_CLIENT_ID,
+    //   clientSecret: process.env.VK_CLIENT_SECRET,
+    // }),
     /**
      * ...add more providers here.
      *
