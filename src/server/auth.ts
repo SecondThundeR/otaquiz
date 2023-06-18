@@ -5,8 +5,6 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import OsuProvider from "next-auth/providers/osu";
-// import VkProvider from "next-auth/providers/vk";
 import ShikimoriProvider from "@/providers/shikimori";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
@@ -49,27 +47,10 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    OsuProvider({
-      clientId: env.OSU_CLIENT_ID,
-      clientSecret: env.OSU_CLIENT_SECRET,
-    }),
     ShikimoriProvider({
       clientId: env.SHIKIMORI_CLIENT_ID,
       clientSecret: env.SHIKIMORI_CLIENT_SECRET,
     }),
-    // VkProvider({
-    //   clientId: process.env.VK_CLIENT_ID,
-    //   clientSecret: process.env.VK_CLIENT_SECRET,
-    // }),
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
   ],
 };
 
