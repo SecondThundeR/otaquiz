@@ -1,6 +1,5 @@
 import { type ReactElement } from "react";
 import Head from "next/head";
-import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 
 import Navbar from "@/components/Navbar";
 import Subtitle from "@/components/Subtitle";
