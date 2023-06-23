@@ -52,7 +52,7 @@ function NavbarProfile({
       )}
       <ul
         tabIndex={0}
-        className="dropdown-content menu rounded-box menu-sm z-[1] mt-3 w-52 border-2 border-base-300 bg-base-100 p-2"
+        className="dropdown-content menu rounded-box menu-sm z-[1] mt-3 w-52 border-2 border-base-content bg-base-100 p-2"
       >
         {name && (
           <li>
