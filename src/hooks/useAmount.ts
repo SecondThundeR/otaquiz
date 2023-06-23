@@ -1,6 +1,12 @@
 import { useState } from "react";
 
-export default function useAmount(min: number, max: number, step: number) {
+interface UseAmountOptions {
+  min: number;
+  max: number;
+  step: number;
+}
+
+export default function useAmount({ min, max, step }: UseAmountOptions) {
   const [amount, setAmount] = useState(Math.min(min, max));
 
   const increment = () =>
