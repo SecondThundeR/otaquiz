@@ -1,6 +1,6 @@
 # AniGuessr
 
-Some random anime quiz web application. Built with T3 Stack, powered by Shikimori API _(Currently in development)_
+Some random anime quiz web application. Built with T3 Stack, powered by Shikimori API [_(Currently in development)_](https://github.com/users/SecondThundeR/projects/7)
 
 ## Brief Description
 
