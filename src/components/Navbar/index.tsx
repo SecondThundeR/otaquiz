@@ -1,14 +1,10 @@
 import { type Session } from "next-auth";
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { type PropsWithChildren } from "react";
 
 type SessionUser = Pick<Session, "user">["user"];
-
-interface NavbarProps {
-  user: SessionUser | undefined;
-}
 
 function NavbarTitle({ children }: PropsWithChildren) {
   return (
@@ -52,7 +48,7 @@ function NavbarProfile({
       )}
       <ul
         tabIndex={0}
-        className="dropdown-content menu rounded-box menu-sm z-[1] mt-3 w-52 border-2 border-base-content bg-base-100 p-2"
+        className="dropdown-content menu rounded-box menu-sm z-[1] mt-3 w-56 border-2 border-base-content bg-base-100 p-2"
       >
         {name && (
           <li>
@@ -75,12 +71,15 @@ function NavbarProfile({
   );
 }
 
-export default function Navbar({ user }: NavbarProps) {
+export default function Navbar() {
+  const { data } = useSession();
+  const { user } = data || {};
+
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 px-4">
       <NavbarTitle>AniGuessr</NavbarTitle>
       {user !== undefined ? (
-        <NavbarProfile name={user.name} image={user.image} />
+        <NavbarProfile name={user?.name} image={user?.image} />
       ) : (
         <button className="btn-primary btn" onClick={() => signIn("shikimori")}>
           Войти через Шикимори
