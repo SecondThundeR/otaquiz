@@ -65,8 +65,8 @@ devDependencies:
     specifier: ^2.7.3
     version: 2.7.3
   '@types/react':
-    specifier: ^18.2.13
-    version: 18.2.13
+    specifier: ^18.2.14
+    version: 18.2.14
   '@types/react-dom':
     specifier: ^18.2.6
     version: 18.2.6
@@ -83,8 +83,8 @@ devDependencies:
     specifier: ^3.3.0
     version: 3.3.0
   daisyui:
-    specifier: ^3.1.5
-    version: 3.1.5(postcss@8.4.24)(ts-node@10.9.1)
+    specifier: ^3.1.6
+    version: 3.1.6(postcss@8.4.24)(ts-node@10.9.1)
   eslint:
     specifier: ^8.43.0
     version: 8.43.0
@@ -641,11 +641,11 @@ packages:
   /@types/react-dom@18.2.6:
     resolution: {integrity: sha512-2et4PDvg6PVCyS7fuTc4gPoksV58bW0RwSxWKcPRcHZf0PRUGq03TKcD/rUHe3azfV6/5/biUBJw+HhCQjaP0A==}
     dependencies:
-      '@types/react': 18.2.13
+      '@types/react': 18.2.14
     dev: true
 
-  /@types/react@18.2.13:
-    resolution: {integrity: sha512-vJ+zElvi/Zn9cVXB5slX2xL8PZodPCwPRDpittQdw43JR2AJ5k3vKdgJJyneV/cYgIbLQUwXa9JVDvUZXGba+Q==}
+  /@types/react@18.2.14:
+    resolution: {integrity: sha512-A0zjq+QN/O0Kpe30hA1GidzyFjatVvrpIvWLxD+xv67Vt91TWWgco9IvrJBkeyHm1trGaFS/FSGqPlhyeZRm0g==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
@@ -1297,8 +1297,8 @@ packages:
       - '@swc/wasm'
     dev: true
 
-  /daisyui@3.1.5(postcss@8.4.24)(ts-node@10.9.1):
-    resolution: {integrity: sha512-3nk5L//IU31ISzsonKEFG8ris8hS/MRAc+PrOTOyRbssjv1fYmNKSdIrOhG6op2ED3RyJL4p6I81JUwd7RWqTw==}
+  /daisyui@3.1.6(postcss@8.4.24)(ts-node@10.9.1):
+    resolution: {integrity: sha512-P/2WUn4ZImEc2IfPSYw3qPCUnnJNju0P6ii0fUqtTURUj0oda6L0tm4EzrUmB2EbqB6grZ9nKHPTSniKaPYp1w==}
     engines: {node: '>=16.9.0'}
     peerDependencies:
       postcss: ^8
