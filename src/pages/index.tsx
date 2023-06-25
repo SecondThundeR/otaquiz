@@ -1,23 +1,15 @@
 import { type ReactElement } from "react";
+import Link from "next/link";
 import Head from "next/head";
 
-import Navbar from "@/components/Navbar";
+import AmountStepper from "@/components/AmountStepper";
+import ContentContainer from "@/components/ContentContainer";
 import Subtitle from "@/components/Subtitle";
 import Title from "@/components/Title";
-import {
-  Footer,
-  FooterText,
-  FooterLink,
-  FooterSeparator,
-} from "@/components/Footer";
 import useAmount from "@/hooks/useAmount";
+import MainLayout from "@/layouts/main";
 
 import { type NextPageWithLayout } from "./_app";
-import PageContainer from "@/components/PageContainer";
-import ContentContainer from "@/components/ContentContainer";
-import AmountStepper from "@/components/AmountStepper";
-import Link from "next/link";
-import MainLayout from "@/layouts/main";
 
 const Home: NextPageWithLayout = () => {
   const { amount, increment, decrement } = useAmount({
