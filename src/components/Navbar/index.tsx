@@ -71,11 +71,11 @@ function NavbarProfile({
   );
 }
 
-export default function Navbar({ user }: { user: SessionUser | undefined }) {
+export default function Navbar({ user }: { user: SessionUser | null }) {
   return (
     <div className="navbar bg-base-100 px-4">
       <NavbarTitle>AniGuessr</NavbarTitle>
-      {user !== undefined ? (
+      {user !== null ? (
         <NavbarProfile name={user?.name} image={user?.image} />
       ) : (
         <button className="btn-primary btn" onClick={() => signIn("shikimori")}>
