@@ -17,6 +17,7 @@ import PageContainer from "@/components/PageContainer";
 import ContentContainer from "@/components/ContentContainer";
 import AmountStepper from "@/components/AmountStepper";
 import Link from "next/link";
+import MainLayout from "@/layouts/main";
 
 const Home: NextPageWithLayout = () => {
   const { amount, increment, decrement } = useAmount({
@@ -51,25 +52,7 @@ Home.getLayout = function getLayout(page: ReactElement) {
         <meta name="description" content="Anime Quiz Game" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PageContainer>
-        <Navbar />
-        {page}
-        <Footer>
-          <FooterText>
-            Powered by{" "}
-            <FooterLink link="https://shikimori.me/api/doc/">
-              Shikimori API
-            </FooterLink>
-          </FooterText>
-          <FooterSeparator />
-          <FooterText>
-            Made by{" "}
-            <FooterLink link="https://github.com/SecondThundeR/">
-              SecondThundeR
-            </FooterLink>
-          </FooterText>
-        </Footer>
-      </PageContainer>
+      <MainLayout page={page} />
     </>
   );
 };

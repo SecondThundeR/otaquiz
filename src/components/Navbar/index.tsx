@@ -1,5 +1,5 @@
 import { type Session } from "next-auth";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { type PropsWithChildren } from "react";
@@ -71,10 +71,7 @@ function NavbarProfile({
   );
 }
 
-export default function Navbar() {
-  const { data } = useSession();
-  const { user } = data || {};
-
+export default function Navbar({ user }: { user: SessionUser | undefined }) {
   return (
     <div className="navbar bg-base-100 px-4">
       <NavbarTitle>AniGuessr</NavbarTitle>
