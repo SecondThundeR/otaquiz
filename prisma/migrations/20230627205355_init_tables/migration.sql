@@ -47,7 +47,7 @@ CREATE TABLE "Game" (
     "amount" INTEGER NOT NULL,
     "isFinished" BOOLEAN NOT NULL DEFAULT false,
     "animeIds" TEXT NOT NULL,
-    "correctAnswersIds" TEXT NOT NULL,
+    "wrongAnswers" TEXT,
     "userId" TEXT NOT NULL,
     CONSTRAINT "Game_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );

@@ -59,11 +59,11 @@ model VerificationToken {
 
 // Application Models
 model Game {
-    id                String  @id @default(cuid())
-    amount            Int
-    isFinished        Boolean @default(false)
-    animeIds          String // "1,2,3,..."
-    correctAnswersIds String? // "2,4,..."
-    user              User    @relation(fields: [userId], references: [id])
-    userId            String
+    id           String  @id @default(cuid())
+    amount       Int
+    isFinished   Boolean @default(false)
+    animeIds     String // "1,2,3,..."
+    wrongAnswers String? // "{2: "...", 4: "...", ...}"
+    user         User    @relation(fields: [userId], references: [id])
+    userId       String
 }
