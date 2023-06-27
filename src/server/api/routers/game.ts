@@ -19,13 +19,20 @@ export const gameRouter = createTRPCRouter({
       const res = await fetch(animesUrl);
 
       try {
-        const animes = await AnimeInfoArraySchema.parseAsync(await res.json());
-        const animeIds = animes.map((anime) => anime.id);
+        const parsedAnimes = await AnimeInfoArraySchema.parseAsync(
+          await res.json()
+        );
+        const animeData = parsedAnimes.map((anime) => {
+          return {
+            id: anime.id,
+            name: anime.russian || anime.name,
+          };
+        });
 
         const gameData = await prisma.game.create({
           data: {
-            amount: animeIds.length,
-            animeIds: animeIds.join(","),
+            amount: input.amount,
+            animes: JSON.stringify(animeData),
             userId: ctx.session.user.id,
           },
         });
