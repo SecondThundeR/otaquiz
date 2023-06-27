@@ -62,4 +62,38 @@ export const gameRouter = createTRPCRouter({
 
       return gameInfo;
     }),
+
+  getRandomAnimes: protectedProcedure
+    .input(z.object({ animeId: z.number() }))
+    .query(async ({ input }) => {
+      const animesUrl = new URL("animes", SHIKIMORI_API_URL);
+      animesUrl.searchParams.append("limit", "3");
+      animesUrl.searchParams.append("order", "random");
+      animesUrl.searchParams.append("exclude_ids", String(input.animeId));
+
+      const res = await fetch(animesUrl);
+
+      try {
+        const animes = await AnimeInfoArraySchema.parseAsync(await res.json());
+        return animes.map((anime) => {
+          return {
+            id: anime.id,
+            name: anime.russian || anime.name,
+          };
+        });
+      } catch (e: unknown) {
+        if (e instanceof z.ZodError) {
+          throw new TRPCError({
+            code: "UNPROCESSABLE_CONTENT",
+            message: "Can't process response from Shikimori API",
+            cause: e,
+          });
+        }
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something bad happened while getting random animes",
+          cause: e,
+        });
+      }
+    }),
 });
