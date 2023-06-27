@@ -46,6 +46,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    games         Game[]
 }
 
 model VerificationToken {
@@ -54,4 +55,15 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+// Application Models
+model Game {
+    id                String  @id @default(cuid())
+    amount            Int
+    isFinished        Boolean @default(false)
+    animeIds          String // "1,2,3,..."
+    correctAnswersIds String? // "2,4,..."
+    user              User    @relation(fields: [userId], references: [id])
+    userId            String
 }
