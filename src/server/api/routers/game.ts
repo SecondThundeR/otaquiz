@@ -1,17 +1,65 @@
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
+
+import { AnimeInfoArraySchema } from "@/schemas/anime";
+
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
 
+const SHIKIMORI_API_URL = "https://shikimori.me/api/";
+
 export const gameRouter = createTRPCRouter({
   createGame: protectedProcedure
-    .input(z.object({ animeIds: z.array(z.number()) }))
+    .input(z.object({ amount: z.number().min(5).max(50) }))
     .mutation(async ({ ctx, input }) => {
-      await prisma.game.create({
-        data: {
-          amount: input.animeIds.length,
-          animeIds: input.animeIds.join(","),
-          userId: ctx.session.user.id,
+      const animesUrl = new URL("animes", SHIKIMORI_API_URL);
+      animesUrl.searchParams.append("limit", String(input.amount));
+      animesUrl.searchParams.append("order", "random");
+
+      const res = await fetch(animesUrl);
+
+      try {
+        const animes = await AnimeInfoArraySchema.parseAsync(await res.json());
+        const animeIds = animes.map((anime) => anime.id);
+
+        const gameData = await prisma.game.create({
+          data: {
+            amount: animeIds.length,
+            animeIds: animeIds.join(","),
+            userId: ctx.session.user.id,
+          },
+        });
+        return gameData.id;
+      } catch (e: unknown) {
+        if (e instanceof z.ZodError) {
+          throw new TRPCError({
+            code: "UNPROCESSABLE_CONTENT",
+            message: "Can't process response from Shikimori API",
+            cause: e,
+          });
+        }
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something bad happened while creating a game",
+          cause: e,
+        });
+      }
+    }),
+
+  getGame: protectedProcedure
+    .input(z.object({ gameId: z.string() }))
+    .query(async ({ input }) => {
+      const gameInfo = await prisma.game.findUnique({
+        where: {
+          id: input.gameId,
         },
       });
+      if (gameInfo === null)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Can't find game with requested ID",
+        });
+
+      return gameInfo;
     }),
 });
