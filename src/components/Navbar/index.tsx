@@ -6,10 +6,19 @@ import { type PropsWithChildren } from "react";
 
 type SessionUser = Pick<Session, "user">["user"];
 
-function NavbarTitle({ children }: PropsWithChildren) {
+const PAGE_TITLE = "AniGuessr";
+
+function NavbarTitle({
+  children,
+  onClick,
+}: PropsWithChildren & { onClick?: () => void }) {
   return (
     <div className="flex-1">
-      <Link className="btn-ghost btn text-xl normal-case" href="/">
+      <Link
+        className="btn-ghost btn text-xl normal-case"
+        href="/"
+        onClick={onClick}
+      >
         {children}
       </Link>
     </div>
@@ -71,10 +80,18 @@ function NavbarProfile({
   );
 }
 
-export default function Navbar({ user }: { user: SessionUser | null }) {
+export default function Navbar({
+  user,
+  title,
+  onTitle,
+}: {
+  user: SessionUser | null;
+  title?: string;
+  onTitle?: () => void;
+}) {
   return (
     <div className="navbar bg-base-100 px-4">
-      <NavbarTitle>AniGuessr</NavbarTitle>
+      <NavbarTitle onClick={onTitle}>{title ?? PAGE_TITLE}</NavbarTitle>
       {user !== null ? (
         <NavbarProfile name={user?.name} image={user?.image} />
       ) : (
