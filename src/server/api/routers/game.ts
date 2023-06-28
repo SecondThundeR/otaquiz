@@ -53,6 +53,19 @@ export const gameRouter = createTRPCRouter({
       }
     }),
 
+  abortGame: protectedProcedure
+    .input(z.object({ gameId: z.string() }))
+    .mutation(async ({ input }) => {
+      await prisma.game.update({
+        where: {
+          id: input.gameId,
+        },
+        data: {
+          isAborted: true,
+        },
+      });
+    }),
+
   getGame: protectedProcedure
     .input(z.object({ gameId: z.string() }))
     .query(async ({ input }) => {
