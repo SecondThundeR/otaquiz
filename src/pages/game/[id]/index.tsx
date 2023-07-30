@@ -13,7 +13,7 @@ import Navbar from "@/components/Navbar";
 import PageContainer from "@/components/PageContainer";
 import { PageLoadingPlaceholder } from "@/components/PageLoadingPlaceholder";
 import Screenshot from "@/components/Screenshot";
-import Title from "@/components/Title";
+import Subtitle from "@/components/Subtitle";
 import { TEN_MINUTES } from "@/constants/time";
 import { type DBAnime, DBAnimeArraySchema } from "@/schemas/db/animes";
 import { type DBAnswerArray, DBAnswerArraySchema } from "@/schemas/db/answers";
@@ -96,10 +96,10 @@ const GamePage = memo(function GamePage({
             </PageLoadingPlaceholder>
           ) : (
             <>
-              <Title>
-                Аниме {currentIndex + 1} из {amount}
-              </Title>
-              <div className="grid grid-cols-1 grid-rows-2 gap-4 sm:grid-cols-3">
+              <Subtitle>
+                {currentIndex + 1} из {amount}
+              </Subtitle>
+              <div className="grid grid-cols-1 grid-rows-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {currentAnimeScreenshots?.screenshots.map((screenshot) => (
                   <Screenshot
                     key={screenshot.id}
