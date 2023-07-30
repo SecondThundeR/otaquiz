@@ -6,7 +6,7 @@ import { type PropsWithChildren } from "react";
 
 type SessionUser = Pick<Session, "user">["user"];
 
-const PAGE_TITLE = "AniGuessr";
+const PAGE_TITLE = "Otaquiz";
 
 function NavbarTitle({
   children,

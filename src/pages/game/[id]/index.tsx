@@ -84,7 +84,7 @@ const GamePage = memo(function GamePage({
     <>
       <Head>
         <title>
-          AniGuessr | Аниме {currentIndex + 1} из {amount}
+          Otaquiz | {currentIndex + 1} из {amount}
         </title>
       </Head>
       <PageContainer>

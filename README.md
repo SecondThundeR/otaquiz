@@ -1,4 +1,6 @@
-# AniGuessr
+# Otaquiz
+
+> Otaku + quiz = Otaquiz
 
 Some random anime quiz web application. Built with T3 Stack, powered by Shikimori API [_(Currently in development)_](https://github.com/users/SecondThundeR/projects/7)
 
@@ -56,7 +58,7 @@ Run this commands for installing `mkcert` and creating certificates:
 ```shell
 mkcert -install
 ...
-cd aniguessr
+cd otaquiz
 mkcert -key-file key.pem -cert-file cert.pem localhost\
 ```
 
