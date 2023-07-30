@@ -163,7 +163,13 @@ export const gameRouter = createTRPCRouter({
     }),
 
   updateAnswers: protectedProcedure
-    .input(z.object({ gameId: z.string(), answers: DBAnswerArraySchema }))
+    .input(
+      z.object({
+        gameId: z.string(),
+        answers: DBAnswerArraySchema,
+        isFinished: z.boolean(),
+      }),
+    )
     .mutation(async ({ input }) => {
       await prisma.game.update({
         where: {
@@ -172,6 +178,7 @@ export const gameRouter = createTRPCRouter({
         data: {
           answers: JSON.stringify(input.answers),
           currentAnimeIndex: input.answers.length,
+          isFinished: input.isFinished,
         },
       });
     }),
