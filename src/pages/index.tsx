@@ -17,6 +17,7 @@ import {
 } from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PageContainer from "@/components/PageContainer";
+import { Spinner } from "@/components/Spinner";
 import Subtitle from "@/components/Subtitle";
 import Title from "@/components/Title";
 import useAmount from "@/hooks/useAmount";
@@ -80,7 +81,7 @@ export default function Home({
               >
                 {gameMutation.isLoading ? (
                   <>
-                    <span className="loading loading-spinner"></span>
+                    <Spinner />
                     Создание игры
                   </>
                 ) : (
