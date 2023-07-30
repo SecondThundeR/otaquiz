@@ -38,7 +38,7 @@ export default function GamePage({
       refetchOnWindowFocus: false,
     },
   );
-  const abortMutation = api.game.abortGame.useMutation();
+  const deleteMutation = api.game.deleteGame.useMutation();
 
   const maxIndex = animes.length - 1;
   const currentAnime = animes.at(currentIndex)!;
@@ -51,7 +51,7 @@ export default function GamePage({
   );
 
   const onTitle = async () => {
-    await abortMutation.mutateAsync({
+    await deleteMutation.mutateAsync({
       gameId: id,
     });
   };
@@ -144,7 +144,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let gameData = null;
 
   try {
-    gameData = await helpers.game.getGame.fetch({
+    gameData = await helpers.game.getGameInfo.fetch({
       gameId,
     });
   } catch (e: unknown) {
@@ -156,14 +156,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       },
     };
   }
-
-  if (gameData.isAborted)
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
 
   if (gameData.userId !== session.user.id) {
     return {

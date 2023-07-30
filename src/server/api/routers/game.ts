@@ -78,20 +78,7 @@ export const gameRouter = createTRPCRouter({
       }
     }),
 
-  abortGame: protectedProcedure
-    .input(z.object({ gameId: z.string() }))
-    .mutation(async ({ input }) => {
-      await prisma.game.update({
-        where: {
-          id: input.gameId,
-        },
-        data: {
-          isAborted: true,
-        },
-      });
-    }),
-
-  getGame: protectedProcedure
+  getGameInfo: protectedProcedure
     .input(z.object({ gameId: z.string() }))
     .query(async ({ input }) => {
       const gameInfo = await prisma.game.findUnique({
@@ -172,5 +159,28 @@ export const gameRouter = createTRPCRouter({
           cause: e,
         });
       }
+    }),
+
+  updateGameIndex: protectedProcedure
+    .input(z.object({ gameId: z.string(), currentIndex: z.number() }))
+    .mutation(async ({ input }) => {
+      await prisma.game.update({
+        where: {
+          id: input.gameId,
+        },
+        data: {
+          currentAnimeIndex: input.currentIndex,
+        },
+      });
+    }),
+
+  deleteGame: protectedProcedure
+    .input(z.object({ gameId: z.string() }))
+    .mutation(async ({ input }) => {
+      await prisma.game.delete({
+        where: {
+          id: input.gameId,
+        },
+      });
     }),
 });
