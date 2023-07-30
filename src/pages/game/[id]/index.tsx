@@ -13,6 +13,7 @@ import Navbar from "@/components/Navbar";
 import PageContainer from "@/components/PageContainer";
 import Screenshot from "@/components/Screenshot";
 import Title from "@/components/Title";
+import { TEN_MINUTES } from "@/constants/time";
 import { type DBAnime, DBAnimeArraySchema } from "@/schemas/db/animes";
 import { type DBAnswerArray } from "@/schemas/db/answers";
 import { appRouter } from "@/server/api/root";
@@ -20,8 +21,6 @@ import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
 import { shuffleAnswers } from "@/utils/array/shuffleAnswers";
-
-const TEN_MINUTES = 10 * 60 * 1000;
 
 export default function GamePage({
   gameData: { id, animes, amount },
