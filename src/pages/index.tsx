@@ -77,7 +77,7 @@ export default function Home({
               />
 
               <button
-                className={`btn-primary btn-lg btn`}
+                className={`btn btn-primary btn-lg`}
                 disabled={gameMutation.isLoading}
                 onClick={onCreate}
               >

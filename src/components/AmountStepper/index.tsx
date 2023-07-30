@@ -13,11 +13,11 @@ export default function AmountStepper({
 }: AmountStepperProps) {
   return (
     <div className="flex items-center justify-center gap-4">
-      <button className="btn-outline btn-square btn" onClick={increment}>
+      <button className="btn btn-square btn-outline" onClick={increment}>
         <PlusIcon className="h-6 w-6" />
       </button>
       <h1 className="font-accent text-4xl">{amount}</h1>
-      <button className="btn-outline btn-square btn" onClick={decrement}>
+      <button className="btn btn-square btn-outline" onClick={decrement}>
         <MinusIcon className="h-6 w-6" />
       </button>
     </div>

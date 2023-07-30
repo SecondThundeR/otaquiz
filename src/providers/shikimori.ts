@@ -39,7 +39,7 @@ export interface ShikimoriUser
 }
 
 export default function Shikimori<P extends ShikimoriUser>(
-  options: OAuthUserConfig<P>
+  options: OAuthUserConfig<P>,
 ): OAuthConfig<P> {
   return {
     id: "shikimori",

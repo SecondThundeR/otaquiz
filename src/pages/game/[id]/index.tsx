@@ -31,7 +31,7 @@ export default function GamePage({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<z.infer<typeof DBAnswerArraySchema>>(
-    []
+    [],
   );
   const [screenshots, setScreenshots] =
     useState<z.infer<typeof ScreenshotSchema>[]>();
@@ -46,7 +46,7 @@ export default function GamePage({
     },
     {
       refetchOnWindowFocus: false,
-    }
+    },
   );
   const abortMutation = api.game.abortGame.useMutation();
 
@@ -73,7 +73,7 @@ export default function GamePage({
     (async () => {
       const animesUrl = new URL(
         `animes/${currentAnime.id}/screenshots`,
-        "https://shikimori.me/api/"
+        "https://shikimori.me/api/",
       );
       const res = await fetch(animesUrl);
       const data = await ScreenshotSchema.array().parseAsync(await res.json());
@@ -111,7 +111,7 @@ export default function GamePage({
               shuffleArray([currentAnime, ...randomAnimes]).map((anime) => (
                 <button
                   key={anime.id}
-                  className="btn-primary btn"
+                  className="btn btn-primary"
                   onClick={() => onClick(anime)}
                 >
                   {anime.name}
