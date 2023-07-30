@@ -11,6 +11,7 @@ import superjson from "superjson";
 import ContentContainer from "@/components/ContentContainer";
 import Navbar from "@/components/Navbar";
 import PageContainer from "@/components/PageContainer";
+import { PageLoadingPlaceholder } from "@/components/PageLoadingPlaceholder";
 import Screenshot from "@/components/Screenshot";
 import Title from "@/components/Title";
 import { TEN_MINUTES } from "@/constants/time";
@@ -29,7 +30,7 @@ const GamePage = memo(function GamePage({
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(currentAnimeIndex);
   const [answers, setAnswers] = useState<DBAnswerArray>(currentAnswers ?? []);
-  const { data } = api.game.getGameData.useQuery(
+  const { data, isLoading } = api.game.getGameData.useQuery(
     {
       animeIds: animes.map((anime) => anime.id).join(","),
     },
@@ -89,28 +90,39 @@ const GamePage = memo(function GamePage({
       <PageContainer>
         <Navbar user={user} title="Завершить игру" onTitle={onBack} />
         <ContentContainer>
-          <Title>
-            Аниме {currentIndex + 1} из {amount}
-          </Title>
-          <div className="grid grid-cols-1 grid-rows-2 gap-4 sm:grid-cols-3">
-            {currentAnimeScreenshots?.screenshots.map((screenshot) => (
-              <Screenshot key={screenshot.id} src={screenshot.originalUrl} />
-            ))}
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            {currentAnimeDecoys &&
-              shuffleAnswers([currentAnime, ...currentAnimeDecoys]).map(
-                (anime) => (
-                  <button
-                    key={anime.id}
-                    className="btn btn-primary"
-                    onClick={() => onClick(anime)}
-                  >
-                    {anime.name}
-                  </button>
-                ),
-              )}
-          </div>
+          {isLoading ? (
+            <PageLoadingPlaceholder>
+              Загружаем необходимые данные
+            </PageLoadingPlaceholder>
+          ) : (
+            <>
+              <Title>
+                Аниме {currentIndex + 1} из {amount}
+              </Title>
+              <div className="grid grid-cols-1 grid-rows-2 gap-4 sm:grid-cols-3">
+                {currentAnimeScreenshots?.screenshots.map((screenshot) => (
+                  <Screenshot
+                    key={screenshot.id}
+                    src={screenshot.originalUrl}
+                  />
+                ))}
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {currentAnimeDecoys &&
+                  shuffleAnswers([currentAnime, ...currentAnimeDecoys]).map(
+                    (anime) => (
+                      <button
+                        key={anime.id}
+                        className="btn btn-primary"
+                        onClick={() => onClick(anime)}
+                      >
+                        {anime.name}
+                      </button>
+                    ),
+                  )}
+              </div>
+            </>
+          )}
         </ContentContainer>
       </PageContainer>
     </>
