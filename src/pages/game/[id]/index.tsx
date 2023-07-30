@@ -38,7 +38,7 @@ export default function GamePage({
 
   const animes = DBAnimeArraySchema.parse(JSON.parse(gameData.animes));
   const maxIndex = animes.length - 1;
-  const currentAnime = animes.at(currentIndex) as z.infer<typeof DBAnimeSchema>;
+  const currentAnime = animes.at(currentIndex)!;
 
   const { data: randomAnimes } = api.game.getRandomAnimes.useQuery(
     {
@@ -95,16 +95,15 @@ export default function GamePage({
             Аниме {currentIndex + 1} из {gameData.amount}
           </Title>
           <div className="grid grid-cols-1 grid-rows-2 gap-4 sm:grid-cols-3">
-            {screenshots !== undefined &&
-              screenshots
-                .slice(0, 6)
-                .map((screenshot, i) => (
-                  <Screenshot
-                    key={i}
-                    src={`https://shikimori.me/${screenshot.original}`}
-                    blurSrc={`https://shikimori.me/${screenshot.preview}`}
-                  />
-                ))}
+            {screenshots
+              ?.slice(0, 6)
+              .map((screenshot, i) => (
+                <Screenshot
+                  key={i}
+                  src={`https://shikimori.me/${screenshot.original}`}
+                  blurSrc={`https://shikimori.me/${screenshot.preview}`}
+                />
+              ))}
           </div>
           <div className="grid grid-cols-2 gap-4">
             {randomAnimes !== undefined &&

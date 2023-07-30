@@ -32,6 +32,8 @@ function NavbarProfile({
   name: SessionUser["name"];
   image: SessionUser["image"];
 }) {
+  const onSignOut = () => signOut();
+
   return (
     <div className="dropdown dropdown-end">
       {image !== undefined ? (
@@ -40,7 +42,7 @@ function NavbarProfile({
             <Image
               width={40}
               height={40}
-              src={image || ""}
+              src={image ?? ""}
               alt="Аватар аккаунта"
             />
           </div>
@@ -51,7 +53,7 @@ function NavbarProfile({
           className="avatar placeholder btn btn-circle btn-ghost"
         >
           <div className="w-10 rounded-full bg-primary text-neutral-content">
-            <span className="text-xl">{name?.at(0) || "?"}</span>
+            <span className="text-xl">{name?.at(0) ?? "?"}</span>
           </div>
         </label>
       )}
@@ -71,7 +73,7 @@ function NavbarProfile({
           </li>
         )}
         <li>
-          <a role="button" onClick={() => signOut()}>
+          <a role="button" onClick={onSignOut}>
             Выйти
           </a>
         </li>
