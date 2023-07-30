@@ -22,6 +22,12 @@ const config = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "**.shikimori.me",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "shikimori.me",
         port: "",
         pathname: "/**",
