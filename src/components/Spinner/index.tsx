@@ -1,17 +1,11 @@
 import cn from "classnames";
 import { memo } from "react";
 
-type SpinnerSizeVariants =
-  | "extraSmall"
-  | "small"
-  | "regular"
-  | "medium"
-  | "large";
+type SpinnerSizeVariants = "extraSmall" | "small" | "medium" | "large";
 
 const SpinnerSizeClasses: Record<SpinnerSizeVariants, string> = {
   extraSmall: "loading-xs",
   small: "loading-sm",
-  regular: "loading",
   medium: "loading-md",
   large: "loading-lg",
 };
@@ -21,9 +15,11 @@ interface SpinnerProps {
 }
 
 export const Spinner = memo(function Spinner({
-  size = "regular",
+  size = "medium",
 }: SpinnerProps) {
   return (
-    <span className={cn("loading-spinner", SpinnerSizeClasses[size])}></span>
+    <span
+      className={cn("loading loading-spinner", SpinnerSizeClasses[size])}
+    ></span>
   );
 });
