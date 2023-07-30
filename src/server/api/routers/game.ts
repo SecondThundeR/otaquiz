@@ -142,7 +142,6 @@ export const gameRouter = createTRPCRouter({
           );
         } while (decoyAnimes.length < parsedScreenshots.length * 3);
 
-        console.log(parsedScreenshots);
         return { screenshots: parsedScreenshots, decoys: decoyAnimes };
       } catch (e: unknown) {
         if (e instanceof z.ZodError) {
