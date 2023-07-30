@@ -1,28 +1,25 @@
-import { useState } from "react";
+import { createServerSideHelpers } from "@trpc/react-query/server";
 import {
-  type InferGetServerSidePropsType,
   type GetServerSidePropsContext,
+  type InferGetServerSidePropsType,
 } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import superjson from "superjson";
-import { createServerSideHelpers } from "@trpc/react-query/server";
 
 import ContentContainer from "@/components/ContentContainer";
 import Navbar from "@/components/Navbar";
 import PageContainer from "@/components/PageContainer";
 import Screenshot from "@/components/Screenshot";
 import Title from "@/components/Title";
-
 import { type DBAnime, DBAnimeArraySchema } from "@/schemas/db/animes";
 import { type DBAnswerArray } from "@/schemas/db/answers";
-
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
-
 import { api } from "@/utils/api";
 import { shuffleAnswers } from "@/utils/array/shuffleAnswers";
-import { useRouter } from "next/router";
 
 const TEN_MINUTES = 10 * 60 * 1000;
 

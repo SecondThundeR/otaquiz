@@ -1,8 +1,8 @@
-import { type PropsWithChildren } from "react";
 import {
   ExclamationCircleIcon,
   InformationCircleIcon,
 } from "@heroicons/react/24/outline";
+import { type PropsWithChildren } from "react";
 
 const AlertProperties = {
   info: {

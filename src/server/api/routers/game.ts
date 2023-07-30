@@ -1,25 +1,24 @@
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
-import {
-  type Animes,
-  AnimesSchema,
-  AnimesNonScreenshotSchema,
-} from "@/schemas/animes";
-
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { prisma } from "@/server/db";
-import { getSelectedIDs } from "@/utils/query/createGame/getSelectedIDs";
-import { isNotEmpty } from "@/utils/string/isNotEmpty";
-import { buildExcludeParams } from "@/utils/query/createGame/buildExcludeParams";
-import { buildScreenshotsParams } from "@/utils/query/getGameData/buildScreenshotsParams";
 import {
   AnimeScreenshotsDataSchema,
   AnimeScreenshotsSchema,
 } from "@/schemas/animeScreenshots";
-import { buildDecoyParams } from "@/utils/query/getGameData/buildDecoyParams";
-import { DBAnimeArraySchema, type DBAnimeArray } from "@/schemas/db/animes";
+import {
+  type Animes,
+  AnimesNonScreenshotSchema,
+  AnimesSchema,
+} from "@/schemas/animes";
+import { type DBAnimeArray, DBAnimeArraySchema } from "@/schemas/db/animes";
 import { DBAnswerArraySchema } from "@/schemas/db/answers";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { prisma } from "@/server/db";
+import { buildExcludeParams } from "@/utils/query/createGame/buildExcludeParams";
+import { getSelectedIDs } from "@/utils/query/createGame/getSelectedIDs";
+import { buildDecoyParams } from "@/utils/query/getGameData/buildDecoyParams";
+import { buildScreenshotsParams } from "@/utils/query/getGameData/buildScreenshotsParams";
+import { isNotEmpty } from "@/utils/string/isNotEmpty";
 
 const SHIKIMORI_GRAPHQL_API_URL = new URL("https://shikimori.me/api/graphql");
 

@@ -1,4 +1,5 @@
 import z from "zod";
+
 import { DBAnimeSchema } from "./animes";
 
 export const DBAnswerSchema = z.object({

@@ -1,4 +1,5 @@
 import z from "zod";
+
 import { AnimeScreenshotSchema } from "./animeScreenshots";
 
 export const AnimeDataSchema = z.object({

@@ -1,10 +1,10 @@
+import { type TRPCError } from "@trpc/server";
 import {
-  type InferGetServerSidePropsType,
   type GetServerSidePropsContext,
+  type InferGetServerSidePropsType,
 } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { type TRPCError } from "@trpc/server";
 
 import Alert from "@/components/Alert";
 import AmountStepper from "@/components/AmountStepper";
@@ -19,11 +19,8 @@ import Navbar from "@/components/Navbar";
 import PageContainer from "@/components/PageContainer";
 import Subtitle from "@/components/Subtitle";
 import Title from "@/components/Title";
-
 import useAmount from "@/hooks/useAmount";
-
 import { getServerAuthSession } from "@/server/auth";
-
 import { api } from "@/utils/api";
 
 export default function Home({
