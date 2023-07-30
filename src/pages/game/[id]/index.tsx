@@ -5,7 +5,7 @@ import {
 } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { memo, useState } from "react";
 import superjson from "superjson";
 
 import ContentContainer from "@/components/ContentContainer";
@@ -15,20 +15,20 @@ import Screenshot from "@/components/Screenshot";
 import Title from "@/components/Title";
 import { TEN_MINUTES } from "@/constants/time";
 import { type DBAnime, DBAnimeArraySchema } from "@/schemas/db/animes";
-import { type DBAnswerArray } from "@/schemas/db/answers";
+import { type DBAnswerArray, DBAnswerArraySchema } from "@/schemas/db/answers";
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
 import { shuffleAnswers } from "@/utils/array/shuffleAnswers";
 
-export default function GamePage({
-  gameData: { id, animes, amount },
+const GamePage = memo(function GamePage({
+  gameData: { id, animes, currentAnswers, amount, currentAnimeIndex },
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<DBAnswerArray>([]);
+  const [currentIndex, setCurrentIndex] = useState(currentAnimeIndex);
+  const [answers, setAnswers] = useState<DBAnswerArray>(currentAnswers ?? []);
   const { data } = api.game.getGameData.useQuery(
     {
       animeIds: animes.map((anime) => anime.id).join(","),
@@ -58,16 +58,18 @@ export default function GamePage({
   };
 
   const onClick = async (anime: DBAnime) => {
-    setAnswers([
+    const newAnswers = [
       ...answers,
       {
         correct: anime.id !== currentAnime.id ? currentAnime : null,
         picked: anime,
       },
-    ]);
+    ];
+
+    setAnswers(newAnswers);
     await updateAnswersMutation.mutateAsync({
       gameId: id,
-      answers,
+      answers: newAnswers,
       isFinished: isGameFinished,
     });
 
@@ -113,10 +115,9 @@ export default function GamePage({
       </PageContainer>
     </>
   );
-}
+});
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  // 1. Get game ID and check if it has correct type
   const gameId = ctx.query.id;
 
   if (gameId === undefined || Array.isArray(gameId)) {
@@ -128,7 +129,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  // 2. Get current session and check if it exists
   // TODO: Currently there is no support for anonymous games. Will be implemented later
   const session = await getServerAuthSession(ctx);
 
@@ -141,8 +141,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  // 3. Fetch game data for provided game ID and check if game created for session user
-  // TODO: Later, when results page will be implemented, check for finished game will be implemented
   const helpers = createServerSideHelpers({
     router: appRouter,
     ctx: { session, prisma },
@@ -197,7 +195,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  const { id, amount, animes } = gameData;
+  const { id, amount, animes, answers, currentAnimeIndex } = gameData;
 
   return {
     props: {
@@ -206,8 +204,14 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       gameData: {
         id,
         amount,
+        currentAnimeIndex,
         animes: await DBAnimeArraySchema.parseAsync(JSON.parse(animes)),
+        currentAnswers: answers
+          ? await DBAnswerArraySchema.parseAsync(JSON.parse(answers))
+          : null,
       },
     },
   };
 }
+
+export default GamePage;
