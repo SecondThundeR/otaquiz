@@ -7,3 +7,5 @@ export const DBAnswerSchema = z.object({
 });
 
 export const DBAnswerArraySchema = z.array(DBAnswerSchema);
+
+export type DBAnswerArray = z.infer<typeof DBAnswerArraySchema>;

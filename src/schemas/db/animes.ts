@@ -1,8 +1,10 @@
 import z from "zod";
 
 export const DBAnimeSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string(),
 });
 
 export const DBAnimeArraySchema = z.array(DBAnimeSchema);
+
+export type DBAnimeArray = z.infer<typeof DBAnimeArraySchema>;
