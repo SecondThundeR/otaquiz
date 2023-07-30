@@ -4,7 +4,6 @@ import {
   type GetServerSidePropsContext,
 } from "next";
 import Head from "next/head";
-import { type z } from "zod";
 import superjson from "superjson";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 
@@ -14,7 +13,7 @@ import PageContainer from "@/components/PageContainer";
 import Screenshot from "@/components/Screenshot";
 import Title from "@/components/Title";
 
-import { DBAnimeArraySchema, type DBAnimeSchema } from "@/schemas/db/animes";
+import { type DBAnime, DBAnimeArraySchema } from "@/schemas/db/animes";
 import { type DBAnswerArray } from "@/schemas/db/answers";
 
 import { appRouter } from "@/server/api/root";
@@ -23,11 +22,15 @@ import { prisma } from "@/server/db";
 
 import { api } from "@/utils/api";
 import { shuffleAnswers } from "@/utils/array/shuffleAnswers";
+import { useRouter } from "next/router";
+
+const TEN_MINUTES = 10 * 60 * 1000;
 
 export default function GamePage({
   gameData: { id, animes, amount },
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<DBAnswerArray>([]);
   const { data } = api.game.getGameData.useQuery(
@@ -38,10 +41,12 @@ export default function GamePage({
       refetchOnWindowFocus: false,
     },
   );
+  const updateAnswersMutation = api.game.updateAnswers.useMutation();
   const deleteMutation = api.game.deleteGame.useMutation();
 
   const maxIndex = animes.length - 1;
   const currentAnime = animes.at(currentIndex)!;
+  const isGameFinished = currentIndex === maxIndex;
   const currentAnimeScreenshots = data?.screenshots.find(
     (data) => data.id === currentAnime.id,
   );
@@ -50,13 +55,13 @@ export default function GamePage({
     (currentIndex + 1) * 3,
   );
 
-  const onTitle = async () => {
+  const onBack = async () => {
     await deleteMutation.mutateAsync({
       gameId: id,
     });
   };
 
-  const onClick = (anime: z.infer<typeof DBAnimeSchema>) => {
+  const onClick = async (anime: DBAnime) => {
     setAnswers([
       ...answers,
       {
@@ -64,8 +69,15 @@ export default function GamePage({
         picked: anime,
       },
     ]);
+    await updateAnswersMutation.mutateAsync({
+      gameId: id,
+      answers,
+      isFinished: isGameFinished,
+    });
 
-    if (currentIndex === maxIndex) return; // Head to results
+    if (isGameFinished) {
+      return await router.push(`${router.asPath}/results`);
+    }
     setCurrentIndex(currentIndex + 1);
   };
 
@@ -77,7 +89,7 @@ export default function GamePage({
         </title>
       </Head>
       <PageContainer>
-        <Navbar user={user} title="Завершить игру" onTitle={onTitle} />
+        <Navbar user={user} title="Завершить игру" onTitle={onBack} />
         <ContentContainer>
           <Title>
             Аниме {currentIndex + 1} из {amount}
@@ -166,18 +178,39 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  // Check for finished game and redirect to results page
-  // if (gameData.isFinished) {...}
+  if (gameData.isFinished)
+    return {
+      redirect: {
+        destination: `/game/${gameData.id}/results`,
+        permanent: true,
+      },
+    };
+
+  if (Date.now() - gameData.updatedAt.getTime() > TEN_MINUTES) {
+    await prisma.game.delete({
+      where: {
+        id: gameData.id,
+      },
+    });
+
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  const { id, amount, animes } = gameData;
 
   return {
     props: {
       trpcState: helpers.dehydrate(),
       user: session.user,
       gameData: {
-        ...gameData,
-        animes: await DBAnimeArraySchema.parseAsync(
-          JSON.parse(gameData.animes),
-        ),
+        id,
+        amount,
+        animes: await DBAnimeArraySchema.parseAsync(JSON.parse(animes)),
       },
     },
   };
