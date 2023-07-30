@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   type InferGetServerSidePropsType,
   type GetServerSidePropsContext,
@@ -15,34 +15,24 @@ import Screenshot from "@/components/Screenshot";
 import Title from "@/components/Title";
 
 import { DBAnimeArraySchema, type DBAnimeSchema } from "@/schemas/db/animes";
-import { type DBAnswerArraySchema } from "@/schemas/db/answers";
-import { ScreenshotSchema } from "@/schemas/screenshot";
+import { type DBAnswerArray } from "@/schemas/db/answers";
 
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 
 import { api } from "@/utils/api";
-import { shuffleArray } from "@/utils/array";
+import { shuffleAnswers } from "@/utils/array/shuffleAnswers";
 
 export default function GamePage({
-  gameData,
+  gameData: { id, animes, amount },
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<z.infer<typeof DBAnswerArraySchema>>(
-    [],
-  );
-  const [screenshots, setScreenshots] =
-    useState<z.infer<typeof ScreenshotSchema>[]>();
-
-  const animes = DBAnimeArraySchema.parse(JSON.parse(gameData.animes));
-  const maxIndex = animes.length - 1;
-  const currentAnime = animes.at(currentIndex)!;
-
-  const { data: randomAnimes } = api.game.getRandomAnimes.useQuery(
+  const [answers, setAnswers] = useState<DBAnswerArray>([]);
+  const { data } = api.game.getGameData.useQuery(
     {
-      animeId: currentAnime.id,
+      animeIds: animes.map((anime) => anime.id).join(","),
     },
     {
       refetchOnWindowFocus: false,
@@ -50,9 +40,19 @@ export default function GamePage({
   );
   const abortMutation = api.game.abortGame.useMutation();
 
+  const maxIndex = animes.length - 1;
+  const currentAnime = animes.at(currentIndex)!;
+  const currentAnimeScreenshots = data?.screenshots.find(
+    (data) => data.id === currentAnime.id,
+  );
+  const currentAnimeDecoys = data?.decoys.slice(
+    currentIndex * 3,
+    (currentIndex + 1) * 3,
+  );
+
   const onTitle = async () => {
     await abortMutation.mutateAsync({
-      gameId: gameData.id,
+      gameId: id,
     });
   };
 
@@ -69,53 +69,37 @@ export default function GamePage({
     setCurrentIndex(currentIndex + 1);
   };
 
-  useEffect(() => {
-    (async () => {
-      const animesUrl = new URL(
-        `animes/${currentAnime.id}/screenshots`,
-        "https://shikimori.me/api/",
-      );
-      const res = await fetch(animesUrl);
-      const data = await ScreenshotSchema.array().parseAsync(await res.json());
-      setScreenshots(data);
-    })().catch(console.error);
-  }, [currentAnime]);
-
   return (
     <>
       <Head>
         <title>
-          AniGuessr | Аниме {currentIndex + 1} из {gameData.amount}
+          AniGuessr | Аниме {currentIndex + 1} из {amount}
         </title>
       </Head>
       <PageContainer>
         <Navbar user={user} title="Завершить игру" onTitle={onTitle} />
         <ContentContainer>
           <Title>
-            Аниме {currentIndex + 1} из {gameData.amount}
+            Аниме {currentIndex + 1} из {amount}
           </Title>
           <div className="grid grid-cols-1 grid-rows-2 gap-4 sm:grid-cols-3">
-            {screenshots
-              ?.slice(0, 6)
-              .map((screenshot, i) => (
-                <Screenshot
-                  key={i}
-                  src={`https://shikimori.me/${screenshot.original}`}
-                  blurSrc={`https://shikimori.me/${screenshot.preview}`}
-                />
-              ))}
+            {currentAnimeScreenshots?.screenshots.map((screenshot) => (
+              <Screenshot key={screenshot.id} src={screenshot.originalUrl} />
+            ))}
           </div>
           <div className="grid grid-cols-2 gap-4">
-            {randomAnimes !== undefined &&
-              shuffleArray([currentAnime, ...randomAnimes]).map((anime) => (
-                <button
-                  key={anime.id}
-                  className="btn btn-primary"
-                  onClick={() => onClick(anime)}
-                >
-                  {anime.name}
-                </button>
-              ))}
+            {currentAnimeDecoys &&
+              shuffleAnswers([currentAnime, ...currentAnimeDecoys]).map(
+                (anime) => (
+                  <button
+                    key={anime.id}
+                    className="btn btn-primary"
+                    onClick={() => onClick(anime)}
+                  >
+                    {anime.name}
+                  </button>
+                ),
+              )}
           </div>
         </ContentContainer>
       </PageContainer>
@@ -197,7 +181,12 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     props: {
       trpcState: helpers.dehydrate(),
       user: session.user,
-      gameData,
+      gameData: {
+        ...gameData,
+        animes: await DBAnimeArraySchema.parseAsync(
+          JSON.parse(gameData.animes),
+        ),
+      },
     },
   };
 }
