@@ -19,6 +19,7 @@ import {
 } from "@/schemas/animeScreenshots";
 import { buildDecoyParams } from "@/utils/query/getGameData/buildDecoyParams";
 import { DBAnimeArraySchema, type DBAnimeArray } from "@/schemas/db/animes";
+import { DBAnswerArraySchema } from "@/schemas/db/answers";
 
 const SHIKIMORI_GRAPHQL_API_URL = new URL("https://shikimori.me/api/graphql");
 
@@ -161,15 +162,16 @@ export const gameRouter = createTRPCRouter({
       }
     }),
 
-  updateGameIndex: protectedProcedure
-    .input(z.object({ gameId: z.string(), currentIndex: z.number() }))
+  updateAnswers: protectedProcedure
+    .input(z.object({ gameId: z.string(), answers: DBAnswerArraySchema }))
     .mutation(async ({ input }) => {
       await prisma.game.update({
         where: {
           id: input.gameId,
         },
         data: {
-          currentAnimeIndex: input.currentIndex,
+          answers: JSON.stringify(input.answers),
+          currentAnimeIndex: input.answers.length,
         },
       });
     }),
