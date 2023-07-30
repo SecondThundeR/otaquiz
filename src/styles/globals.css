@@ -5,6 +5,9 @@
 
 @layer base {
   html {
-    font-family: Jetbrains Mono, system-ui, monospace;
+    font-family:
+      Jetbrains Mono,
+      system-ui,
+      monospace;
   }
 }

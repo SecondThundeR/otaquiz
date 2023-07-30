@@ -4,9 +4,9 @@ Some random anime quiz web application. Built with T3 Stack, powered by Shikimor
 
 ## Brief Description
 
-This is an anime quiz game, which queries random animes, shows screenshots _(or description, if there are no screenshots)_ and gives buttons for user to guess, which anime name is correct*
+This is an anime quiz game, which queries random animes, shows screenshots _(or description, if there are no screenshots)_ and gives buttons for user to guess, which anime name is correct\*
 
-> *Subject to change **(Currently, some mentioned functionality haven't developed yet or will be developed in other way)**
+> \*Subject to change **(Currently, some mentioned functionality haven't developed yet or will be developed in other way)**
 
 ## Getting started
 
@@ -60,7 +60,7 @@ cd aniguessr
 mkcert -key-file key.pem -cert-file cert.pem localhost\
 ```
 
-Then, use [`local-ssl-proxy`]((https://github.com/cameronhunter/local-ssl-proxy)) to create HTTPS proxy for localhost:
+Then, use [local-ssl-proxy](https://github.com/cameronhunter/local-ssl-proxy) to create HTTPS proxy for localhost:
 
 ```shell
 # Launch app before proxy creation

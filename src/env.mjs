@@ -18,9 +18,11 @@ export const env = createEnv({
       // Since NextAuth.js automatically uses the VERCEL_URL if present.
       (str) => process.env.VERCEL_URL ?? str,
       // VERCEL_URL doesn't include `https` so it cant be validated as a URL
-      process.env.VERCEL ? z.string().min(1) : z.string().url()
+      process.env.VERCEL ? z.string().min(1) : z.string().url(),
     ),
     // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
+    // Required for making secure Vercel Cron Tasks
+    CRON_SECRET: z.string().min(1),
     SHIKIMORI_CLIENT_ID: z.string().min(1),
     SHIKIMORI_CLIENT_SECRET: z.string().min(1),
   },
@@ -43,6 +45,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+    CRON_SECRET: process.env.CRON_SECRET,
     SHIKIMORI_CLIENT_ID: process.env.SHIKIMORI_CLIENT_ID,
     SHIKIMORI_CLIENT_SECRET: process.env.SHIKIMORI_CLIENT_SECRET,
   },

@@ -1,7 +1,12 @@
-import { type Session } from "next-auth";
-import Link from "next/link";
+import { type TRPCError } from "@trpc/server";
+import {
+  type GetServerSidePropsContext,
+  type InferGetServerSidePropsType,
+} from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
+import Alert from "@/components/Alert";
 import AmountStepper from "@/components/AmountStepper";
 import ContentContainer from "@/components/ContentContainer";
 import {
@@ -12,22 +17,35 @@ import {
 } from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PageContainer from "@/components/PageContainer";
+import { Spinner } from "@/components/Spinner";
 import Subtitle from "@/components/Subtitle";
 import Title from "@/components/Title";
 import useAmount from "@/hooks/useAmount";
 import { getServerAuthSession } from "@/server/auth";
-import { type GetServerSidePropsContext } from "next";
+import { api } from "@/utils/api";
 
 export default function Home({
   user,
-}: {
-  user: Pick<Session, "user">["user"] | null;
-}) {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
   const { amount, increment, decrement } = useAmount({
     min: 5,
     max: 50,
     step: 5,
   });
+
+  const gameMutation = api.game.createGame.useMutation();
+
+  const onCreate = async () => {
+    try {
+      const gameId = await gameMutation.mutateAsync({
+        amount,
+      });
+      return router.push(`/game/${gameId}`);
+    } catch (e: unknown) {
+      console.log((e as TRPCError).message);
+    }
+  };
 
   return (
     <>
@@ -39,16 +57,44 @@ export default function Home({
       <PageContainer>
         <Navbar user={user} />
         <ContentContainer>
-          <Title>Привет!</Title>
-          <Subtitle>Выберите количество аниме для игры:</Subtitle>
-          <AmountStepper
-            amount={amount}
-            increment={increment}
-            decrement={decrement}
-          />
-          <Link role="button" className="btn-primary btn-lg btn" href="/game">
-            Начать игру
-          </Link>
+          {user === null ? (
+            <Alert state="info">
+              На данный момент, игры для анонимных пользователей не
+              поддерживаются
+              <br />
+              Войдите, пожалуйста, в свой аккаунт Шикимори, чтобы продолжить
+            </Alert>
+          ) : (
+            <>
+              <Title>Привет!</Title>
+              <Subtitle>Выбери количество аниме для игры:</Subtitle>
+              <AmountStepper
+                amount={amount}
+                increment={increment}
+                decrement={decrement}
+              />
+
+              <button
+                className="btn btn-primary btn-lg"
+                disabled={gameMutation.isLoading}
+                onClick={onCreate}
+              >
+                {gameMutation.isLoading ? (
+                  <>
+                    <Spinner />
+                    Создание игры
+                  </>
+                ) : (
+                  "Начать игру"
+                )}
+              </button>
+              {gameMutation.isError && (
+                <Alert state="error">
+                  Не удалось загрузить данные об аниме! Попробуйте еще раз :c
+                </Alert>
+              )}
+            </>
+          )}
         </ContentContainer>
         <Footer>
           <FooterText>

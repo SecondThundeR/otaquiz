@@ -6,10 +6,19 @@ import { type PropsWithChildren } from "react";
 
 type SessionUser = Pick<Session, "user">["user"];
 
-function NavbarTitle({ children }: PropsWithChildren) {
+const PAGE_TITLE = "AniGuessr";
+
+function NavbarTitle({
+  children,
+  onClick,
+}: PropsWithChildren & { onClick?: () => void }) {
   return (
-    <div className="flex-1">
-      <Link className="btn-ghost btn text-xl normal-case" href="/">
+    <div className="flex-grow">
+      <Link
+        className="btn btn-ghost text-xl normal-case"
+        href="/"
+        onClick={onClick}
+      >
         {children}
       </Link>
     </div>
@@ -23,15 +32,17 @@ function NavbarProfile({
   name: SessionUser["name"];
   image: SessionUser["image"];
 }) {
+  const onSignOut = () => signOut();
+
   return (
-    <div className="dropdown-end dropdown">
+    <div className="dropdown dropdown-end">
       {image !== undefined ? (
-        <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
+        <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
           <div className="w-10 rounded-full">
             <Image
               width={40}
               height={40}
-              src={image || ""}
+              src={image ?? ""}
               alt="Аватар аккаунта"
             />
           </div>
@@ -39,16 +50,16 @@ function NavbarProfile({
       ) : (
         <label
           tabIndex={0}
-          className="placeholder btn-ghost btn-circle avatar btn"
+          className="avatar placeholder btn btn-circle btn-ghost"
         >
           <div className="w-10 rounded-full bg-primary text-neutral-content">
-            <span className="text-xl">{name?.at(0) || "?"}</span>
+            <span className="text-xl">{name?.at(0) ?? "?"}</span>
           </div>
         </label>
       )}
       <ul
         tabIndex={0}
-        className="dropdown-content menu rounded-box menu-sm z-[1] mt-3 w-56 border-2 border-base-content bg-base-100 p-2"
+        className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-56 border-2 border-base-content bg-base-100 p-2"
       >
         {name && (
           <li>
@@ -62,7 +73,7 @@ function NavbarProfile({
           </li>
         )}
         <li>
-          <a role="button" onClick={() => signOut()}>
+          <a role="button" onClick={onSignOut}>
             Выйти
           </a>
         </li>
@@ -71,14 +82,22 @@ function NavbarProfile({
   );
 }
 
-export default function Navbar({ user }: { user: SessionUser | null }) {
+export default function Navbar({
+  user,
+  title,
+  onTitle,
+}: {
+  user: SessionUser | null;
+  title?: string;
+  onTitle?: () => void;
+}) {
   return (
     <div className="navbar bg-base-100 px-4">
-      <NavbarTitle>AniGuessr</NavbarTitle>
+      <NavbarTitle onClick={onTitle}>{title ?? PAGE_TITLE}</NavbarTitle>
       {user !== null ? (
         <NavbarProfile name={user?.name} image={user?.image} />
       ) : (
-        <button className="btn-primary btn" onClick={() => signIn("shikimori")}>
+        <button className="btn btn-primary" onClick={() => signIn("shikimori")}>
           Войти через Шикимори
         </button>
       )}

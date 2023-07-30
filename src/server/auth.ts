@@ -1,12 +1,13 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { type GetServerSidePropsContext } from "next";
 import {
-  getServerSession,
-  type NextAuthOptions,
   type DefaultSession,
+  type NextAuthOptions,
+  getServerSession,
 } from "next-auth";
-import ShikimoriProvider from "@/providers/shikimori";
+
 import { env } from "@/env.mjs";
+import ShikimoriProvider from "@/providers/shikimori";
 import { prisma } from "@/server/db";
 
 /**

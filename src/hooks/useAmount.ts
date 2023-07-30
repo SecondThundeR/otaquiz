@@ -7,7 +7,7 @@ interface UseAmountOptions {
 }
 
 export default function useAmount({ min, max, step }: UseAmountOptions) {
-  const [amount, setAmount] = useState(Math.min(min, max));
+  const [amount, setAmount] = useState(() => Math.min(min, max));
 
   const increment = () =>
     setAmount((prev) => (prev === max ? prev : prev + step));
