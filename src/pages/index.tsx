@@ -50,7 +50,7 @@ export default function Home({
   return (
     <>
       <Head>
-        <title>AniGuessr</title>
+        <title>Otaquiz</title>
         <meta name="description" content="Anime Quiz Game" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
