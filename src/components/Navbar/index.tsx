@@ -13,7 +13,7 @@ function NavbarTitle({
   onClick,
 }: PropsWithChildren & { onClick?: () => void }) {
   return (
-    <div className="flex-1">
+    <div className="flex-grow">
       <Link
         className="btn btn-ghost text-xl normal-case"
         href="/"
