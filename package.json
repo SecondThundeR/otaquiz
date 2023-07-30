@@ -21,6 +21,7 @@
     "@trpc/next": "^10.36.0",
     "@trpc/react-query": "^10.36.0",
     "@trpc/server": "^10.36.0",
+    "classnames": "^2.3.2",
     "next": "^13.4.12",
     "next-auth": "^4.22.3",
     "react": "18.2.0",
@@ -29,6 +30,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "@types/eslint": "^8.44.1",
     "@types/node": "^20.4.5",
     "@types/react": "^18.2.17",
