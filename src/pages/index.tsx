@@ -69,7 +69,7 @@ export default function Home({
           ) : (
             <>
               <Title>Привет!</Title>
-              <Subtitle>Выберите количество аниме для игры:</Subtitle>
+              <Subtitle>Выбери количество аниме для игры:</Subtitle>
               <AmountStepper
                 amount={amount}
                 increment={increment}
@@ -77,14 +77,18 @@ export default function Home({
               />
 
               <button
-                className={`btn btn-primary btn-lg`}
+                className="btn btn-primary btn-lg"
                 disabled={gameMutation.isLoading}
                 onClick={onCreate}
               >
-                {gameMutation.isLoading && (
-                  <span className="loading loading-spinner"></span>
+                {gameMutation.isLoading ? (
+                  <>
+                    <span className="loading loading-spinner"></span>
+                    Создание игры
+                  </>
+                ) : (
+                  "Начать игру"
                 )}
-                {gameMutation.isLoading ? "Создание игры" : "Начать игру"}
               </button>
               {gameMutation.isError && (
                 <Alert state="error">
