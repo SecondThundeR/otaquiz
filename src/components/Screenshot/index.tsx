@@ -16,6 +16,7 @@ function Screenshot({ src }: { src: string }) {
         width={1280}
         height={720}
         src={src}
+        priority
         className={cn(SCREENSHOT_CLASSES, {
           hidden: isLoading,
         })}
