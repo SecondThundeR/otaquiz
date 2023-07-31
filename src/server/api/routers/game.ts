@@ -95,7 +95,7 @@ export const gameRouter = createTRPCRouter({
       return gameInfo;
     }),
 
-  getGameData: protectedProcedure
+  getAnimeScreenshots: protectedProcedure
     .input(
       z.object({
         animeIds: z.string(),
@@ -104,19 +104,16 @@ export const gameRouter = createTRPCRouter({
     .output(
       z.object({
         screenshots: z.array(AnimeScreenshotsDataSchema),
-        decoys: DBAnimeArraySchema,
       }),
     )
     .query(async ({ input }) => {
-      const decoyAnimes: DBAnimeArray = [];
-
       try {
-        const screenshotsRes = await fetch(
+        const res = await fetch(
           SHIKIMORI_GRAPHQL_API_URL,
           buildScreenshotsParams(input.animeIds),
         );
-        const parsedScreenshots = (
-          await AnimeScreenshotsSchema.parseAsync(await screenshotsRes.json())
+        const parsedRes = (
+          await AnimeScreenshotsSchema.parseAsync(await res.json())
         ).data.animes.map((anime) => {
           return {
             id: anime.id,
@@ -124,25 +121,57 @@ export const gameRouter = createTRPCRouter({
           };
         });
 
+        return { screenshots: parsedRes };
+      } catch (e: unknown) {
+        if (e instanceof z.ZodError) {
+          console.info(e);
+          throw new TRPCError({
+            code: "UNPROCESSABLE_CONTENT",
+            message: "Can't process response from Shikimori API",
+            cause: e,
+          });
+        }
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something bad happened while creating a game",
+          cause: e,
+        });
+      }
+    }),
+
+  getAnswerDecoys: protectedProcedure
+    .input(
+      z.object({
+        animeIds: z.string(),
+      }),
+    )
+    .output(
+      z.object({
+        decoys: DBAnimeArraySchema,
+      }),
+    )
+    .query(async ({ input }) => {
+      const animeAmount = input.animeIds.split(",").length;
+      const decoyAnimes: DBAnimeArray = [];
+
+      try {
         do {
-          const decoyRes = await fetch(
+          const res = await fetch(
             SHIKIMORI_GRAPHQL_API_URL,
             buildDecoyParams(input.animeIds),
           );
-          const parsedDecoy = (
-            await AnimesNonScreenshotSchema.parseAsync(await decoyRes.json())
+          const parsedRes = (
+            await AnimesNonScreenshotSchema.parseAsync(await res.json())
           ).data.animes
             .filter((anime) => isNotEmpty(anime.russian))
             .map((anime) => {
               const { id, russian } = anime;
               return { id, name: russian };
             });
-          decoyAnimes.push(
-            ...parsedDecoy.slice(0, parsedScreenshots.length * 3),
-          );
-        } while (decoyAnimes.length < parsedScreenshots.length * 3);
+          decoyAnimes.push(...parsedRes.slice(0, animeAmount * 3));
+        } while (decoyAnimes.length < animeAmount * 3);
 
-        return { screenshots: parsedScreenshots, decoys: decoyAnimes };
+        return { decoys: decoyAnimes };
       } catch (e: unknown) {
         if (e instanceof z.ZodError) {
           console.info(e);
