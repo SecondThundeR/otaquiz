@@ -1,16 +1,13 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import {
-  AnimeScreenshotsDataSchema,
-  AnimeScreenshotsSchema,
-} from "@/schemas/animeScreenshots";
+import { AnimeScreenshotsSchema } from "@/schemas/animeScreenshots";
 import {
   type Animes,
   AnimesNonScreenshotSchema,
   AnimesSchema,
 } from "@/schemas/animes";
-import { type DBAnimeArray, DBAnimeArraySchema } from "@/schemas/db/animes";
+import { type DBAnimeArray } from "@/schemas/db/animes";
 import { DBAnswerArraySchema } from "@/schemas/db/answers";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
@@ -99,11 +96,7 @@ export const gameRouter = createTRPCRouter({
     .input(
       z.object({
         animeIds: z.string(),
-      }),
-    )
-    .output(
-      z.object({
-        screenshots: z.array(AnimeScreenshotsDataSchema),
+        sliceAmount: z.number().min(1).default(6),
       }),
     )
     .query(async ({ input }) => {
@@ -117,11 +110,11 @@ export const gameRouter = createTRPCRouter({
         ).data.animes.map((anime) => {
           return {
             id: anime.id,
-            screenshots: anime.screenshots.slice(0, 6),
+            screenshots: anime.screenshots.slice(0, input.sliceAmount),
           };
         });
 
-        return { screenshots: parsedRes };
+        return parsedRes;
       } catch (e: unknown) {
         if (e instanceof z.ZodError) {
           console.info(e);
@@ -145,11 +138,6 @@ export const gameRouter = createTRPCRouter({
         animeIds: z.string(),
       }),
     )
-    .output(
-      z.object({
-        decoys: DBAnimeArraySchema,
-      }),
-    )
     .query(async ({ input }) => {
       const animeAmount = input.animeIds.split(",").length;
       const decoyAnimes: DBAnimeArray = [];
@@ -171,7 +159,7 @@ export const gameRouter = createTRPCRouter({
           decoyAnimes.push(...parsedRes.slice(0, animeAmount * 3));
         } while (decoyAnimes.length < animeAmount * 3);
 
-        return { decoys: decoyAnimes };
+        return decoyAnimes;
       } catch (e: unknown) {
         if (e instanceof z.ZodError) {
           console.info(e);
