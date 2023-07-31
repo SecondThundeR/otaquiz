@@ -24,30 +24,37 @@ import { api } from "@/utils/api";
 import { shuffleAnswers } from "@/utils/array/shuffleAnswers";
 
 const GamePage = memo(function GamePage({
-  gameData: { id, animes, currentAnswers, amount, currentAnimeIndex },
+  gameData: { id, animes, animeIds, currentAnswers, amount, currentAnimeIndex },
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
+
   const [currentIndex, setCurrentIndex] = useState(currentAnimeIndex);
   const [answers, setAnswers] = useState<DBAnswerArray>(currentAnswers ?? []);
-  const { data, isLoading } = api.game.getGameData.useQuery(
-    {
-      animeIds: animes.map((anime) => anime.id).join(","),
-    },
-    {
-      refetchOnWindowFocus: false,
-    },
-  );
+
+  const { data: screenshotsData, isLoading: isLoadingScreenshots } =
+    api.game.getAnimeScreenshots.useQuery(
+      { animeIds },
+      { refetchOnWindowFocus: false },
+    );
+  const { data: decoysData, isLoading: isLoadingDecoys } =
+    api.game.getAnswerDecoys.useQuery(
+      { animeIds },
+      { refetchOnWindowFocus: false },
+    );
   const updateAnswersMutation = api.game.updateAnswers.useMutation();
   const deleteMutation = api.game.deleteGame.useMutation();
+
+  const isLoadingData = isLoadingScreenshots || isLoadingDecoys;
 
   const maxIndex = animes.length - 1;
   const currentAnime = animes.at(currentIndex)!;
   const isGameFinished = currentIndex === maxIndex;
-  const currentAnimeScreenshots = data?.screenshots.find(
+
+  const currentAnimeScreenshots = screenshotsData?.screenshots.find(
     (data) => data.id === currentAnime.id,
   );
-  const currentAnimeDecoys = data?.decoys.slice(
+  const currentAnimeDecoys = decoysData?.decoys.slice(
     currentIndex * 3,
     (currentIndex + 1) * 3,
   );
@@ -58,7 +65,7 @@ const GamePage = memo(function GamePage({
     });
   };
 
-  const onClick = async (anime: DBAnime) => {
+  const onAnswerClick = async (anime: DBAnime) => {
     const newAnswers = [
       ...answers,
       {
@@ -90,7 +97,7 @@ const GamePage = memo(function GamePage({
       <PageContainer>
         <Navbar user={user} title="Завершить игру" onTitle={onBack} />
         <ContentContainer>
-          {isLoading ? (
+          {isLoadingData ? (
             <PageLoadingPlaceholder>
               Загружаем необходимые данные
             </PageLoadingPlaceholder>
@@ -114,7 +121,7 @@ const GamePage = memo(function GamePage({
                       <button
                         key={anime.id}
                         className="btn btn-primary"
-                        onClick={() => onClick(anime)}
+                        onClick={() => onAnswerClick(anime)}
                       >
                         {anime.name}
                       </button>
@@ -208,6 +215,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   }
 
   const { id, amount, animes, answers, currentAnimeIndex } = gameData;
+  const parsedAnimes = await DBAnimeArraySchema.parseAsync(JSON.parse(animes));
+  const parsedAnswers = answers
+    ? await DBAnswerArraySchema.parseAsync(JSON.parse(answers))
+    : null;
 
   return {
     props: {
@@ -217,10 +228,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
         id,
         amount,
         currentAnimeIndex,
-        animes: await DBAnimeArraySchema.parseAsync(JSON.parse(animes)),
-        currentAnswers: answers
-          ? await DBAnswerArraySchema.parseAsync(JSON.parse(answers))
-          : null,
+        animes: parsedAnimes,
+        animeIds: parsedAnimes.map((anime) => anime.id).join(","),
+        currentAnswers: parsedAnswers,
       },
     },
   };
