@@ -32,12 +32,12 @@ const GamePage = memo(function GamePage({
   const [currentIndex, setCurrentIndex] = useState(currentAnimeIndex);
   const [answers, setAnswers] = useState<DBAnswerArray>(currentAnswers ?? []);
 
-  const { data: screenshotsData, isLoading: isLoadingScreenshots } =
+  const { data: screenshots, isLoading: isLoadingScreenshots } =
     api.game.getAnimeScreenshots.useQuery(
       { animeIds },
       { refetchOnWindowFocus: false },
     );
-  const { data: decoysData, isLoading: isLoadingDecoys } =
+  const { data: decoys, isLoading: isLoadingDecoys } =
     api.game.getAnswerDecoys.useQuery(
       { animeIds },
       { refetchOnWindowFocus: false },
@@ -51,10 +51,10 @@ const GamePage = memo(function GamePage({
   const currentAnime = animes.at(currentIndex)!;
   const isGameFinished = currentIndex === maxIndex;
 
-  const currentAnimeScreenshots = screenshotsData?.screenshots.find(
+  const currentAnimeScreenshots = screenshots?.find(
     (data) => data.id === currentAnime.id,
   );
-  const currentAnimeDecoys = decoysData?.decoys.slice(
+  const currentAnimeDecoys = decoys?.slice(
     currentIndex * 3,
     (currentIndex + 1) * 3,
   );
