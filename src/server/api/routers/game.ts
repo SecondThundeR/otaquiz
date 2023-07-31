@@ -12,6 +12,7 @@ import { type DBAnswerAnime, DBAnswerArraySchema } from "@/schemas/db/answers";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
 import { getRandomElement } from "@/utils/array/getRandomElement";
+import { shuffleValues } from "@/utils/array/shuffleValues";
 import { isNotEmpty } from "@/utils/string/isNotEmpty";
 import { buildExcludeParams } from "@/utils/trpc/routers/createGame/buildExcludeParams";
 import { getSelectedIDs } from "@/utils/trpc/routers/createGame/getSelectedIDs";
@@ -113,7 +114,9 @@ export const gameRouter = createTRPCRouter({
         ).data.animes.map((anime) => {
           return {
             id: anime.id,
-            screenshots: anime.screenshots.slice(0, input.sliceAmount),
+            screenshots: shuffleValues(
+              anime.screenshots.slice(0, input.sliceAmount),
+            ),
           };
         });
 
