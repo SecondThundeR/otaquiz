@@ -57,10 +57,14 @@ model VerificationToken {
 }
 
 // Application Models
-// `Animes` Field Example: "[{ id: 1, name: "..."}, ...]"
+// The only reason I didn't create other models for anime and answers
+// is because they may be out of sync with each other and extra tables
+// with a small amount of data will only complicate further work
+
+// `Animes` Field Example: "[{ id: 1, name: "...", screenshotUrl: "..."}, ...]"
 // `Answers` Field Example: "[{ correct: { id: 1, name: "..." }, picked: {id: 727, name: "..." } }, ...}]"
-// If correct answer: { correct: null, picked: {id: 1, name: "..."} }
-// If wrong answer: { correct: {id: 1, name: ""}, picked: {id: 727, name: "..."} }
+// * If correct answer: { correct: null, picked: {id: 1, name: "..."} }
+// * If wrong answer: { correct: {id: 1, name: ""}, picked: {id: 727, name: "..."} }
 model Game {
     id                String   @id @default(cuid())
     amount            Int
