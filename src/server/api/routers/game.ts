@@ -114,8 +114,9 @@ export const gameRouter = createTRPCRouter({
         ).data.animes.map((anime) => {
           return {
             id: anime.id,
-            screenshots: shuffleValues(
-              anime.screenshots.slice(0, input.sliceAmount),
+            screenshots: shuffleValues(anime.screenshots).slice(
+              0,
+              input.sliceAmount,
             ),
           };
         });
