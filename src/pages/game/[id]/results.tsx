@@ -10,17 +10,12 @@ import { memo } from "react";
 import superjson from "superjson";
 
 import ContentContainer from "@/components/ContentContainer";
-import {
-  Footer,
-  FooterLink,
-  FooterSeparator,
-  FooterText,
-} from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PageContainer from "@/components/PageContainer";
 import Screenshot from "@/components/Screenshot";
 import Subtitle from "@/components/Subtitle";
 import Title from "@/components/Title";
+import { FooterInfo } from "@/components/ui/FooterInfo";
 import { DBAnimeArraySchema } from "@/schemas/db/animes";
 import { DBAnswerArraySchema } from "@/schemas/db/answers";
 import { appRouter } from "@/server/api/root";
@@ -125,21 +120,7 @@ const ResultsPage = memo(function ResultsPage({
             })}
           </div>
         </ContentContainer>
-        <Footer>
-          <FooterText>
-            Powered by{" "}
-            <FooterLink link="https://shikimori.me/api/doc/">
-              Shikimori API
-            </FooterLink>
-          </FooterText>
-          <FooterSeparator />
-          <FooterText>
-            Made by{" "}
-            <FooterLink link="https://github.com/SecondThundeR/">
-              SecondThundeR
-            </FooterLink>
-          </FooterText>
-        </Footer>
+        <FooterInfo />
       </PageContainer>
     </>
   );

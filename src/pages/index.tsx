@@ -9,17 +9,12 @@ import { useRouter } from "next/router";
 import Alert from "@/components/Alert";
 import AmountStepper from "@/components/AmountStepper";
 import ContentContainer from "@/components/ContentContainer";
-import {
-  Footer,
-  FooterLink,
-  FooterSeparator,
-  FooterText,
-} from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PageContainer from "@/components/PageContainer";
 import { Spinner } from "@/components/Spinner";
 import Subtitle from "@/components/Subtitle";
 import Title from "@/components/Title";
+import { FooterInfo } from "@/components/ui/FooterInfo";
 import useAmount from "@/hooks/useAmount";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
@@ -96,21 +91,7 @@ export default function Home({
             </>
           )}
         </ContentContainer>
-        <Footer>
-          <FooterText>
-            Powered by{" "}
-            <FooterLink link="https://shikimori.me/api/doc/">
-              Shikimori API
-            </FooterLink>
-          </FooterText>
-          <FooterSeparator />
-          <FooterText>
-            Made by{" "}
-            <FooterLink link="https://github.com/SecondThundeR/">
-              SecondThundeR
-            </FooterLink>
-          </FooterText>
-        </Footer>
+        <FooterInfo />
       </PageContainer>
     </>
   );
