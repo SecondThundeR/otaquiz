@@ -5,7 +5,7 @@ import { AnimeScreenshotSchema } from "./animeScreenshots";
 export const AnimeDataSchema = z.object({
   id: z.string(),
   russian: z.string(),
-  screenshots: z.array(AnimeScreenshotSchema.pick({ id: true })),
+  screenshots: z.array(AnimeScreenshotSchema),
 });
 
 export const AnimesSchema = z.object({
