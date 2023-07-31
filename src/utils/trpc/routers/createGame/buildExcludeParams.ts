@@ -11,6 +11,7 @@ export const buildExcludeParams = (excludeIds: string | null) => {
           russian
           screenshots {
             id
+            originalUrl
           }
         }
       }`,
