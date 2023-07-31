@@ -11,8 +11,6 @@ export const buildScreenshotsParams = (animeIds: string) => {
           screenshots {
             id
             originalUrl
-            x332Url
-            x166Url
           }
         }
       }`,
