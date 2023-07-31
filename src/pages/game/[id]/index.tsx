@@ -15,8 +15,12 @@ import { PageLoadingPlaceholder } from "@/components/PageLoadingPlaceholder";
 import Screenshot from "@/components/Screenshot";
 import Subtitle from "@/components/Subtitle";
 import { TEN_MINUTES } from "@/constants/time";
-import { type DBAnime, DBAnimeArraySchema } from "@/schemas/db/animes";
-import { type DBAnswerArray, DBAnswerArraySchema } from "@/schemas/db/answers";
+import { DBAnimeArraySchema } from "@/schemas/db/animes";
+import {
+  type DBAnswerAnime,
+  type DBAnswerArray,
+  DBAnswerArraySchema,
+} from "@/schemas/db/answers";
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
@@ -65,7 +69,7 @@ const GamePage = memo(function GamePage({
     });
   };
 
-  const onAnswerClick = async (anime: DBAnime) => {
+  const onAnswerClick = async (anime: DBAnswerAnime) => {
     const newAnswers = [
       ...answers,
       {
@@ -228,7 +232,12 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
         id,
         amount,
         currentAnimeIndex,
-        animes: parsedAnimes,
+        animes: parsedAnimes.map((anime) => {
+          return {
+            id: anime.id,
+            name: anime.name,
+          };
+        }),
         animeIds: parsedAnimes.map((anime) => anime.id).join(","),
         currentAnswers: parsedAnswers,
       },
