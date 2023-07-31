@@ -14,11 +14,11 @@ import { type DBAnimeArray, DBAnimeArraySchema } from "@/schemas/db/animes";
 import { DBAnswerArraySchema } from "@/schemas/db/answers";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
-import { buildExcludeParams } from "@/utils/query/createGame/buildExcludeParams";
-import { getSelectedIDs } from "@/utils/query/createGame/getSelectedIDs";
-import { buildDecoyParams } from "@/utils/query/getGameData/buildDecoyParams";
-import { buildScreenshotsParams } from "@/utils/query/getGameData/buildScreenshotsParams";
 import { isNotEmpty } from "@/utils/string/isNotEmpty";
+import { buildExcludeParams } from "@/utils/trpc/routers/createGame/buildExcludeParams";
+import { getSelectedIDs } from "@/utils/trpc/routers/createGame/getSelectedIDs";
+import { buildScreenshotsParams } from "@/utils/trpc/routers/getAnimeScreenshots/buildScreenshotsParams";
+import { buildDecoyParams } from "@/utils/trpc/routers/getAnswersDecoy/buildDecoyParams";
 
 const SHIKIMORI_GRAPHQL_API_URL = new URL("https://shikimori.me/api/graphql");
 
