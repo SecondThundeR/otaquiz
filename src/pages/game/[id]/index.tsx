@@ -115,6 +115,7 @@ const GamePage = memo(function GamePage({
                   <Screenshot
                     key={screenshot.id}
                     src={screenshot.originalUrl}
+                    fullWidth
                   />
                 ))}
               </div>

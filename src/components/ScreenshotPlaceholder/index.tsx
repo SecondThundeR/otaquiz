@@ -1,26 +1,25 @@
 import cn from "classnames";
 import { memo } from "react";
 
-import { SCREENSHOT_CLASSES } from "@/constants/screenshotClasses";
-
 import { Spinner } from "../Spinner";
 
 interface ScreenshotPlaceholderProps {
+  className: string;
   isLoading: boolean;
+  fullWidth?: boolean;
 }
 
 export const ScreenshotPlaceholder = memo(function ScreenshotPlaceholder({
+  className,
   isLoading,
+  fullWidth = false,
 }: ScreenshotPlaceholderProps) {
   return (
     <div
-      className={cn(
-        SCREENSHOT_CLASSES,
-        "flex items-center justify-center bg-base-300",
-        {
-          hidden: !isLoading,
-        },
-      )}
+      className={cn(className, "flex items-center justify-center bg-base-300", {
+        hidden: !isLoading,
+        "sm:w-[512px]": fullWidth,
+      })}
     >
       <Spinner size="large" />
     </div>

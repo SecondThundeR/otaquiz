@@ -6,12 +6,21 @@ import { useOnImageLoad } from "@/hooks/useOnImageLoad";
 
 import { ScreenshotPlaceholder } from "../ScreenshotPlaceholder";
 
-function Screenshot({ src }: { src: string }) {
+interface ScreenshotProps {
+  src: string;
+  fullWidth?: boolean;
+}
+
+function Screenshot({ src, fullWidth = false }: ScreenshotProps) {
   const [isLoading, onLoad] = useOnImageLoad();
 
   return (
     <>
-      <ScreenshotPlaceholder isLoading={isLoading} />
+      <ScreenshotPlaceholder
+        className={SCREENSHOT_CLASSES}
+        isLoading={isLoading}
+        fullWidth={fullWidth}
+      />
       <Image
         width={1280}
         height={720}
