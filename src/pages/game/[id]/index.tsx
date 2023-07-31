@@ -25,7 +25,7 @@ import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
-import { shuffleAnswers } from "@/utils/array/shuffleAnswers";
+import { shuffleValues } from "@/utils/array/shuffleValues";
 
 const GamePage = memo(function GamePage({
   gameData: { id, animes, animeIds, currentAnswers, amount, currentAnimeIndex },
@@ -120,7 +120,7 @@ const GamePage = memo(function GamePage({
               </div>
               <div className="grid grid-cols-2 gap-4">
                 {currentAnimeDecoys &&
-                  shuffleAnswers([currentAnime, ...currentAnimeDecoys]).map(
+                  shuffleValues([currentAnime, ...currentAnimeDecoys]).map(
                     (anime) => (
                       <button
                         key={anime.id}
