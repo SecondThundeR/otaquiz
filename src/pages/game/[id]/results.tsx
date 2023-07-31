@@ -26,14 +26,14 @@ import { DBAnswerArraySchema } from "@/schemas/db/answers";
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
+import { getCorrectAnswersAmount } from "@/utils/game/getCorrectAnswersAmount";
 
 const ResultsPage = memo(function ResultsPage({
   gameData: { amount, animes, answers },
   user,
   playerInfo,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const correctAnswersAmount =
-    amount - answers.reduce((acc, prev) => (acc += !prev.correct ? 0 : 1), 0);
+  const correctAnswersAmount = getCorrectAnswersAmount(amount, answers);
 
   return (
     <>
