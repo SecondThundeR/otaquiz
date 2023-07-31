@@ -8,9 +8,10 @@ import {
   AnimesSchema,
 } from "@/schemas/animes";
 import { type DBAnimeArray } from "@/schemas/db/animes";
-import { DBAnswerArraySchema } from "@/schemas/db/answers";
+import { type DBAnswerAnime, DBAnswerArraySchema } from "@/schemas/db/answers";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
+import { getRandomElement } from "@/utils/array/getRandomElement";
 import { isNotEmpty } from "@/utils/string/isNotEmpty";
 import { buildExcludeParams } from "@/utils/trpc/routers/createGame/buildExcludeParams";
 import { getSelectedIDs } from "@/utils/trpc/routers/createGame/getSelectedIDs";
@@ -42,12 +43,14 @@ export const gameRouter = createTRPCRouter({
           );
         } while (selectedAnimes.length < input.amount);
 
-        const gameAnimes = selectedAnimes.map((anime) => {
-          const { id, russian } = anime;
+        const gameAnimes: DBAnimeArray = selectedAnimes.map((anime) => {
+          const { id, russian, screenshots } = anime;
+          const randomScreenshot = getRandomElement(screenshots)!.originalUrl;
 
           return {
             id,
             name: russian,
+            screenshotUrl: randomScreenshot,
           };
         });
 
@@ -140,7 +143,7 @@ export const gameRouter = createTRPCRouter({
     )
     .query(async ({ input }) => {
       const animeAmount = input.animeIds.split(",").length;
-      const decoyAnimes: DBAnimeArray = [];
+      const decoyAnimes: DBAnswerAnime[] = [];
 
       try {
         do {
