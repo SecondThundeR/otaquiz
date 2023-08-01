@@ -69,8 +69,8 @@ model Game {
     id                String   @id @default(cuid())
     amount            Int
     isFinished        Boolean  @default(false)
-    animes            String
-    answers           String?
+    animes            Json
+    answers           Json?
     currentAnimeIndex Int      @default(0)
     user              User     @relation(fields: [userId], references: [id])
     userId            String
