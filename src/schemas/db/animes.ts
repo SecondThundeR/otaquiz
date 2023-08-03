@@ -8,5 +8,4 @@ export const DBAnimeSchema = z.object({
 
 export const DBAnimeArraySchema = z.array(DBAnimeSchema);
 
-export type DBAnime = z.infer<typeof DBAnimeSchema>;
 export type DBAnimeArray = z.infer<typeof DBAnimeArraySchema>;

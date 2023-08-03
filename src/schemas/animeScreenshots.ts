@@ -5,7 +5,7 @@ export const AnimeScreenshotSchema = z.object({
   originalUrl: z.string().url(),
 });
 
-export const AnimeScreenshotsDataSchema = z.object({
+const AnimeScreenshotsDataSchema = z.object({
   id: z.string(),
   screenshots: z.array(AnimeScreenshotSchema),
 });
@@ -15,3 +15,6 @@ export const AnimeScreenshotsSchema = z.object({
     animes: z.array(AnimeScreenshotsDataSchema),
   }),
 });
+
+export type AnimeScreenshots = z.infer<typeof AnimeScreenshotSchema>[];
+export type AnimeScreenshotsData = z.infer<typeof AnimeScreenshotsDataSchema>[];

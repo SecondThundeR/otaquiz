@@ -2,7 +2,7 @@ import z from "zod";
 
 import { AnimeScreenshotSchema } from "./animeScreenshots";
 
-export const AnimeDataSchema = z.object({
+const AnimeDataSchema = z.object({
   id: z.string(),
   russian: z.string(),
   screenshots: z.array(AnimeScreenshotSchema),
@@ -20,7 +20,4 @@ export const AnimesNonScreenshotSchema = z.object({
   }),
 });
 
-export type Animes = z.infer<typeof AnimesSchema>["data"]["animes"];
-export type AnimesNonScreenshot = z.infer<
-  typeof AnimesNonScreenshotSchema
->["data"]["animes"];
+export type Animes = z.infer<typeof AnimeDataSchema>[];
