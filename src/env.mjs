@@ -49,9 +49,5 @@ export const env = createEnv({
     SHIKIMORI_CLIENT_ID: process.env.SHIKIMORI_CLIENT_ID,
     SHIKIMORI_CLIENT_SECRET: process.env.SHIKIMORI_CLIENT_SECRET,
   },
-  /**
-   * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
-   * This is especially useful for Docker builds.
-   */
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
 });
