@@ -5,6 +5,6 @@ export function getCorrectAnswersAmount(
   answers: DBAnswerArray,
 ) {
   return (
-    amount - answers.reduce((acc, prev) => (acc += !prev.correct ? 0 : 1), 0)
+    amount - answers.reduce((acc, prev) => (acc += Number(!!prev.correct)), 0)
   );
 }
