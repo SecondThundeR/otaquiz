@@ -6,12 +6,12 @@ export const config = {
   runtime: "edge",
 };
 
-const getFont = async (url: URL) => {
-  const res = await fetch(url);
-  return await res.arrayBuffer();
-};
+// const getFont = async (url: URL) => {
+//   const res = await fetch(url);
+//   return await res.arrayBuffer();
+// };
 
-export default async function handler(request: NextRequest) {
+export default function handler(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
 
@@ -22,15 +22,15 @@ export default async function handler(request: NextRequest) {
 
     console.log(import.meta.url);
 
-    const JetbrainsRegular = await getFont(
-      new URL("../../assets/fonts/JetbrainsMono-Regular.ttf", import.meta.url),
-    );
-    const JetbrainsBold = await getFont(
-      new URL("../../assets/fonts/JetbrainsMono-Bold.ttf", import.meta.url),
-    );
+    // const JetbrainsRegular = await getFont(
+    //   new URL("../../assets/fonts/JetbrainsMono-Regular.ttf", import.meta.url),
+    // );
+    // const JetbrainsBold = await getFont(
+    //   new URL("../../assets/fonts/JetbrainsMono-Bold.ttf", import.meta.url),
+    // );
 
-    console.log(JetbrainsRegular);
-    console.log(JetbrainsBold);
+    // console.log(JetbrainsRegular);
+    // console.log(JetbrainsBold);
 
     if (!profileID || !profileName || !correctAnswers || !totalAmount)
       return new Response(`Failed to generate the image`, {
@@ -105,20 +105,20 @@ export default async function handler(request: NextRequest) {
       {
         width: 1200,
         height: 630,
-        fonts: [
-          {
-            name: "Jetbrains Mono",
-            data: JetbrainsRegular,
-            style: "normal",
-            weight: 400,
-          },
-          {
-            name: "Jetbrains Mono",
-            data: JetbrainsBold,
-            style: "normal",
-            weight: 700,
-          },
-        ],
+        // fonts: [
+        //   {
+        //     name: "Jetbrains Mono",
+        //     data: JetbrainsRegular,
+        //     style: "normal",
+        //     weight: 400,
+        //   },
+        //   {
+        //     name: "Jetbrains Mono",
+        //     data: JetbrainsBold,
+        //     style: "normal",
+        //     weight: 700,
+        //   },
+        // ],
       },
     );
   } catch (error: unknown) {
