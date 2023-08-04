@@ -81,7 +81,7 @@ const GamePage = memo(function GamePage({
   return (
     <>
       <Head>
-        <title>Игра | Раунд {currentAnswerTitle}</title>
+        <title>{`Игра | Раунд ${currentAnswerTitle}`}</title>
       </Head>
       <PageLayout
         user={user}

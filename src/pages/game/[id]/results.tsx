@@ -37,7 +37,7 @@ const ResultsPage = memo(function ResultsPage({
   return (
     <>
       <Head>
-        <title>Результат игры {playerTitleName}</title>
+        <title>{`Результат игры ${playerTitleName}`}</title>
       </Head>
       <PageLayout user={user}>
         <Title>Результат игры</Title>
@@ -96,12 +96,12 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       },
     };
 
-  const { amount, animes, answers, userId } = gameData;
-  const playerInfo = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
+  const {
+    amount,
+    animes,
+    answers,
+    user: { name },
+  } = gameData;
   const parsedAnimes = await DBAnimeArraySchema.parseAsync(animes);
   const parsedAnswers = await DBAnswerArraySchema.parseAsync(answers);
 
@@ -109,7 +109,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     props: {
       trpcState: helpers.dehydrate(),
       user: session?.user ?? null,
-      playerName: playerInfo?.name,
+      playerName: name,
       gameData: {
         amount,
         animes: parsedAnimes,
