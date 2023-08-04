@@ -17,6 +17,7 @@ export const AmountStepper = memo(function AmountStepper({
         style="outline"
         className="border-2"
         onClick={increment}
+        aria-label="Увеличить количество аниме"
       >
         <PlusIcon className="h-7 w-7 stroke-2" />
       </Button>
@@ -26,6 +27,7 @@ export const AmountStepper = memo(function AmountStepper({
         style="outline"
         className="border-2"
         onClick={decrement}
+        aria-label="Уменьшить количество аниме"
       >
         <MinusIcon className="h-7 w-7 stroke-2" />
       </Button>

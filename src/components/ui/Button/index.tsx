@@ -57,7 +57,7 @@ const ButtonStyleClasses: Record<ButtonStyleVariants, string> = {
 
 type ButtonProps = Pick<
   ButtonHTMLAttributes<HTMLButtonElement>,
-  "disabled" | "onClick" | "className"
+  "disabled" | "onClick" | "className" | "aria-label"
 > &
   PropsWithChildren<{
     size?: ButtonSizeVariants;
