@@ -6,6 +6,11 @@ export const config = {
   runtime: "edge",
 };
 
+const getFont = async (url: URL) => {
+  const res = await fetch(url);
+  return await res.arrayBuffer();
+};
+
 export default async function handler(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -15,17 +20,22 @@ export default async function handler(request: NextRequest) {
     const correctAnswers = searchParams.get("correct");
     const totalAmount = searchParams.get("amount");
 
+    console.log(import.meta.url);
+
+    const JetbrainsRegular = await getFont(
+      new URL("../../assets/fonts/JetbrainsMono-Regular.ttf", import.meta.url),
+    );
+    const JetbrainsBold = await getFont(
+      new URL("../../assets/fonts/JetbrainsMono-Bold.ttf", import.meta.url),
+    );
+
+    console.log(JetbrainsRegular);
+    console.log(JetbrainsBold);
+
     if (!profileID || !profileName || !correctAnswers || !totalAmount)
       return new Response(`Failed to generate the image`, {
         status: 400,
       });
-
-    const regularFont = await fetch(
-      new URL("/public/JetbrainsMono-Regular.ttf", import.meta.url),
-    ).then((res) => res.arrayBuffer());
-    const boldFont = await fetch(
-      new URL("/public/JetbrainsMono-Bold.ttf", import.meta.url),
-    ).then((res) => res.arrayBuffer());
 
     return new ImageResponse(
       (
@@ -37,10 +47,10 @@ export default async function handler(request: NextRequest) {
             alignItems: "center",
             flexDirection: "column",
             padding: "16px",
-            fontFamily: '"Jetbrains Mono"',
+            fontFamily: "Jetbrains Mono",
             backgroundColor: "#1a103d",
             color: "#f9f7fd",
-            gap: "2px",
+            gap: "16px",
           }}
         >
           <h1
@@ -48,6 +58,7 @@ export default async function handler(request: NextRequest) {
               fontSize: "132px",
               fontWeight: "bold",
               opacity: 0.2,
+              marginTop: 0,
             }}
           >
             Результат игры
@@ -75,6 +86,7 @@ export default async function handler(request: NextRequest) {
                 color: "#e779c1",
                 fontWeight: "bold",
                 fontSize: "52px",
+                marginBottom: 0,
               }}
             >
               {profileName}
@@ -96,13 +108,13 @@ export default async function handler(request: NextRequest) {
         fonts: [
           {
             name: "Jetbrains Mono",
-            data: regularFont,
+            data: JetbrainsRegular,
             style: "normal",
             weight: 400,
           },
           {
             name: "Jetbrains Mono",
-            data: boldFont,
+            data: JetbrainsBold,
             style: "normal",
             weight: 700,
           },

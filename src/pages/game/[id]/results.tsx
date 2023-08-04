@@ -40,7 +40,7 @@ const ResultsPage = memo(function ResultsPage({
         <title>{`Результат игры ${playerTitleName}`}</title>
         <meta
           property="og:image"
-          content={`https://${host}/api/og/results?id=${id}&name=${userName}&correct=${correctAnswersAmount}&amount=${amount}`}
+          content={`https://${host}/api/results-image?id=${id}&name=${userName}&correct=${correctAnswersAmount}&amount=${amount}`}
         />
       </Head>
       <PageLayout user={user}>
