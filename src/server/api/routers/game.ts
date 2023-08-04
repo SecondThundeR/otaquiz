@@ -20,7 +20,15 @@ import { processError } from "@/utils/trpc/processError";
 
 export const gameRouter = createTRPCRouter({
   createGame: protectedProcedure
-    .input(z.object({ amount: z.number().min(5).max(50) }))
+    .input(
+      z.object({
+        amount: z
+          .number()
+          .min(5)
+          .max(50)
+          .transform((raw) => raw - (raw % 5)),
+      }),
+    )
     .mutation(async ({ ctx: { prisma, session }, input: { amount } }) => {
       const selectedAnimes: Animes = [];
 
@@ -75,7 +83,22 @@ export const gameRouter = createTRPCRouter({
         where: {
           id: gameId,
         },
-        include: { user: true },
+      });
+      const userShikimoriInfo = await prisma.user.findUnique({
+        where: {
+          id: gameInfo?.userId,
+        },
+        select: {
+          name: true,
+          accounts: {
+            where: {
+              provider: "shikimori",
+            },
+            select: {
+              providerAccountId: true,
+            },
+          },
+        },
       });
       if (gameInfo === null)
         throw new TRPCError({
@@ -83,7 +106,11 @@ export const gameRouter = createTRPCRouter({
           message: "Can't find game with requested ID",
         });
 
-      return gameInfo;
+      return {
+        ...gameInfo,
+        shikimoriId: userShikimoriInfo?.accounts[0]?.providerAccountId,
+        userName: userShikimoriInfo?.name,
+      };
     }),
 
   updateGameAnswers: protectedProcedure
