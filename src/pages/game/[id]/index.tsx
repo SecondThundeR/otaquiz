@@ -52,7 +52,9 @@ const GamePage = memo(function GamePage({
     currentAnswers,
   });
 
-  const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({});
+  const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
+    duration: 425,
+  });
 
   const maxIndex = animes.length - 1;
   const currentAnime = animes[currentIndex]!;
@@ -77,9 +79,7 @@ const GamePage = memo(function GamePage({
       }
       setCurrentIndex(currentIndex + 1);
       setIsUpdatingAnswer(false);
-      scrollIntoView({
-        alignment: "start",
-      });
+      scrollIntoView();
     },
     [
       currentAnime,
