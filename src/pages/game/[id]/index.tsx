@@ -1,3 +1,4 @@
+import { useScrollIntoView } from "@mantine/hooks";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import {
   type GetServerSidePropsContext,
@@ -51,6 +52,8 @@ const GamePage = memo(function GamePage({
     currentAnswers,
   });
 
+  const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({});
+
   const maxIndex = animes.length - 1;
   const currentAnime = animes[currentIndex]!;
   const isFinished = currentIndex === maxIndex;
@@ -74,8 +77,18 @@ const GamePage = memo(function GamePage({
       }
       setCurrentIndex(currentIndex + 1);
       setIsUpdatingAnswer(false);
+      scrollIntoView({
+        alignment: "start",
+      });
     },
-    [currentAnime, currentIndex, isFinished, router, updateAnswers],
+    [
+      currentAnime,
+      currentIndex,
+      isFinished,
+      router,
+      scrollIntoView,
+      updateAnswers,
+    ],
   );
 
   return (
@@ -88,11 +101,12 @@ const GamePage = memo(function GamePage({
         title="Завершить игру"
         onTitle={onGameExit}
         hasFooter={false}
+        ref={targetRef}
       >
         {isLoading ? (
           <LoadingContainer>Загружаем необходимые данные</LoadingContainer>
         ) : (
-          <>
+          <div className="flex flex-col gap-6">
             <Subtitle>Раунд {currentAnswerTitle}</Subtitle>
             <QuestionScreenshots screenshots={currentAnimeScreenshots} />
             <QuestionButtons
@@ -100,7 +114,7 @@ const GamePage = memo(function GamePage({
               isDisabled={isUpdatingAnswer || isDeletingGame}
               onAnswerClick={onAnswerClick}
             />
-          </>
+          </div>
         )}
       </PageLayout>
     </>
