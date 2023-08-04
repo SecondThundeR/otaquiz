@@ -23,6 +23,7 @@ import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 
 import { getCorrectAnswersAmount } from "@/utils/game/getCorrectAnswersAmount";
+import { getOGImageLink } from "@/utils/pages/getOGImageLink";
 import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
 
 const ResultsPage = memo(function ResultsPage({
@@ -33,15 +34,19 @@ const ResultsPage = memo(function ResultsPage({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const playerTitleName = userName ?? "анонима";
   const correctAnswersAmount = getCorrectAnswersAmount(amount, answers);
+  const ogImageLink = getOGImageLink(
+    host,
+    id,
+    userName,
+    correctAnswersAmount,
+    amount,
+  );
 
   return (
     <>
       <Head>
         <title>{`Результат игры ${playerTitleName}`}</title>
-        <meta
-          property="og:image"
-          content={`https://${host}/api/results-image?id=${id}&name=${userName}&correct=${correctAnswersAmount}&amount=${amount}`}
-        />
+        <meta property="og:image" content={ogImageLink} />
       </Head>
       <PageLayout user={user}>
         <Title>Результат игры</Title>
