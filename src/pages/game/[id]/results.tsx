@@ -27,22 +27,24 @@ import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
 
 const ResultsPage = memo(function ResultsPage({
   user,
-  playerName,
+  playerData: { userName, id },
   gameData: { amount, animes, answers },
   host,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const playerTitleName = playerName ?? "анонима";
+  const playerTitleName = userName ?? "анонима";
   const correctAnswersAmount = getCorrectAnswersAmount(amount, answers);
+  const ogImageURL = `https://${host}/api/og/results?id=${id}&name=${userName}&correct=${correctAnswersAmount}&amount=${amount}`;
 
   return (
     <>
       <Head>
         <title>{`Результат игры ${playerTitleName}`}</title>
+        <meta property="og:image" content={ogImageURL} />
       </Head>
       <PageLayout user={user}>
         <Title>Результат игры</Title>
         <ResultHeader
-          name={playerName}
+          name={userName}
           amount={amount}
           correctAnswers={correctAnswersAmount}
         />
@@ -96,12 +98,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       },
     };
 
-  const {
-    amount,
-    animes,
-    answers,
-    user: { name },
-  } = gameData;
+  const { amount, animes, answers, userName, shikimoriId } = gameData;
   const parsedAnimes = await DBAnimeArraySchema.parseAsync(animes);
   const parsedAnswers = await DBAnswerArraySchema.parseAsync(answers);
 
@@ -109,7 +106,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     props: {
       trpcState: helpers.dehydrate(),
       user: session?.user ?? null,
-      playerName: name,
+      playerData: {
+        id: shikimoriId ?? null,
+        userName,
+      },
       gameData: {
         amount,
         animes: parsedAnimes,
