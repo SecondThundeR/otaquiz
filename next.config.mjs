@@ -8,6 +8,7 @@ const config = {
     defaultLocale: "ru",
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
