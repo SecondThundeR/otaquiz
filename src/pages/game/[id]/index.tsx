@@ -5,146 +5,111 @@ import {
 } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { memo, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import superjson from "superjson";
 
-import ContentContainer from "@/components/ContentContainer";
-import Navbar from "@/components/Navbar";
-import PageContainer from "@/components/PageContainer";
-import { PageLoadingPlaceholder } from "@/components/PageLoadingPlaceholder";
-import Screenshot from "@/components/Screenshot";
-import Subtitle from "@/components/Subtitle";
-import { TEN_MINUTES } from "@/constants/time";
+import { QuestionButtons } from "@/components/QuestionButtons";
+import { QuestionScreenshots } from "@/components/QuestionScreenshots";
+import { LoadingContainer } from "@/components/ui/LoadingContainer";
+import { Subtitle } from "@/components/ui/Subtitle";
+
+import { useGameController } from "@/hooks/useGameController";
+
+import { PageLayout } from "@/layouts/PageLayout";
+
 import { DBAnimeArraySchema } from "@/schemas/db/animes";
-import {
-  type DBAnswerAnime,
-  type DBAnswerArray,
-  DBAnswerArraySchema,
-} from "@/schemas/db/answers";
+import { type DBAnswerAnime, DBAnswerArraySchema } from "@/schemas/db/answers";
+
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
-import { api } from "@/utils/api";
-import { shuffleValues } from "@/utils/array/shuffleValues";
+
+import { isGameExpired } from "@/utils/server/isGameExpired";
+import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
 
 const GamePage = memo(function GamePage({
-  gameData: { id, animes, animeIds, currentAnswers, amount, currentAnimeIndex },
+  gameData: {
+    gameId,
+    animes,
+    animeIds,
+    currentAnswers,
+    amount,
+    currentAnimeIndex,
+  },
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
-
   const [currentIndex, setCurrentIndex] = useState(currentAnimeIndex);
-  const [answers, setAnswers] = useState<DBAnswerArray>(currentAnswers ?? []);
+  const [isUpdatingAnswer, setIsUpdatingAnswer] = useState(false);
 
-  const { data: screenshots, isLoading: isLoadingScreenshots } =
-    api.game.getAnimeScreenshots.useQuery(
-      { animeIds },
-      { refetchOnWindowFocus: false },
-    );
-  const { data: decoys, isLoading: isLoadingDecoys } =
-    api.game.getAnswerDecoys.useQuery(
-      { animeIds },
-      { refetchOnWindowFocus: false },
-    );
-  const updateAnswersMutation = api.game.updateAnswers.useMutation();
-  const deleteMutation = api.game.deleteGame.useMutation();
-
-  const isLoadingData = isLoadingScreenshots || isLoadingDecoys;
+  const {
+    data: { screenshots, isLoading, isDeletingGame },
+    handlers: { onGameExit, getButtonAnswers, updateAnswers },
+  } = useGameController({
+    gameId,
+    animeIds,
+    currentAnswers,
+  });
 
   const maxIndex = animes.length - 1;
-  const currentAnime = animes.at(currentIndex)!;
-  const isGameFinished = currentIndex === maxIndex;
-
+  const currentAnime = animes[currentIndex]!;
+  const isFinished = currentIndex === maxIndex;
+  const currentAnswerTitle = `${currentIndex + 1} из ${amount}`;
   const currentAnimeScreenshots = screenshots?.find(
     (data) => data.id === currentAnime.id,
+  )?.screenshots;
+  const currentButtons = getButtonAnswers(currentAnime, currentIndex);
+
+  const onAnswerClick = useCallback(
+    async (anime: DBAnswerAnime) => {
+      setIsUpdatingAnswer(true);
+      await updateAnswers({
+        anime,
+        currentAnime,
+        isFinished,
+      });
+
+      if (isFinished) {
+        return await router.push(`${router.asPath}/results`);
+      }
+      setCurrentIndex(currentIndex + 1);
+      setIsUpdatingAnswer(false);
+    },
+    [currentAnime, currentIndex, isFinished, router, updateAnswers],
   );
-  const currentAnimeDecoys = decoys?.slice(
-    currentIndex * 3,
-    (currentIndex + 1) * 3,
-  );
-
-  const onBack = async () => {
-    await deleteMutation.mutateAsync({
-      gameId: id,
-    });
-  };
-
-  const onAnswerClick = async (anime: DBAnswerAnime) => {
-    const newAnswers = [
-      ...answers,
-      {
-        correct: anime.id !== currentAnime.id ? currentAnime : null,
-        picked: anime,
-      },
-    ];
-
-    setAnswers(newAnswers);
-    await updateAnswersMutation.mutateAsync({
-      gameId: id,
-      answers: newAnswers,
-      isFinished: isGameFinished,
-    });
-
-    if (isGameFinished) {
-      return await router.push(`${router.asPath}/results`);
-    }
-    setCurrentIndex(currentIndex + 1);
-  };
 
   return (
     <>
       <Head>
-        <title>
-          Otaquiz | {currentIndex + 1} из {amount}
-        </title>
+        <title>Игра | Раунд {currentAnswerTitle}</title>
       </Head>
-      <PageContainer>
-        <Navbar user={user} title="Завершить игру" onTitle={onBack} />
-        <ContentContainer>
-          {isLoadingData ? (
-            <PageLoadingPlaceholder>
-              Загружаем необходимые данные
-            </PageLoadingPlaceholder>
-          ) : (
-            <>
-              <Subtitle>
-                {currentIndex + 1} из {amount}
-              </Subtitle>
-              <div className="grid grid-cols-1 grid-rows-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-                {currentAnimeScreenshots?.screenshots.map((screenshot) => (
-                  <Screenshot
-                    key={screenshot.id}
-                    src={screenshot.originalUrl}
-                    fullWidth
-                  />
-                ))}
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                {currentAnimeDecoys &&
-                  shuffleValues([currentAnime, ...currentAnimeDecoys]).map(
-                    (anime) => (
-                      <button
-                        key={anime.id}
-                        className="btn btn-primary"
-                        onClick={() => onAnswerClick(anime)}
-                      >
-                        {anime.name}
-                      </button>
-                    ),
-                  )}
-              </div>
-            </>
-          )}
-        </ContentContainer>
-      </PageContainer>
+      <PageLayout
+        user={user}
+        title="Завершить игру"
+        onTitle={onGameExit}
+        hasFooter={false}
+      >
+        {isLoading ? (
+          <LoadingContainer>Загружаем необходимые данные</LoadingContainer>
+        ) : (
+          <>
+            <Subtitle>Раунд {currentAnswerTitle}</Subtitle>
+            <QuestionScreenshots screenshots={currentAnimeScreenshots} />
+            <QuestionButtons
+              buttons={currentButtons}
+              isDisabled={isUpdatingAnswer || isDeletingGame}
+              onAnswerClick={onAnswerClick}
+            />
+          </>
+        )}
+      </PageLayout>
     </>
   );
 });
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const gameId = ctx.query.id;
-
-  if (gameId === undefined || Array.isArray(gameId)) {
+  if (isInvalidQuery(gameId)) {
     return {
       redirect: {
         destination: "/",
@@ -155,7 +120,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   // TODO: Currently there is no support for anonymous games. Will be implemented later
   const session = await getServerAuthSession(ctx);
-
   if (!session) {
     return {
       redirect: {
@@ -172,13 +136,12 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   });
 
   let gameData = null;
-
   try {
     gameData = await helpers.game.getGameInfo.fetch({
       gameId,
     });
-  } catch (e: unknown) {
-    console.log(e);
+  } catch (error: unknown) {
+    console.error(error);
     return {
       redirect: {
         destination: "/",
@@ -204,7 +167,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       },
     };
 
-  if (Date.now() - gameData.updatedAt.getTime() > TEN_MINUTES) {
+  if (isGameExpired(gameData.updatedAt)) {
     await prisma.game.delete({
       where: {
         id: gameData.id,
@@ -220,17 +183,17 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   }
 
   const { id, amount, animes, answers, currentAnimeIndex } = gameData;
-  const parsedAnimes = await DBAnimeArraySchema.parseAsync(JSON.parse(animes));
+  const parsedAnimes = await DBAnimeArraySchema.parseAsync(animes);
   const parsedAnswers = answers
-    ? await DBAnswerArraySchema.parseAsync(JSON.parse(answers))
-    : null;
+    ? await DBAnswerArraySchema.parseAsync(answers)
+    : [];
 
   return {
     props: {
       trpcState: helpers.dehydrate(),
       user: session.user,
       gameData: {
-        id,
+        gameId: id,
         amount,
         currentAnimeIndex,
         animes: parsedAnimes.map((anime) => {
