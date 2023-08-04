@@ -7,6 +7,9 @@ export const gameQuery = `
         id
         originalUrl
       }
+      genres {
+        name
+      }
     }
   }
 `;
@@ -25,7 +28,7 @@ export const screenshotsQuery = `
 
 export const decoyQuery = `
   query DecoyAnimes($excludeIds: String) {
-    animes(order: random, limit: 50, excludeIds: $excludeIds, score: 6, kind: "!music") {
+    animes(order: random, limit: 50, excludeIds: $excludeIds) {
       id
       russian
     }

@@ -44,7 +44,10 @@ export const gameRouter = createTRPCRouter({
             .data.animes;
 
           const filteredAnimes = parsedAnimes.filter(
-            (data) => data.screenshots.length > 0 && !!data.russian,
+            (data) =>
+              data.screenshots.length > 0 &&
+              data.genres.length > 0 &&
+              !!data.russian,
           );
           selectedAnimes.push(
             ...filteredAnimes.slice(0, amount - selectedAnimes.length),

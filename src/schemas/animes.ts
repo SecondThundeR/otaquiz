@@ -8,9 +8,17 @@ const AnimeDataSchema = z.object({
   screenshots: z.array(AnimeScreenshotSchema),
 });
 
+const AnimeDataGenresSchema = z.object({
+  genres: z.array(
+    z.object({
+      name: z.string(),
+    }),
+  ),
+});
+
 export const AnimesSchema = z.object({
   data: z.object({
-    animes: z.array(AnimeDataSchema),
+    animes: z.array(AnimeDataSchema.merge(AnimeDataGenresSchema)),
   }),
 });
 
