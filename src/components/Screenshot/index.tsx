@@ -1,18 +1,25 @@
-import cn from "classnames";
+import clsx from "clsx";
 import Image from "next/image";
+import { memo } from "react";
 
-import { SCREENSHOT_CLASSES } from "@/constants/screenshotClasses";
+import { ScreenshotPlaceholder } from "@/components/ui/ScreenshotPlaceholder";
+
 import { useOnImageLoad } from "@/hooks/useOnImageLoad";
 
-import { ScreenshotPlaceholder } from "../ScreenshotPlaceholder";
+const SCREENSHOT_CLASSES = "h-64 rounded-xl object-cover";
 
 interface ScreenshotProps {
-  src: string;
+  src?: string;
   fullWidth?: boolean;
 }
 
-function Screenshot({ src, fullWidth = false }: ScreenshotProps) {
+export const Screenshot = memo(function Screenshot({
+  src,
+  fullWidth = false,
+}: ScreenshotProps) {
   const [isLoading, onLoad] = useOnImageLoad();
+
+  if (!src) return null;
 
   return (
     <>
@@ -26,7 +33,7 @@ function Screenshot({ src, fullWidth = false }: ScreenshotProps) {
         height={720}
         src={src}
         priority
-        className={cn(SCREENSHOT_CLASSES, {
+        className={clsx(SCREENSHOT_CLASSES, {
           hidden: isLoading,
         })}
         alt=""
@@ -34,6 +41,4 @@ function Screenshot({ src, fullWidth = false }: ScreenshotProps) {
       />
     </>
   );
-}
-
-export default Screenshot;
+});
