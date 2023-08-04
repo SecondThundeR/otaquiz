@@ -106,7 +106,7 @@ const GamePage = memo(function GamePage({
         {isLoading ? (
           <LoadingContainer>Загружаем необходимые данные</LoadingContainer>
         ) : (
-          <div className="flex flex-col gap-6">
+          <>
             <Subtitle>Раунд {currentAnswerTitle}</Subtitle>
             <QuestionScreenshots screenshots={currentAnimeScreenshots} />
             <QuestionButtons
@@ -114,7 +114,7 @@ const GamePage = memo(function GamePage({
               isDisabled={isUpdatingAnswer || isDeletingGame}
               onAnswerClick={onAnswerClick}
             />
-          </div>
+          </>
         )}
       </PageLayout>
     </>
