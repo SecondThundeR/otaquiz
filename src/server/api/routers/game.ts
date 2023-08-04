@@ -75,6 +75,7 @@ export const gameRouter = createTRPCRouter({
         where: {
           id: gameId,
         },
+        include: { user: true },
       });
       if (gameInfo === null)
         throw new TRPCError({
