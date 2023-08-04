@@ -4,7 +4,7 @@ import { type NextRequest } from "next/server";
 
 export const runtime = "edge";
 
-export default async function handler(request: NextRequest) {
+export default function handler(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
 
@@ -18,13 +18,6 @@ export default async function handler(request: NextRequest) {
         status: 400,
       });
 
-    const JetbrainsRegular = await fetch(
-      new URL(`../../assets/fonts/JetbrainsMono-Regular.ttf`, import.meta.url),
-    ).then((res) => res.arrayBuffer());
-    const JetbrainsBold = await fetch(
-      new URL(`../../assets/fonts/JetbrainsMono-Bold.ttf`, import.meta.url),
-    ).then((res) => res.arrayBuffer());
-
     return new ImageResponse(
       (
         <div
@@ -35,7 +28,6 @@ export default async function handler(request: NextRequest) {
             alignItems: "center",
             flexDirection: "column",
             padding: "16px",
-            fontFamily: "Jetbrains Mono",
             backgroundColor: "#1a103d",
             color: "#f9f7fd",
             gap: "16px",
@@ -93,20 +85,6 @@ export default async function handler(request: NextRequest) {
       {
         width: 1200,
         height: 630,
-        fonts: [
-          {
-            name: "Jetbrains Mono",
-            data: JetbrainsRegular,
-            style: "normal",
-            weight: 400,
-          },
-          {
-            name: "Jetbrains Mono",
-            data: JetbrainsBold,
-            style: "normal",
-            weight: 700,
-          },
-        ],
       },
     );
   } catch (error: unknown) {
