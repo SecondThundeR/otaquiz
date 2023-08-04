@@ -33,13 +33,15 @@ const ResultsPage = memo(function ResultsPage({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const playerTitleName = userName ?? "анонима";
   const correctAnswersAmount = getCorrectAnswersAmount(amount, answers);
-  const ogImageURL = `https://${host}/api/og/results?id=${id}&name=${userName}&correct=${correctAnswersAmount}&amount=${amount}`;
 
   return (
     <>
       <Head>
         <title>{`Результат игры ${playerTitleName}`}</title>
-        <meta property="og:image" content={ogImageURL} />
+        <meta
+          property="og:image"
+          content={`https://${host}/api/og/results?id=${id}&name=${userName}&correct=${correctAnswersAmount}&amount=${amount}`}
+        />
       </Head>
       <PageLayout user={user}>
         <Title>Результат игры</Title>
