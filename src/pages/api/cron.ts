@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { TEN_MINUTES } from "@/constants/time";
-import { env } from "@/env.mjs";
+
 import { prisma } from "@/server/db";
+
+import { env } from "@/env.mjs";
 
 export default async function handler(
   request: NextApiRequest,

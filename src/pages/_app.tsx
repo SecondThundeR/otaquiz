@@ -1,9 +1,17 @@
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
+import { JetBrains_Mono } from "next/font/google";
 
 import "@/styles/globals.css";
-import { api } from "@/utils/api";
+
+import { api } from "@/utils/trpc/api";
+
+const font = JetBrains_Mono({
+  display: "swap",
+  weight: ["400", "500", "700"],
+  subsets: ["cyrillic", "latin"],
+});
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -11,7 +19,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <main className={font.className}>
+        <Component {...pageProps} />
+      </main>
     </SessionProvider>
   );
 };

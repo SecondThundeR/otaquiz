@@ -14,7 +14,7 @@ This is an anime quiz game, which queries random animes, shows screenshots _(or 
 
 ### Installation
 
-To start working with sources, clone this repository and run
+To start working with sources, clone this repository and add link to PostgreSQL instance in `.env`, then run
 
 ```shell
 pnpm i
@@ -86,10 +86,4 @@ This repository is using [MIT License](LICENSE)
 
 ## Acknowledge
 
-This project was built with help of [`create-t3-app`](https://create.t3.gg/) and these libraries:
-
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+This project was built with help of [`create-t3-app`](https://create.t3.gg/) and [these libraries](./package.json)

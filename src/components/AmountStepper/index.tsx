@@ -1,25 +1,34 @@
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { memo } from "react";
 
-interface AmountStepperProps {
-  amount: number;
-  increment: () => void;
-  decrement: () => void;
-}
+import { type useAmount } from "@/hooks/useAmount";
 
-export default function AmountStepper({
+import { Button } from "../ui/Button";
+
+export const AmountStepper = memo(function AmountStepper({
   amount,
   increment,
   decrement,
-}: AmountStepperProps) {
+}: ReturnType<typeof useAmount>) {
   return (
-    <div className="flex items-center justify-center gap-4">
-      <button className="btn btn-square btn-outline" onClick={increment}>
-        <PlusIcon className="h-6 w-6" />
-      </button>
-      <h1 className="font-accent text-4xl">{amount}</h1>
-      <button className="btn btn-square btn-outline" onClick={decrement}>
-        <MinusIcon className="h-6 w-6" />
-      </button>
+    <div className="flex items-center gap-4">
+      <Button
+        size="square"
+        style="outline"
+        className="border-2"
+        onClick={increment}
+      >
+        <PlusIcon className="h-7 w-7 stroke-2" />
+      </Button>
+      <h1 className="text-5xl">{amount}</h1>
+      <Button
+        size="square"
+        style="outline"
+        className="border-2"
+        onClick={decrement}
+      >
+        <MinusIcon className="h-7 w-7 stroke-2" />
+      </Button>
     </div>
   );
-}
+});

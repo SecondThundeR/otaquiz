@@ -1,106 +1,52 @@
 import { type Session } from "next-auth";
-import { signIn, signOut } from "next-auth/react";
-import Image from "next/image";
-import Link from "next/link";
-import { type PropsWithChildren } from "react";
+import { signIn } from "next-auth/react";
+import { memo, useState } from "react";
 
-type SessionUser = Pick<Session, "user">["user"];
+import { Button } from "../ui/Button";
+import { Spinner } from "../ui/Spinner";
+import { NavbarProfile } from "./Profile";
+import { NavbarTitle } from "./Title";
 
-const PAGE_TITLE = "Otaquiz";
-
-function NavbarTitle({
-  children,
-  onClick,
-}: PropsWithChildren & { onClick?: () => void }) {
-  return (
-    <div className="flex-grow">
-      <Link
-        className="btn btn-ghost text-xl normal-case"
-        href="/"
-        onClick={onClick}
-      >
-        {children}
-      </Link>
-    </div>
-  );
+interface NavbarProps {
+  user: Session["user"] | null;
+  title?: string;
+  onTitle?: () => void;
 }
 
-function NavbarProfile({
-  name,
-  image,
-}: {
-  name: SessionUser["name"];
-  image: SessionUser["image"];
-}) {
-  const onSignOut = () => signOut();
-
-  return (
-    <div className="dropdown dropdown-end">
-      {image !== undefined ? (
-        <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
-          <div className="w-10 rounded-full">
-            <Image
-              width={40}
-              height={40}
-              src={image ?? ""}
-              alt="Аватар аккаунта"
-            />
-          </div>
-        </label>
-      ) : (
-        <label
-          tabIndex={0}
-          className="avatar placeholder btn btn-circle btn-ghost"
-        >
-          <div className="w-10 rounded-full bg-primary text-neutral-content">
-            <span className="text-xl">{name?.at(0) ?? "?"}</span>
-          </div>
-        </label>
-      )}
-      <ul
-        tabIndex={0}
-        className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-56 border-2 border-base-content bg-base-100 p-2"
-      >
-        {name && (
-          <li>
-            <a
-              className="justify-between"
-              href={`https://shikimori.me/${name}`}
-              target="_blank"
-            >
-              Профиль на Shikimori
-            </a>
-          </li>
-        )}
-        <li>
-          <a role="button" onClick={onSignOut}>
-            Выйти
-          </a>
-        </li>
-      </ul>
-    </div>
-  );
-}
-
-export default function Navbar({
+const MemoizedNavbar = memo(function Navbar({
   user,
   title,
   onTitle,
-}: {
-  user: SessionUser | null;
-  title?: string;
-  onTitle?: () => void;
-}) {
+}: NavbarProps) {
+  const [isLogin, setIsLogin] = useState(false);
+
+  const onSignIn = async () => {
+    setIsLogin(true);
+    await signIn("shikimori");
+  };
+
   return (
     <div className="navbar bg-base-100 px-4">
-      <NavbarTitle onClick={onTitle}>{title ?? PAGE_TITLE}</NavbarTitle>
+      <NavbarTitle title={title} onClick={onTitle} />
       {user !== null ? (
-        <NavbarProfile name={user?.name} image={user?.image} />
+        <NavbarProfile {...user} />
       ) : (
-        <button className="btn btn-primary" onClick={() => signIn("shikimori")}>
-          Войти через Шикимори
-        </button>
+        <Button style="primary" onClick={onSignIn} disabled={isLogin}>
+          {isLogin ? (
+            <>
+              <Spinner />
+              Входим в аккаунт
+            </>
+          ) : (
+            "Войти через Шикимори"
+          )}
+        </Button>
       )}
     </div>
   );
-}
+});
+
+export const Navbar = Object.assign(MemoizedNavbar, {
+  Profile: NavbarProfile,
+  Title: NavbarTitle,
+});

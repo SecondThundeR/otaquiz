@@ -1,5 +1,18 @@
 const config = {
-  importOrder: ["^@/(.*)$", "^[./]"],
+  importOrder: [
+    "^@/components/(.*)$",
+    "^@/constants/(.*)$",
+    "^@/hooks/(.*)$",
+    "^@/layouts/(.*)$",
+    "^@/pages/(.*)$",
+    "^@/providers/(.*)$",
+    "^@/schemas/(.*)$",
+    "^@/server/(.*)$",
+    "^@/styles/(.*)$",
+    "^@/utils/(.*)$",
+    "^@/(.*)$",
+    "^[./]",
+  ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
   plugins: [
