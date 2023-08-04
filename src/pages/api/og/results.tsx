@@ -21,10 +21,10 @@ export default async function handler(request: NextRequest) {
       });
 
     const regularFont = await fetch(
-      new URL("../../../assets/JetbrainsMono-Regular.ttf", import.meta.url),
+      new URL("/public/JetbrainsMono-Regular.ttf", import.meta.url),
     ).then((res) => res.arrayBuffer());
     const boldFont = await fetch(
-      new URL("../../../assets/JetbrainsMono-Bold.ttf", import.meta.url),
+      new URL("/public/JetbrainsMono-Bold.ttf", import.meta.url),
     ).then((res) => res.arrayBuffer());
 
     return new ImageResponse(
