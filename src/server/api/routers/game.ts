@@ -147,11 +147,12 @@ export const gameRouter = createTRPCRouter({
     .input(z.object({ gameId: z.string() }))
     .mutation(async ({ ctx: { prisma }, input: { gameId } }) => {
       try {
-        await prisma.game.delete({
+        const game = await prisma.game.delete({
           where: {
             id: gameId,
           },
         });
+        return game.id;
       } catch (error: unknown) {
         processError(error);
       }
