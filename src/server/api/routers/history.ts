@@ -11,6 +11,13 @@ export const historyRouter = createTRPCRouter({
             userId: session.user.id,
             isFinished: true,
           },
+          select: {
+            id: true,
+            amount: true,
+            animes: true,
+            answers: true,
+            createdAt: true,
+          },
         });
       } catch (error: unknown) {
         processError(error);
