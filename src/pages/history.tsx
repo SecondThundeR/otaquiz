@@ -11,8 +11,6 @@ import { HistoryGames } from "@/components/HistoryGames";
 import { Subtitle } from "@/components/ui/Subtitle";
 import { Title } from "@/components/ui/Title";
 
-import { PAGE_TITLE } from "@/constants/pageHeadData";
-
 import { useGameHistory } from "@/hooks/useGameHistory";
 
 import { PageLayout } from "@/layouts/PageLayout";
@@ -30,7 +28,7 @@ const HistoryPage = memo(function HistoryPage({
   return (
     <>
       <Head>
-        <title>{`${PAGE_TITLE} | История`}</title>
+        <title>История игр</title>
       </Head>
       <PageLayout user={user}>
         <Title>История игр</Title>
