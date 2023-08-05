@@ -11,7 +11,6 @@ import superjson from "superjson";
 
 import { QuestionButtons } from "@/components/QuestionButtons";
 import { QuestionScreenshots } from "@/components/QuestionScreenshots";
-import { LoadingContainer } from "@/components/ui/LoadingContainer";
 import { Subtitle } from "@/components/ui/Subtitle";
 
 import { useGameController } from "@/hooks/useGameController";
@@ -44,7 +43,7 @@ const GamePage = memo(function GamePage({
   const [isUpdatingAnswer, setIsUpdatingAnswer] = useState(false);
 
   const {
-    data: { screenshots, isLoading, isDeletingGame },
+    data: { screenshots, isDeletingGame },
     handlers: { onGameExit, getButtonAnswers, updateAnswers },
   } = useGameController({
     gameId,
@@ -103,19 +102,13 @@ const GamePage = memo(function GamePage({
         hasFooter={false}
         ref={targetRef}
       >
-        {isLoading ? (
-          <LoadingContainer>Загружаем необходимые данные</LoadingContainer>
-        ) : (
-          <>
-            <Subtitle>Раунд {currentAnswerTitle}</Subtitle>
-            <QuestionScreenshots screenshots={currentAnimeScreenshots} />
-            <QuestionButtons
-              buttons={currentButtons}
-              isDisabled={isUpdatingAnswer || isDeletingGame}
-              onAnswerClick={onAnswerClick}
-            />
-          </>
-        )}
+        <Subtitle>Раунд {currentAnswerTitle}</Subtitle>
+        <QuestionScreenshots screenshots={currentAnimeScreenshots} />
+        <QuestionButtons
+          buttons={currentButtons}
+          isDisabled={isUpdatingAnswer || isDeletingGame}
+          onAnswerClick={onAnswerClick}
+        />
       </PageLayout>
     </>
   );
@@ -201,6 +194,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const parsedAnswers = answers
     ? await DBAnswerArraySchema.parseAsync(answers)
     : [];
+  const animeIds = parsedAnimes.map((anime) => anime.id).join(",");
+
+  await helpers.anime.getAnimeScreenshots.prefetch({ animeIds });
+  await helpers.anime.getAnswerDecoys.prefetch({ animeIds });
 
   return {
     props: {
@@ -216,7 +213,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
             name: anime.name,
           };
         }),
-        animeIds: parsedAnimes.map((anime) => anime.id).join(","),
+        animeIds,
         currentAnswers: parsedAnswers,
       },
     },

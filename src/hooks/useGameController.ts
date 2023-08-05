@@ -24,7 +24,7 @@ export function useGameController({
   currentAnswers,
 }: UseGameControllerProps) {
   const {
-    data: { screenshots, decoys, isLoading },
+    data: { screenshots, decoys },
   } = useAnimeData(animeIds);
   const [answers, setAnswers] = useState(currentAnswers);
   const [isDeletingGame, setIsDeletingGame] = useState(false);
@@ -68,7 +68,7 @@ export function useGameController({
   );
 
   return {
-    data: { screenshots, isLoading, isDeletingGame },
+    data: { screenshots, isDeletingGame },
     handlers: {
       onGameExit,
       getButtonAnswers,
