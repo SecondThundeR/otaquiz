@@ -25,7 +25,8 @@ type ButtonStyleVariants =
   | "outline"
   | "active"
   | "disabled"
-  | "glass";
+  | "glass"
+  | "noAnimation";
 
 const ButtonSizeClasses: Record<ButtonSizeVariants, string> = {
   xs: "btn-xs",
@@ -52,7 +53,8 @@ const ButtonStyleClasses: Record<ButtonStyleVariants, string> = {
   outline: "btn-outline",
   active: "btn-active",
   disabled: "btn-disabled",
-  glass: "btn-glass",
+  glass: "glass",
+  noAnimation: "no-animation",
 };
 
 type ButtonProps = Pick<
