@@ -2,19 +2,21 @@
 
 > Otaku + quiz = Otaquiz
 
-Some random anime quiz web application. Built with T3 Stack, powered by Shikimori API [_(Currently in development)_](https://github.com/users/SecondThundeR/projects/7)
+Some random anime quiz web application. Built with T3 Stack, powered by Shikimori API
+
+[Deployment link](https://otaquiz.vercel.app/) | [Development roadmap](https://github.com/users/SecondThundeR/projects/7)
 
 ## Brief Description
 
-This is an anime quiz game, which queries random animes, shows screenshots _(or description, if there are no screenshots)_ and gives buttons for user to guess, which anime name is correct\*
+This is an anime quiz game, which queries random animes, shows screenshots and gives buttons for player to guess, which anime name is correct
 
-> \*Subject to change **(Currently, some mentioned functionality haven't developed yet or will be developed in other way)**
+> More game modes are on the way
 
 ## Getting started
 
 ### Installation
 
-To start working with sources, clone this repository and add link to PostgreSQL instance in `.env`, then run
+To start working with sources, clone this repository and add necessary variables in `.env`, then run
 
 ```shell
 pnpm i
@@ -76,9 +78,16 @@ Now, try to go to `https://localhost:3001` and check if app and authentication w
 
 > Reminder: Don't forget to change `NEXTAUTH_URL` in `.env` for correct generation of redirect URI
 
-### Build and deploy app (Vercel)
+### Deploy on Vercel
 
-`TODO`
+1. Go to <https://vercel.com/new> and select Github repo with application
+2. Prepare enviroment variables for deployment (They should look like on picture below)
+   <img width="972" alt="image" src="https://github.com/SecondThundeR/otaquiz/assets/36604233/8b0b8785-67d7-4f34-895d-75eea6cce9c9">
+
+   > Note: I suggest you to set up "Ignored build step" in "Settings/Git" to build only production, since if you doesn't have stable preview link, Shikimori authorization would fail and there is no possible way to test app correctly
+4. Click `Deploy` button and wait for deployment to finish
+  - If something fails during deployment, push fix to repo and Vercel will automatically pull your commit and re-deploy
+4. Check your deployment and you are good to go!
 
 ## License
 
