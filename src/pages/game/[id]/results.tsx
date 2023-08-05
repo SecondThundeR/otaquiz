@@ -55,7 +55,9 @@ const ResultsPage = memo(function ResultsPage({
           amount={amount}
           correctAnswers={correctAnswersAmount}
         />
-        <URLCopyButton host={host} />
+        <URLCopyButton host={host}>
+          Скопировать ссылку на результат
+        </URLCopyButton>
         <Divider />
         <Title>Детали ответов</Title>
         <ResultAnswers answers={answers} animes={animes} />
