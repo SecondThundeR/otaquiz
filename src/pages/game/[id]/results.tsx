@@ -48,7 +48,7 @@ const ResultsPage = memo(function ResultsPage({
         <title>{`Результат игры ${playerTitleName}`}</title>
         <meta property="og:image" content={ogImageLink} />
       </Head>
-      <PageLayout user={user}>
+      <PageLayout user={user} title="Вернуться домой">
         <Title>Результат игры</Title>
         <ResultHeader
           name={userName}
