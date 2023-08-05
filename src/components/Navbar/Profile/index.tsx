@@ -25,6 +25,7 @@ export const NavbarProfile = memo(function NavbarProfile({
             Профиль на Shikimori
           </DropdownButton>
         )}
+        <DropdownButton to="/history">История</DropdownButton>
         <DropdownButton onClick={onSignOut}>Выйти</DropdownButton>
       </DropdownContent>
     </div>

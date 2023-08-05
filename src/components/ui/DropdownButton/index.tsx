@@ -4,15 +4,19 @@ import { Link } from "../Link";
 
 type DropdownButtonProps = PropsWithChildren<{
   href?: string;
+  to?: string;
   onClick?: () => void;
 }>;
 
 export const DropdownButton = memo(function DropdownButton({
   children,
   href,
+  to,
   onClick,
 }: DropdownButtonProps) {
   const isButton = !href;
+  const linkRole = isButton ? "button" : undefined;
+  const linkTarget = !isButton ? "_blank" : undefined;
 
   return (
     <li>
@@ -20,8 +24,9 @@ export const DropdownButton = memo(function DropdownButton({
         isStyled={false}
         isHover={false}
         href={href}
-        role={isButton ? "button" : undefined}
-        target={!isButton ? "_blank" : undefined}
+        to={to}
+        role={linkRole}
+        target={linkTarget}
         onClick={onClick}
       >
         {children}

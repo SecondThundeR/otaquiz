@@ -1,6 +1,6 @@
 import { type PropsWithChildren, memo } from "react";
 
-export const ResultAnswersGrid = memo(function ResultAnswersGrid({
+export const CardsGrid = memo(function ResultAnswersGrid({
   children,
 }: PropsWithChildren) {
   return (
