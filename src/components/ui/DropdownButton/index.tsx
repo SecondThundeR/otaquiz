@@ -16,11 +16,20 @@ export const DropdownButton = memo(function DropdownButton({
   onClick,
 }: DropdownButtonProps) {
   const isButton = !href;
+  const linkRole = isButton ? "button" : undefined;
+  const linkTarget = !isButton ? "_blank" : undefined;
 
   if (to)
     return (
       <li>
-        <NextLink href={to}>{children}</NextLink>
+        <NextLink
+          href={to}
+          role={linkRole}
+          target={linkTarget}
+          onClick={onClick}
+        >
+          {children}
+        </NextLink>
       </li>
     );
 
@@ -30,8 +39,8 @@ export const DropdownButton = memo(function DropdownButton({
         isStyled={false}
         isHover={false}
         href={href}
-        role={isButton ? "button" : undefined}
-        target={!isButton ? "_blank" : undefined}
+        role={linkRole}
+        target={linkTarget}
         onClick={onClick}
       >
         {children}
