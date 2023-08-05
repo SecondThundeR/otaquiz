@@ -1,10 +1,10 @@
-import clsx from "clsx";
 import { type Session } from "next-auth";
 import { memo } from "react";
 
 import { Subtitle } from "@/components/ui/Subtitle";
 
 import { UsernameLink } from "../UsernameLink";
+import { GuessedAmount } from "../ui/GuessedAmount";
 
 type ResultHeaderProps = Pick<Session["user"], "name"> & {
   correctAnswers: number;
@@ -20,16 +20,7 @@ export const ResultHeader = memo(function ResultHeader({
     <div className="flex items-center gap-2">
       <Subtitle>
         <UsernameLink name={name} /> ответил(а) правильно на{" "}
-        <span
-          className={clsx({
-            "text-success": correctAnswers === amount,
-            "text-error": correctAnswers === 0,
-            "text-info": correctAnswers > 0 && correctAnswers < amount,
-          })}
-        >
-          {correctAnswers} из {amount}
-        </span>{" "}
-        вопросов
+        <GuessedAmount correct={correctAnswers} amount={amount} /> вопросов
       </Subtitle>
     </div>
   );

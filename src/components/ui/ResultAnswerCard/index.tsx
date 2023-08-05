@@ -6,6 +6,7 @@ import { SHIKIMORI_ANIMES_URL } from "@/constants/links";
 
 import { type DBAnswer } from "@/schemas/db/answers";
 
+import { CardContainer } from "../CardContainer";
 import { Link } from "../Link";
 
 const TITLE_VARIANTS = {
@@ -36,7 +37,7 @@ export const ResultAnswerCard = memo(function ResultAnswerCard({
     : TITLE_VARIANTS.incorrect;
 
   return (
-    <div className="min-h-8 flex w-full flex-col gap-4 rounded-2xl border-2 border-base-content px-5 py-4">
+    <CardContainer>
       <Screenshot src={screenshotURL} />
       <div className="flex flex-col gap-2">
         <h2 className="card-title">
@@ -67,6 +68,6 @@ export const ResultAnswerCard = memo(function ResultAnswerCard({
           </p>
         )}
       </div>
-    </div>
+    </CardContainer>
   );
 });
