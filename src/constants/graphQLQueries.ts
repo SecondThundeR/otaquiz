@@ -1,6 +1,6 @@
 export const gameQuery = `
   query GameAnimes($excludeIds: String) {
-    animes(order: random, limit: 50, excludeIds: $excludeIds, score: 6, kind: "!music") {
+    animes(order: random, limit: 50, excludeIds: $excludeIds, score: 7, kind: "!music") {
       id
       russian
       screenshots {
