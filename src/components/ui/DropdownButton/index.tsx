@@ -1,4 +1,3 @@
-import { default as NextLink } from "next/link";
 import { type PropsWithChildren, memo } from "react";
 
 import { Link } from "../Link";
@@ -19,26 +18,13 @@ export const DropdownButton = memo(function DropdownButton({
   const linkRole = isButton ? "button" : undefined;
   const linkTarget = !isButton ? "_blank" : undefined;
 
-  if (to)
-    return (
-      <li>
-        <NextLink
-          href={to}
-          role={linkRole}
-          target={linkTarget}
-          onClick={onClick}
-        >
-          {children}
-        </NextLink>
-      </li>
-    );
-
   return (
     <li>
       <Link
         isStyled={false}
         isHover={false}
         href={href}
+        to={to}
         role={linkRole}
         target={linkTarget}
         onClick={onClick}

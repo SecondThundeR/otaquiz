@@ -1,5 +1,6 @@
-import { default as NextLink } from "next/link";
 import { memo } from "react";
+
+import { Link } from "@/components/ui/Link";
 
 import { PAGE_TITLE } from "@/constants/pageHeadData";
 
@@ -14,13 +15,15 @@ export const NavbarTitle = memo(function NavbarTitle({
 }: NavbarTitleProps) {
   return (
     <div className="flex-grow">
-      <NextLink
+      <Link
+        isStyled={false}
+        isHover={false}
+        to="/"
         className="btn btn-ghost text-xl normal-case"
-        href="/"
         onClick={onClick}
       >
         {title ?? PAGE_TITLE}
-      </NextLink>
+      </Link>
     </div>
   );
 });

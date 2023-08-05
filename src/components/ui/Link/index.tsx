@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { default as NextLink } from "next/link";
 import { type AnchorHTMLAttributes, type PropsWithChildren, memo } from "react";
 
 type LinkStyleVariants =
@@ -27,6 +28,7 @@ type LinkProps = Pick<
   "href" | "role" | "target" | "onClick" | "className"
 > &
   PropsWithChildren<{
+    to?: string;
     isStyled?: boolean;
     isHover?: boolean;
     style?: LinkStyleVariants;
@@ -35,11 +37,31 @@ type LinkProps = Pick<
 export const Link = memo(function Link({
   children,
   className,
+  href,
+  to,
   isStyled = true,
   isHover = true,
   style,
   ...linkProps
 }: LinkProps) {
+  if (to)
+    return (
+      <NextLink
+        href={to}
+        className={clsx(
+          {
+            link: isStyled,
+            "link-hover": isHover,
+          },
+          style && LinkStyleClasses[style],
+          className,
+        )}
+        {...linkProps}
+      >
+        {children}
+      </NextLink>
+    );
+
   return (
     <a
       className={clsx(
@@ -50,6 +72,7 @@ export const Link = memo(function Link({
         style && LinkStyleClasses[style],
         className,
       )}
+      href={href}
       {...linkProps}
     >
       {children}
