@@ -1,5 +1,6 @@
-import { DateTime } from "luxon";
 import { memo } from "react";
+
+import { useFormattedDate } from "@/hooks/useFormattedDate";
 
 import { type DBAnimeArray } from "@/schemas/db/animes";
 import { type DBAnswerArray } from "@/schemas/db/answers";
@@ -26,7 +27,11 @@ export const HistoryCard = memo(function HistoryCard({
   game,
   onDelete,
 }: HistoryCardProps) {
-  const { id, createdAt, amount, answers, animes } = game;
+  const formattedDate = useFormattedDate(
+    game.createdAt,
+    "Игра в dd.MM.yyyy в HH:mm",
+  );
+  const { id, amount, answers, animes } = game;
   const resultsPath = `/game/${id}/results`;
   const screenshotUrl = (animes as DBAnimeArray)[0]?.screenshotUrl;
   const correctAnswers = getCorrectAnswersAmount(
@@ -40,9 +45,7 @@ export const HistoryCard = memo(function HistoryCard({
         <Screenshot src={screenshotUrl} />
         <h2 className="card-title">
           <Link style="primary" to={resultsPath}>
-            {DateTime.fromISO(createdAt.toISOString()).toFormat(
-              "Игра в dd.MM.yyyy в HH:mm",
-            )}
+            {formattedDate}
           </Link>
         </h2>
         <p>Количество раундов: {amount}</p>
