@@ -19,7 +19,7 @@ export function useGameCreate() {
         });
         return router.push(`/game/${gameId}`);
       } catch (e: unknown) {
-        console.log((e as TRPCError).message);
+        console.error((e as TRPCError).message);
         setIsCreating(false);
       }
     },
