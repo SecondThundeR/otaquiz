@@ -26,7 +26,7 @@ const MemoizedNavbar = memo(function Navbar({
   };
 
   return (
-    <div className="navbar bg-base-100 px-4">
+    <div className="navbar sticky top-0 z-50 bg-base-100 px-4">
       <NavbarTitle title={title} onClick={onTitle} />
       {user !== null ? (
         <NavbarProfile {...user} />
