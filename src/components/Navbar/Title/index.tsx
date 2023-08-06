@@ -1,4 +1,5 @@
-import { memo } from "react";
+import clsx from "clsx";
+import { memo, useState } from "react";
 
 import { Link } from "@/components/ui/Link";
 
@@ -15,14 +16,24 @@ export const NavbarTitle = memo(function NavbarTitle({
   isHome = false,
   onClick,
 }: NavbarTitleProps) {
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const onLinkClick = () => {
+    if (onClick === undefined) return;
+    setIsDisabled(true);
+    onClick();
+  };
+
   return (
     <div className="flex-grow">
       <Link
         isStyled={false}
         isHover={false}
         to="/"
-        className="btn btn-ghost text-xl normal-case"
-        onClick={onClick}
+        className={clsx("btn btn-ghost text-xl normal-case", {
+          "btn-disabled": isDisabled,
+        })}
+        onClick={onLinkClick}
       >
         {!isHome ? "Вернуться домой" : title ?? PAGE_TITLE}
       </Link>
