@@ -12,7 +12,7 @@ import { Spinner } from "@/components/ui/Spinner";
 import { Subtitle } from "@/components/ui/Subtitle";
 import { Title } from "@/components/ui/Title";
 
-import { PAGE_DESCRIPTION, PAGE_TITLE } from "@/constants/pageHeadData";
+import { PAGE_TITLE } from "@/constants/pageHeadData";
 
 import { useAmount } from "@/hooks/useAmount";
 import { useGameCreate } from "@/hooks/useGameCreate";
@@ -37,8 +37,6 @@ const HomePage = memo(function HomePage({
     <>
       <Head>
         <title>{PAGE_TITLE}</title>
-        <meta name="description" content={PAGE_DESCRIPTION} />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageLayout user={user} isHome>
         {!user ? (
