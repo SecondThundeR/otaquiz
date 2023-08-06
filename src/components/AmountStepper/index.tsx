@@ -1,4 +1,4 @@
-import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { HorizontalRuleIcon, PlusIcon } from "@primer/octicons-react";
 import { memo } from "react";
 
 import { type useAmount } from "@/hooks/useAmount";
@@ -16,20 +16,20 @@ export const AmountStepper = memo(function AmountStepper({
         size="square"
         style="outline"
         className="border-2"
-        onClick={increment}
-        aria-label="Увеличить количество аниме"
+        onClick={decrement}
+        aria-label="Уменьшить количество аниме"
       >
-        <PlusIcon className="h-7 w-7 stroke-2" />
+        <HorizontalRuleIcon className="h-5 w-5 stroke-2" />
       </Button>
       <h1 className="text-5xl">{amount}</h1>
       <Button
         size="square"
         style="outline"
         className="border-2"
-        onClick={decrement}
-        aria-label="Уменьшить количество аниме"
+        onClick={increment}
+        aria-label="Увеличить количество аниме"
       >
-        <MinusIcon className="h-7 w-7 stroke-2" />
+        <PlusIcon className="h-6 w-6 stroke-2" />
       </Button>
     </div>
   );

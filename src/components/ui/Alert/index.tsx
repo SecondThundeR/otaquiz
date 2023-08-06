@@ -1,17 +1,14 @@
-import {
-  ExclamationCircleIcon,
-  InformationCircleIcon,
-} from "@heroicons/react/24/outline";
+import { AlertIcon, InfoIcon } from "@primer/octicons-react";
 import clsx from "clsx";
 import { type PropsWithChildren, memo } from "react";
 
 const AlertProperties = {
   info: {
-    icon: InformationCircleIcon,
+    icon: InfoIcon,
     class: "alert-info",
   },
   error: {
-    icon: ExclamationCircleIcon,
+    icon: AlertIcon,
     class: "alert-error",
   },
 };
@@ -23,7 +20,7 @@ export const Alert = memo(function Alert({ type, children }: AlertProps) {
 
   return (
     <div className={clsx("alert sm:max-w-lg", alertClass)}>
-      <Icon className="hidden h-8 w-8 shrink-0 stroke-current sm:block" />
+      <Icon className="hidden h-8 w-8 sm:block" />
       <span>{children}</span>
     </div>
   );
