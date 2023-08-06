@@ -41,11 +41,11 @@ export const HistoryCard = memo(function HistoryCard({
 
   return (
     <CardContainer>
+      <Screenshot src={screenshotUrl} />
       <div className="flex flex-col gap-2">
-        <Screenshot src={screenshotUrl} />
         <h2 className="card-title">
           <Link style="primary" to={resultsPath}>
-            {formattedDate}
+            {formattedDate ?? "Игра в ..."}
           </Link>
         </h2>
         <p>Количество раундов: {amount}</p>
