@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { memo } from "react";
 
 import { type DBAnimeArray } from "@/schemas/db/animes";
@@ -14,6 +13,7 @@ import { ButtonsGrid } from "../ButtonsGrid";
 import { CardContainer } from "../CardContainer";
 import { GuessedAmount } from "../GuessedAmount";
 import { Link } from "../Link";
+import { TimeFormat } from "../TimeFormat";
 
 interface HistoryCardProps {
   host: string | null;
@@ -40,7 +40,11 @@ export const HistoryCard = memo(function HistoryCard({
         <Screenshot src={screenshotUrl} />
         <h2 className="card-title">
           <Link style="primary" to={resultsPath}>
-            {dayjs(createdAt).locale("ru").format("Игра от DD.MM.YYYY в HH:mm")}
+            <TimeFormat
+              time={createdAt}
+              locale="ru"
+              format="Игра от DD.MM.YYYY в HH:mm"
+            />
           </Link>
         </h2>
         <p>Количество раундов: {amount}</p>
