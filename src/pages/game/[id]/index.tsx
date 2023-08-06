@@ -98,7 +98,7 @@ const GamePage = memo(function GamePage({
       <PageLayout
         user={user}
         title="Завершить игру"
-        onTitle={onGameExit}
+        onClick={onGameExit}
         hasFooter={false}
         ref={targetRef}
       >

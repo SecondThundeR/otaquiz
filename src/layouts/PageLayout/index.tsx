@@ -1,4 +1,3 @@
-import { type Session } from "next-auth";
 import {
   type ForwardedRef,
   type PropsWithChildren,
@@ -7,28 +6,33 @@ import {
 } from "react";
 
 import { Footer } from "@/components/Footer";
-import { Navbar } from "@/components/Navbar";
+import { Navbar, type NavbarProps } from "@/components/Navbar";
 import { ContentContainer } from "@/components/ui/ContentContainer";
 import { Link } from "@/components/ui/Link";
 import { PageContainer } from "@/components/ui/PageContainer";
 
 import { GITHUB_ACCOUNT_LINK, SHIKIMORI_API_DOCS } from "@/constants/links";
 
-type PageLayoutProps = PropsWithChildren<{
-  user: Session["user"] | null;
-  title?: string;
-  onTitle?: () => void;
-  hasFooter?: boolean;
-}>;
+type PageLayoutProps = NavbarProps &
+  PropsWithChildren<{
+    hasFooter?: boolean;
+  }>;
 
 export const PageLayout = memo(
   forwardRef(function PageLayout(
-    { children, user, title, onTitle, hasFooter = true }: PageLayoutProps,
+    {
+      children,
+      user,
+      title,
+      isHome,
+      onClick,
+      hasFooter = true,
+    }: PageLayoutProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) {
     return (
       <PageContainer ref={ref}>
-        <Navbar user={user} title={title} onTitle={onTitle} />
+        <Navbar user={user} isHome={isHome} title={title} onClick={onClick} />
         <ContentContainer>{children}</ContentContainer>
         {hasFooter && (
           <Footer>

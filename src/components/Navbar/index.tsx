@@ -5,18 +5,17 @@ import { memo, useState } from "react";
 import { Button } from "../ui/Button";
 import { Spinner } from "../ui/Spinner";
 import { NavbarProfile } from "./Profile";
-import { NavbarTitle } from "./Title";
+import { NavbarTitle, type NavbarTitleProps } from "./Title";
 
-interface NavbarProps {
+export interface NavbarProps extends NavbarTitleProps {
   user: Session["user"] | null;
-  title?: string;
-  onTitle?: () => void;
 }
 
 const MemoizedNavbar = memo(function Navbar({
   user,
   title,
-  onTitle,
+  isHome,
+  onClick,
 }: NavbarProps) {
   const [isLogin, setIsLogin] = useState(false);
 
@@ -27,7 +26,7 @@ const MemoizedNavbar = memo(function Navbar({
 
   return (
     <div className="navbar sticky top-0 z-50 bg-base-100 px-4">
-      <NavbarTitle title={title} onClick={onTitle} />
+      <NavbarTitle title={title} isHome={isHome} onClick={onClick} />
       {user !== null ? (
         <NavbarProfile {...user} />
       ) : (

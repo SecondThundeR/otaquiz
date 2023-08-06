@@ -40,7 +40,7 @@ const HomePage = memo(function HomePage({
         <meta name="description" content={PAGE_DESCRIPTION} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PageLayout user={user}>
+      <PageLayout user={user} isHome>
         {!user ? (
           <Alert type="info">
             На данный момент, игры для анонимных пользователей не поддерживаются

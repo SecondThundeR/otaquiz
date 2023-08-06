@@ -4,13 +4,15 @@ import { Link } from "@/components/ui/Link";
 
 import { PAGE_TITLE } from "@/constants/pageHeadData";
 
-interface NavbarTitleProps {
+export interface NavbarTitleProps {
   title?: string;
+  isHome?: boolean;
   onClick?: () => void;
 }
 
 export const NavbarTitle = memo(function NavbarTitle({
   title,
+  isHome = false,
   onClick,
 }: NavbarTitleProps) {
   return (
@@ -22,7 +24,7 @@ export const NavbarTitle = memo(function NavbarTitle({
         className="btn btn-ghost text-xl normal-case"
         onClick={onClick}
       >
-        {title ?? PAGE_TITLE}
+        {!isHome ? "Вернуться домой" : title ?? PAGE_TITLE}
       </Link>
     </div>
   );
