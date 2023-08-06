@@ -100,6 +100,7 @@ const GamePage = memo(function GamePage({
         title="Завершить игру"
         onClick={onGameExit}
         hasFooter={false}
+        hasDropdown={false}
         ref={targetRef}
       >
         <Subtitle>Раунд {currentAnswerTitle}</Subtitle>
