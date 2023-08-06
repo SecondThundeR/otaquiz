@@ -40,11 +40,7 @@ export const HistoryCard = memo(function HistoryCard({
         <Screenshot src={screenshotUrl} />
         <h2 className="card-title">
           <Link style="primary" to={resultsPath}>
-            <TimeFormat
-              time={createdAt}
-              locale="ru"
-              format="Игра от DD.MM.YYYY в HH:mm"
-            />
+            <TimeFormat time={createdAt} format="Игра от DD.MM.YYYY в HH:mm" />
           </Link>
         </h2>
         <p>Количество раундов: {amount}</p>
