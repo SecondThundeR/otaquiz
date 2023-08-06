@@ -5,6 +5,7 @@ import { type DBAnswerAnime, type DBAnswerArray } from "@/schemas/db/answers";
 import { api } from "@/utils/trpc/api";
 
 import { useAnimeData } from "./useAnimeData";
+import { useBeforeUnload } from "./useBeforeUnload";
 
 interface UseGameControllerProps {
   gameId: string;
@@ -27,10 +28,24 @@ export function useGameController({
     data: { screenshots, decoys },
   } = useAnimeData(animeIds);
   const [answers, setAnswers] = useState(currentAnswers);
+  const [isUpdatedBeforeUnload, setIsUpdatedBeforeUnload] = useState(false);
   const [isDeletingGame, setIsDeletingGame] = useState(false);
 
   const { mutateAsync: updateAsync } = api.game.updateGameAnswers.useMutation();
   const { mutateAsync: deleteAsync } = api.game.deleteGame.useMutation();
+
+  const onBeforeUnload = useCallback(async () => {
+    if (isUpdatedBeforeUnload) return;
+    setIsUpdatedBeforeUnload(true);
+    const isFinished = answers.length === animeIds.split(",").length;
+    await updateAsync({
+      gameId,
+      answers,
+      isFinished,
+    });
+  }, [animeIds, answers, gameId, isUpdatedBeforeUnload, updateAsync]);
+
+  useBeforeUnload(onBeforeUnload);
 
   const onGameExit = useCallback(async () => {
     setIsDeletingGame(true);
@@ -49,6 +64,7 @@ export function useGameController({
 
   const updateAnswers = useCallback(
     async (options: OnAnswerClickOptions) => {
+      setIsUpdatedBeforeUnload(false);
       const { anime, currentAnime, isFinished } = options;
       const newAnswers = [
         ...answers,
@@ -57,11 +73,13 @@ export function useGameController({
           picked: anime,
         },
       ];
-      await updateAsync({
-        gameId,
-        answers: newAnswers,
-        isFinished,
-      });
+      if (isFinished) {
+        return await updateAsync({
+          gameId,
+          answers: newAnswers,
+          isFinished,
+        });
+      }
       setAnswers(newAnswers);
     },
     [answers, updateAsync, gameId],
