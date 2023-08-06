@@ -37,14 +37,14 @@ export const PageLayout = memo(
         {hasFooter && (
           <Footer>
             <Footer.Text>
-              Powered by{" "}
+              Создано на основе{" "}
               <Link style="primary" href={SHIKIMORI_API_DOCS} target="_blank">
                 Shikimori API
               </Link>
             </Footer.Text>
             <Footer.Separator />
             <Footer.Text>
-              Made by{" "}
+              Создал{" "}
               <Link style="primary" href={GITHUB_ACCOUNT_LINK} target="_blank">
                 SecondThundeR
               </Link>
