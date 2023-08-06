@@ -11,6 +11,9 @@ export const historyRouter = createTRPCRouter({
             userId: session.user.id,
             isFinished: true,
           },
+          orderBy: {
+            createdAt: "asc",
+          },
           select: {
             id: true,
             amount: true,
