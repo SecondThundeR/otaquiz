@@ -31,7 +31,7 @@ const MemoizedNavbar = memo(function Navbar({
   return (
     <div className="navbar sticky top-0 z-50 gap-4 bg-base-100 px-4">
       <NavbarTitle title={title} isHome={isHome} onClick={onClick} />
-      {isHome && <IconLink icon={MarkGithubIcon} href={GITHUB_REPO_LINK} />}
+      <IconLink icon={MarkGithubIcon} href={GITHUB_REPO_LINK} />
       {user !== null ? (
         <NavbarProfile {...user} />
       ) : (
