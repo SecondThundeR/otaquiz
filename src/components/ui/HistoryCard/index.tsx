@@ -1,5 +1,7 @@
 import { memo } from "react";
 
+import { useFormattedDate } from "@/hooks/useFormattedDate";
+
 import { type DBAnimeArray } from "@/schemas/db/animes";
 import { type DBAnswerArray } from "@/schemas/db/answers";
 
@@ -13,7 +15,6 @@ import { ButtonsGrid } from "../ButtonsGrid";
 import { CardContainer } from "../CardContainer";
 import { GuessedAmount } from "../GuessedAmount";
 import { Link } from "../Link";
-import { TimeFormat } from "../TimeFormat";
 
 interface HistoryCardProps {
   host: string | null;
@@ -26,7 +27,11 @@ export const HistoryCard = memo(function HistoryCard({
   game,
   onDelete,
 }: HistoryCardProps) {
-  const { id, createdAt, amount, answers, animes } = game;
+  const formattedDate = useFormattedDate(
+    game.createdAt,
+    "Игра в dd.MM.yyyy в HH:mm",
+  );
+  const { id, amount, answers, animes } = game;
   const resultsPath = `/game/${id}/results`;
   const screenshotUrl = (animes as DBAnimeArray)[0]?.screenshotUrl;
   const correctAnswers = getCorrectAnswersAmount(
@@ -40,11 +45,7 @@ export const HistoryCard = memo(function HistoryCard({
         <Screenshot src={screenshotUrl} />
         <h2 className="card-title">
           <Link style="primary" to={resultsPath}>
-            <TimeFormat
-              time={createdAt}
-              locale="ru"
-              format="Игра от DD.MM.YYYY в HH:mm"
-            />
+            {formattedDate}
           </Link>
         </h2>
         <p>Количество раундов: {amount}</p>
