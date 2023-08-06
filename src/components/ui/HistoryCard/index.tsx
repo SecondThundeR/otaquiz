@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { memo } from "react";
 
 import { type DBAnimeArray } from "@/schemas/db/animes";
@@ -13,7 +15,8 @@ import { ButtonsGrid } from "../ButtonsGrid";
 import { CardContainer } from "../CardContainer";
 import { GuessedAmount } from "../GuessedAmount";
 import { Link } from "../Link";
-import { TimeFormat } from "../TimeFormat";
+
+dayjs.extend(utc);
 
 interface HistoryCardProps {
   host: string | null;
@@ -34,13 +37,18 @@ export const HistoryCard = memo(function HistoryCard({
     answers as DBAnswerArray,
   );
 
+  console.log(createdAt);
+
   return (
     <CardContainer>
       <div className="flex flex-col gap-2">
         <Screenshot src={screenshotUrl} />
         <h2 className="card-title">
           <Link style="primary" to={resultsPath}>
-            <TimeFormat time={createdAt} format="Игра от DD.MM.YYYY в HH:mm" />
+            {dayjs
+              .utc(createdAt)
+              .utcOffset(createdAt.getTimezoneOffset(), true)
+              .format("Игра от DD.MM.YYYY в HH:mm")}
           </Link>
         </h2>
         <p>Количество раундов: {amount}</p>
