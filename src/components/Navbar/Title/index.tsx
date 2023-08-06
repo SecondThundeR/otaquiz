@@ -35,7 +35,7 @@ export const NavbarTitle = memo(function NavbarTitle({
         })}
         onClick={onLinkClick}
       >
-        {!isHome ? "Вернуться домой" : title ?? PAGE_TITLE}
+        {isHome ? PAGE_TITLE : title ?? "Вернуться домой"}
       </Link>
     </div>
   );

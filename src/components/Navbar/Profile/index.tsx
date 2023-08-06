@@ -8,26 +8,31 @@ import { DropdownButton } from "../../ui/DropdownButton";
 import { DropdownContent } from "../../ui/DropdownContent";
 import { UserAvatar } from "../../ui/UserAvatar";
 
-type NavbarProfileProps = Pick<Session["user"], "name" | "image">;
+interface NavbarProfileProps extends Pick<Session["user"], "name" | "image"> {
+  hasDropdown?: boolean;
+}
 
 export const NavbarProfile = memo(function NavbarProfile({
   name,
   image,
+  hasDropdown = true,
 }: NavbarProfileProps) {
   const onSignOut = () => signOut();
 
   return (
     <div className="dropdown dropdown-end">
       <UserAvatar image={image} name={name} />
-      <DropdownContent>
-        {name && (
-          <DropdownButton href={`${SHIKIMORI_URL}${name}`}>
-            Профиль на Shikimori
-          </DropdownButton>
-        )}
-        <DropdownButton to="/history">История</DropdownButton>
-        <DropdownButton onClick={onSignOut}>Выйти</DropdownButton>
-      </DropdownContent>
+      {hasDropdown && (
+        <DropdownContent>
+          {name && (
+            <DropdownButton href={`${SHIKIMORI_URL}${name}`}>
+              Профиль на Shikimori
+            </DropdownButton>
+          )}
+          <DropdownButton to="/history">История</DropdownButton>
+          <DropdownButton onClick={onSignOut}>Выйти</DropdownButton>
+        </DropdownContent>
+      )}
     </div>
   );
 });

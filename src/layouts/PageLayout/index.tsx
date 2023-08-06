@@ -20,19 +20,12 @@ type PageLayoutProps = NavbarProps &
 
 export const PageLayout = memo(
   forwardRef(function PageLayout(
-    {
-      children,
-      user,
-      title,
-      isHome,
-      onClick,
-      hasFooter = true,
-    }: PageLayoutProps,
+    { children, hasFooter = true, ...navbarProps }: PageLayoutProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) {
     return (
       <PageContainer ref={ref}>
-        <Navbar user={user} isHome={isHome} title={title} onClick={onClick} />
+        <Navbar {...navbarProps} />
         <ContentContainer>{children}</ContentContainer>
         {hasFooter && (
           <Footer>
