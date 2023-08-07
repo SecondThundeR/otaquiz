@@ -26,7 +26,7 @@ export const animeRouter = createTRPCRouter({
   getAnimeScreenshots: publicProcedure
     .input(
       z.object({
-        animeIds: z.string(),
+        animeIds: z.string().min(1),
         sliceAmount: z.number().min(1).default(6),
       }),
     )
@@ -65,7 +65,7 @@ export const animeRouter = createTRPCRouter({
   getAnswerDecoys: publicProcedure
     .input(
       z.object({
-        animeIds: z.string(),
+        animeIds: z.string().min(1),
       }),
     )
     .query(async ({ input: { animeIds } }) => {

@@ -80,13 +80,18 @@ export const gameRouter = createTRPCRouter({
     }),
 
   getGameInfo: publicProcedure
-    .input(z.object({ gameId: z.string() }))
+    .input(z.object({ gameId: z.string().cuid() }))
     .query(async ({ ctx: { prisma }, input: { gameId } }) => {
       const gameInfo = await prisma.game.findUnique({
         where: {
           id: gameId,
         },
       });
+      if (gameInfo === null)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Can't find game with requested ID",
+        });
       const userShikimoriInfo = await prisma.user.findUnique({
         where: {
           id: gameInfo?.userId,
@@ -103,11 +108,6 @@ export const gameRouter = createTRPCRouter({
           },
         },
       });
-      if (gameInfo === null)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Can't find game with requested ID",
-        });
 
       return {
         ...gameInfo,
@@ -119,15 +119,15 @@ export const gameRouter = createTRPCRouter({
   updateGameAnswers: protectedProcedure
     .input(
       z.object({
-        gameId: z.string(),
+        gameId: z.string().cuid(),
         answers: DBAnswerArraySchema,
-        isFinished: z.boolean(),
+        isFinished: z.boolean().default(false),
       }),
     )
     .mutation(
       async ({ ctx: { prisma }, input: { gameId, answers, isFinished } }) => {
         try {
-          await prisma.game.update({
+          return await prisma.game.update({
             where: {
               id: gameId,
             },
@@ -144,7 +144,7 @@ export const gameRouter = createTRPCRouter({
     ),
 
   deleteGame: protectedProcedure
-    .input(z.object({ gameId: z.string() }))
+    .input(z.object({ gameId: z.string().cuid() }))
     .mutation(async ({ ctx: { prisma }, input: { gameId } }) => {
       try {
         const game = await prisma.game.delete({
