@@ -20,7 +20,7 @@ export const Alert = memo(function Alert({ type, children }: AlertProps) {
 
   return (
     <div className={clsx("alert sm:max-w-lg", alertClass)}>
-      <Icon className="hidden h-8 w-8 sm:block" />
+      <Icon className="hidden h-6 w-6 sm:block" />
       <span>{children}</span>
     </div>
   );
