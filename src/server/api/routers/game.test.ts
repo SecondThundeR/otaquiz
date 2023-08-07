@@ -106,8 +106,8 @@ const gameDataMock = {
   ],
   currentAnimeIndex: 5,
   isFinished: true,
-  createdAt: new Date("1691430683"),
-  updatedAt: new Date("1691430683"),
+  createdAt: new Date(),
+  updatedAt: new Date(),
   userId: "123",
 };
 
@@ -215,7 +215,7 @@ describe("Game Router Test (getGameInfo route)", () => {
   });
 
   it("unauthed user should be able to get game info", async () => {
-    prisma.game.findUnique.mockResolvedValueOnce(createGameDataMock);
+    prisma.game.findUniqueOrThrow.mockResolvedValueOnce(createGameDataMock);
     // @ts-expect-error This findUnique returns accounts data
     prisma.user.findUnique.mockResolvedValueOnce(userAccountMock);
 
@@ -234,7 +234,7 @@ describe("Game Router Test (getGameInfo route)", () => {
   });
 
   it("authed user should be able to get game info", async () => {
-    prisma.game.findUnique.mockResolvedValueOnce(createGameDataMock);
+    prisma.game.findUniqueOrThrow.mockResolvedValueOnce(createGameDataMock);
     // @ts-expect-error This findUnique returns accounts data
     prisma.user.findUnique.mockResolvedValueOnce(userAccountMock);
 
@@ -261,9 +261,7 @@ describe("Game Router Test (getGameInfo route)", () => {
     await expect(example).rejects.toThrow();
   });
 
-  it("should fail on invalid input", async () => {
-    prisma.game.findUnique.mockResolvedValueOnce(null);
-
+  it("should fail on non-cuid input", async () => {
     const ctx = createInnerTRPCContext(exampleSession);
     const caller = appRouter.createCaller(ctx);
 
@@ -272,14 +270,19 @@ describe("Game Router Test (getGameInfo route)", () => {
     });
 
     await expect(exampleNonCUID).rejects.toThrow();
+  });
+
+  it("should fail on wrong gameId", async () => {
+    prisma.game.findUniqueOrThrow.mockRejectedValueOnce(null);
+
+    const ctx = createInnerTRPCContext(exampleSession);
+    const caller = appRouter.createCaller(ctx);
 
     const exampleWrongID = caller.game.getGameInfo({
       gameId: "cll1arbun000008ju3vrp330b",
     });
 
-    await expect(exampleWrongID).rejects.toThrowError(
-      "Can't find game with requested ID",
-    );
+    await expect(exampleWrongID).rejects.toThrow();
   });
 });
 

@@ -105,8 +105,8 @@ const gameHistoryMock = [
     ],
     currentAnimeIndex: 5,
     isFinished: true,
-    createdAt: new Date("1691430683"),
-    updatedAt: new Date("1691430683"),
+    createdAt: new Date(),
+    updatedAt: new Date(),
     userId: "123",
   },
 ];
