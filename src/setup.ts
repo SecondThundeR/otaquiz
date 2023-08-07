@@ -1,0 +1,12 @@
+import { afterEach } from "node:test";
+import { afterAll, beforeAll } from "vitest";
+
+import { server } from "@/mocks/server";
+
+beforeAll(() =>
+  server.listen({
+    onUnhandledRequest: "error",
+  }),
+);
+afterAll(() => server.close());
+afterEach(() => server.resetHandlers());
