@@ -7,7 +7,13 @@
     "dev": "prisma generate && next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "start": "next start",
+    "test": "pnpm test:unit",
+    "test:unit": "vitest run --reporter verbose",
+    "test:unit:watch": "vitest",
+    "ts:check": "tsc --noEmit",
     "commit": "cz"
   },
   "dependencies": {
@@ -47,12 +53,15 @@
     "daisyui": "^3.5.1",
     "eslint": "^8.46.0",
     "eslint-config-next": "^13.4.13",
+    "msw": "^1.2.3",
     "postcss": "^8.4.27",
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.4.1",
     "prisma": "^5.1.1",
     "tailwindcss": "^3.3.3",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vitest": "^0.34.1",
+    "vitest-mock-extended": "^1.2.0"
   },
   "ct3aMetadata": {
     "initVersion": "7.14.0"
