@@ -1,6 +1,6 @@
+import { memo } from "react";
 import { type Session } from "next-auth";
 import { signOut } from "next-auth/react";
-import { memo } from "react";
 
 import { SHIKIMORI_URL } from "@/constants/links";
 

@@ -1,6 +1,6 @@
-import clsx from "clsx";
+import { memo, type AnchorHTMLAttributes, type PropsWithChildren } from "react";
 import { default as NextLink } from "next/link";
-import { type AnchorHTMLAttributes, type PropsWithChildren, memo } from "react";
+import clsx from "clsx";
 
 type LinkStyleVariants =
   | "neutral"

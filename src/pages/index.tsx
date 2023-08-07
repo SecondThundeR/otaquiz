@@ -1,9 +1,9 @@
+import { memo } from "react";
 import {
   type GetServerSidePropsContext,
   type InferGetServerSidePropsType,
 } from "next";
 import Head from "next/head";
-import { memo } from "react";
 
 import { AmountStepper } from "@/components/AmountStepper";
 

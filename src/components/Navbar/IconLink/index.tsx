@@ -1,5 +1,5 @@
-import { type Icon } from "@primer/octicons-react";
 import { memo } from "react";
+import { type Icon } from "@primer/octicons-react";
 
 import { Link } from "@/ui/Link";
 

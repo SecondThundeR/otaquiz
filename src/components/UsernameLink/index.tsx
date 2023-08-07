@@ -1,5 +1,5 @@
-import { type Session } from "next-auth";
 import { memo } from "react";
+import { type Session } from "next-auth";
 
 import { SHIKIMORI_URL } from "@/constants/links";
 

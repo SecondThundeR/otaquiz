@@ -1,4 +1,4 @@
-import { type PropsWithChildren, memo } from "react";
+import { memo, type PropsWithChildren } from "react";
 
 import { FooterSeparator } from "./Separator";
 import { FooterText } from "./Text";

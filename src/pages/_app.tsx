@@ -1,8 +1,8 @@
+import { type AppType } from "next/app";
+import { JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import { type AppType } from "next/app";
-import { JetBrains_Mono } from "next/font/google";
 
 import "@/styles/globals.css";
 

@@ -1,10 +1,10 @@
-import { createServerSideHelpers } from "@trpc/react-query/server";
+import { memo } from "react";
 import {
   type GetServerSidePropsContext,
   type InferGetServerSidePropsType,
 } from "next";
 import Head from "next/head";
-import { memo } from "react";
+import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
 
 import { ResultAnswers } from "@/components/ResultAnswers";

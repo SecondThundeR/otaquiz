@@ -1,6 +1,6 @@
-import { type TRPCError } from "@trpc/server";
-import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
+import { useRouter } from "next/router";
+import { type TRPCError } from "@trpc/server";
 
 import { api } from "@/utils/trpc/api";
 

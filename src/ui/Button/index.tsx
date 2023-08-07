@@ -1,5 +1,5 @@
+import { memo, type ButtonHTMLAttributes, type PropsWithChildren } from "react";
 import clsx from "clsx";
-import { type ButtonHTMLAttributes, type PropsWithChildren, memo } from "react";
 
 type ButtonSizeVariants =
   | "xs"

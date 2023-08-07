@@ -1,8 +1,8 @@
 import {
-  type ForwardedRef,
-  type PropsWithChildren,
   forwardRef,
   memo,
+  type ForwardedRef,
+  type PropsWithChildren,
 } from "react";
 
 import { Footer } from "@/components/Footer";

@@ -1,4 +1,4 @@
-import { type PropsWithChildren, memo } from "react";
+import { memo, type PropsWithChildren } from "react";
 
 export const Title = memo(function Title({ children }: PropsWithChildren) {
   return (

@@ -1,4 +1,4 @@
-import { type PropsWithChildren, memo } from "react";
+import { memo, type PropsWithChildren } from "react";
 
 export const Subtitle = memo(function Subtitle({
   children,

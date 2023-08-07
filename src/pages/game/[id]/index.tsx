@@ -1,12 +1,12 @@
-import { useScrollIntoView } from "@mantine/hooks";
-import { createServerSideHelpers } from "@trpc/react-query/server";
+import { memo, useCallback, useState } from "react";
 import {
   type GetServerSidePropsContext,
   type InferGetServerSidePropsType,
 } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { memo, useCallback, useState } from "react";
+import { useScrollIntoView } from "@mantine/hooks";
+import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
 
 import { QuestionButtons } from "@/components/QuestionButtons";
@@ -17,7 +17,7 @@ import { useGameController } from "@/hooks/useGameController";
 import { PageLayout } from "@/layouts/PageLayout";
 
 import { DBAnimeArraySchema } from "@/schemas/db/animes";
-import { type DBAnswerAnime, DBAnswerArraySchema } from "@/schemas/db/answers";
+import { DBAnswerArraySchema, type DBAnswerAnime } from "@/schemas/db/answers";
 
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";

@@ -1,7 +1,7 @@
+import { memo, useState } from "react";
 import { MarkGithubIcon } from "@primer/octicons-react";
 import { type Session } from "next-auth";
 import { signIn } from "next-auth/react";
-import { memo, useState } from "react";
 
 import { GITHUB_REPO_LINK } from "@/constants/links";
 

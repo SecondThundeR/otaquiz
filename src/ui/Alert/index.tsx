@@ -1,6 +1,6 @@
+import { memo, type PropsWithChildren } from "react";
 import { AlertIcon, InfoIcon } from "@primer/octicons-react";
 import clsx from "clsx";
-import { type PropsWithChildren, memo } from "react";
 
 const AlertProperties = {
   info: {

@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import { memo } from "react";
+import clsx from "clsx";
 
 interface GuessedAmountProps {
   correct: number;

@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import { memo } from "react";
+import clsx from "clsx";
 
 type SpinnerSizeVariants = "extraSmall" | "small" | "medium" | "large";
 

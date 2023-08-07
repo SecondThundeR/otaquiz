@@ -1,5 +1,5 @@
-import { type Session } from "next-auth";
 import { memo } from "react";
+import { type Session } from "next-auth";
 
 import { GuessedAmount } from "@/ui/GuessedAmount";
 import { Subtitle } from "@/ui/Subtitle";

@@ -1,10 +1,10 @@
-import { createServerSideHelpers } from "@trpc/react-query/server";
+import { memo } from "react";
 import Head from "next/head";
 import {
   type GetServerSidePropsContext,
   type InferGetServerSidePropsType,
 } from "next/types";
-import { memo } from "react";
+import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
 
 import { HistoryGames } from "@/components/HistoryGames";

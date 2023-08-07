@@ -4,11 +4,11 @@ import { z } from "zod";
 import { decoyQuery, screenshotsQuery } from "@/constants/graphQLQueries";
 import { SHIKIMORI_GRAPHQL_API_URL } from "@/constants/links";
 
-import {
-  type AnimeScreenshotsData,
-  AnimeScreenshotsSchema,
-} from "@/schemas/animeScreenshots";
 import { AnimesNonScreenshotSchema } from "@/schemas/animes";
+import {
+  AnimeScreenshotsSchema,
+  type AnimeScreenshotsData,
+} from "@/schemas/animeScreenshots";
 import { type DBAnswerAnime } from "@/schemas/db/answers";
 
 import { shuffleValues } from "@/utils/array/shuffleValues";

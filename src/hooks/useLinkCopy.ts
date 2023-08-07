@@ -1,6 +1,6 @@
-import { useClipboard } from "@mantine/hooks";
-import { useRouter } from "next/router";
 import { useCallback } from "react";
+import { useRouter } from "next/router";
+import { useClipboard } from "@mantine/hooks";
 
 export function useLinkCopy(host: string | null, path?: string) {
   const { asPath } = useRouter();

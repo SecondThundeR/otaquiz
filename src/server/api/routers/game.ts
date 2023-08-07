@@ -4,7 +4,7 @@ import { z } from "zod";
 import { gameQuery } from "@/constants/graphQLQueries";
 import { SHIKIMORI_GRAPHQL_API_URL } from "@/constants/links";
 
-import { type Animes, AnimesSchema } from "@/schemas/animes";
+import { AnimesSchema, type Animes } from "@/schemas/animes";
 import { DBAnswerArraySchema } from "@/schemas/db/answers";
 
 import {

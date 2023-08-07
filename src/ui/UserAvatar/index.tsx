@@ -1,7 +1,7 @@
+import { memo } from "react";
+import Image from "next/image";
 import clsx from "clsx";
 import { type Session } from "next-auth";
-import Image from "next/image";
-import { memo } from "react";
 
 type UserAvatarProps = Pick<Session["user"], "image" | "name">;
 
