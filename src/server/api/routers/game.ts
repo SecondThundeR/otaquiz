@@ -1,4 +1,3 @@
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { gameQuery } from "@/constants/graphQLQueries";
@@ -82,38 +81,38 @@ export const gameRouter = createTRPCRouter({
   getGameInfo: publicProcedure
     .input(z.object({ gameId: z.string().cuid() }))
     .query(async ({ ctx: { prisma }, input: { gameId } }) => {
-      const gameInfo = await prisma.game.findUnique({
-        where: {
-          id: gameId,
-        },
-      });
-      if (gameInfo === null)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Can't find game with requested ID",
+      try {
+        const gameInfo = await prisma.game.findUniqueOrThrow({
+          where: {
+            id: gameId,
+          },
         });
-      const userShikimoriInfo = await prisma.user.findUnique({
-        where: {
-          id: gameInfo?.userId,
-        },
-        select: {
-          name: true,
-          accounts: {
-            where: {
-              provider: "shikimori",
-            },
-            select: {
-              providerAccountId: true,
+
+        const userShikimoriInfo = await prisma.user.findUnique({
+          where: {
+            id: gameInfo?.userId,
+          },
+          select: {
+            name: true,
+            accounts: {
+              where: {
+                provider: "shikimori",
+              },
+              select: {
+                providerAccountId: true,
+              },
             },
           },
-        },
-      });
+        });
 
-      return {
-        ...gameInfo,
-        shikimoriId: userShikimoriInfo?.accounts[0]?.providerAccountId,
-        userName: userShikimoriInfo?.name,
-      };
+        return {
+          ...gameInfo,
+          shikimoriId: userShikimoriInfo?.accounts[0]?.providerAccountId,
+          userName: userShikimoriInfo?.name,
+        };
+      } catch (error: unknown) {
+        processError(error);
+      }
     }),
 
   updateGameAnswers: protectedProcedure
