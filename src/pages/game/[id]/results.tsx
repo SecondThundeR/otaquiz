@@ -100,7 +100,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  if (!gameData.isFinished)
+  if (!gameData?.isFinished)
     return {
       redirect: {
         destination: "/",

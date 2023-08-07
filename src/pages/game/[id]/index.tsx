@@ -159,7 +159,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  if (gameData.userId !== session.user.id) {
+  if (gameData?.userId !== session.user.id) {
     return {
       redirect: {
         destination: "/",
