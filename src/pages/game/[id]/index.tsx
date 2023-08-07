@@ -23,10 +23,10 @@ import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 
+import { Subtitle } from "@/ui/Subtitle";
+
 import { isGameExpired } from "@/utils/server/isGameExpired";
 import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
-
-import { Subtitle } from "@/ui/Subtitle";
 
 const GamePage = memo(function GamePage({
   gameData: {

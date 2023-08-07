@@ -2,10 +2,10 @@ import { memo, useEffect, useState } from "react";
 
 import { type DBAnswerAnime } from "@/schemas/db/answers";
 
-import { shuffleValues } from "@/utils/array/shuffleValues";
-
 import { Button } from "@/ui/Button";
 import { ButtonsGrid } from "@/ui/ButtonsGrid";
+
+import { shuffleValues } from "@/utils/array/shuffleValues";
 
 interface QuestionButtonsProps {
   buttons: DBAnswerAnime[];

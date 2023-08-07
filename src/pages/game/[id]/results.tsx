@@ -20,12 +20,12 @@ import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 
+import { Divider } from "@/ui/Divider";
+import { Title } from "@/ui/Title";
+
 import { getCorrectAnswersAmount } from "@/utils/game/getCorrectAnswersAmount";
 import { getOGImageLink } from "@/utils/pages/getOGImageLink";
 import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
-
-import { Divider } from "@/ui/Divider";
-import { Title } from "@/ui/Title";
 
 const ResultsPage = memo(function ResultsPage({
   user,
