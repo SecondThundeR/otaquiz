@@ -8,8 +8,6 @@ import { memo } from "react";
 import superjson from "superjson";
 
 import { HistoryGames } from "@/components/HistoryGames";
-import { Subtitle } from "@/components/ui/Subtitle";
-import { Title } from "@/components/ui/Title";
 
 import { useGameHistory } from "@/hooks/useGameHistory";
 
@@ -18,6 +16,9 @@ import { PageLayout } from "@/layouts/PageLayout";
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
+
+import { Subtitle } from "@/ui/Subtitle";
+import { Title } from "@/ui/Title";
 
 const HistoryPage = memo(function HistoryPage({
   user,

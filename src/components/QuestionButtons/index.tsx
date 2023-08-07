@@ -4,8 +4,8 @@ import { type DBAnswerAnime } from "@/schemas/db/answers";
 
 import { shuffleValues } from "@/utils/array/shuffleValues";
 
-import { Button } from "../ui/Button";
-import { ButtonsGrid } from "../ui/ButtonsGrid";
+import { Button } from "@/ui/Button";
+import { ButtonsGrid } from "@/ui/ButtonsGrid";
 
 interface QuestionButtonsProps {
   buttons: DBAnswerAnime[];

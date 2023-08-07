@@ -2,7 +2,7 @@ import { memo } from "react";
 
 import { useConfirmDelete } from "@/hooks/useConfirmDelete";
 
-import { Button } from "../ui/Button";
+import { Button } from "@/ui/Button";
 
 const buttonClicksText = {
   0: "Удалить",

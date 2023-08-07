@@ -3,8 +3,8 @@ import { memo } from "react";
 import { type DBAnimeArray } from "@/schemas/db/animes";
 import { type DBAnswerArray } from "@/schemas/db/answers";
 
-import { CardsGrid } from "../ui/CardsGrid";
-import { ResultAnswerCard } from "../ui/ResultAnswerCard";
+import { CardsGrid } from "@/ui/CardsGrid";
+import { ResultAnswerCard } from "@/ui/ResultAnswerCard";
 
 interface ResultAnswersProps {
   answers: DBAnswerArray;

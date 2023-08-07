@@ -3,7 +3,7 @@ import { memo } from "react";
 
 import { SHIKIMORI_URL } from "@/constants/links";
 
-import { Link } from "../ui/Link";
+import { Link } from "@/ui/Link";
 
 type UsernameLinkProps = Pick<Session["user"], "name">;
 

@@ -3,7 +3,7 @@ import { memo } from "react";
 
 import { type useAmount } from "@/hooks/useAmount";
 
-import { Button } from "../ui/Button";
+import { Button } from "@/ui/Button";
 
 export const AmountStepper = memo(function AmountStepper({
   amount,

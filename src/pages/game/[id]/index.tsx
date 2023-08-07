@@ -11,7 +11,6 @@ import superjson from "superjson";
 
 import { QuestionButtons } from "@/components/QuestionButtons";
 import { QuestionScreenshots } from "@/components/QuestionScreenshots";
-import { Subtitle } from "@/components/ui/Subtitle";
 
 import { useGameController } from "@/hooks/useGameController";
 
@@ -26,6 +25,8 @@ import { prisma } from "@/server/db";
 
 import { isGameExpired } from "@/utils/server/isGameExpired";
 import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
+
+import { Subtitle } from "@/ui/Subtitle";
 
 const GamePage = memo(function GamePage({
   gameData: {

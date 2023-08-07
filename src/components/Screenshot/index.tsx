@@ -2,9 +2,9 @@ import clsx from "clsx";
 import Image from "next/image";
 import { memo } from "react";
 
-import { ScreenshotPlaceholder } from "@/components/ui/ScreenshotPlaceholder";
-
 import { useOnImageLoad } from "@/hooks/useOnImageLoad";
+
+import { ScreenshotPlaceholder } from "@/ui/ScreenshotPlaceholder";
 
 const SCREENSHOT_CLASSES = "h-64 rounded-xl object-cover";
 

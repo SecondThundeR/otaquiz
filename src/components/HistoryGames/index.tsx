@@ -2,8 +2,8 @@ import { memo } from "react";
 
 import { type RouterOutputs } from "@/utils/trpc/api";
 
-import { CardsGrid } from "../ui/CardsGrid";
-import { HistoryCard } from "../ui/HistoryCard";
+import { CardsGrid } from "@/ui/CardsGrid";
+import { HistoryCard } from "@/ui/HistoryCard";
 
 interface HistoryGamesProps {
   host: string | null;

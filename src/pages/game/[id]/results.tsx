@@ -10,8 +10,6 @@ import superjson from "superjson";
 import { ResultAnswers } from "@/components/ResultAnswers";
 import { ResultHeader } from "@/components/ResultHeader";
 import { URLCopyButton } from "@/components/URLCopyButton";
-import { Divider } from "@/components/ui/Divider";
-import { Title } from "@/components/ui/Title";
 
 import { PageLayout } from "@/layouts/PageLayout";
 
@@ -25,6 +23,9 @@ import { prisma } from "@/server/db";
 import { getCorrectAnswersAmount } from "@/utils/game/getCorrectAnswersAmount";
 import { getOGImageLink } from "@/utils/pages/getOGImageLink";
 import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
+
+import { Divider } from "@/ui/Divider";
+import { Title } from "@/ui/Title";
 
 const ResultsPage = memo(function ResultsPage({
   user,

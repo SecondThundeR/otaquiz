@@ -5,8 +5,9 @@ import { memo, useState } from "react";
 
 import { GITHUB_REPO_LINK } from "@/constants/links";
 
-import { Button } from "../ui/Button";
-import { Spinner } from "../ui/Spinner";
+import { Button } from "@/ui/Button";
+import { Spinner } from "@/ui/Spinner";
+
 import { IconLink } from "./IconLink";
 import { NavbarProfile } from "./Profile";
 import { NavbarTitle, type NavbarTitleProps } from "./Title";

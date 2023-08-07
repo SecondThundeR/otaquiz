@@ -1,10 +1,9 @@
 import { type PropsWithChildren, memo } from "react";
 
-import { Alert } from "@/components/ui/Alert";
-
 import { useLinkCopy } from "@/hooks/useLinkCopy";
 
-import { Button } from "../ui/Button";
+import { Alert } from "@/ui/Alert";
+import { Button } from "@/ui/Button";
 
 type URLCopyButtonProps = PropsWithChildren<{
   host: string | null;

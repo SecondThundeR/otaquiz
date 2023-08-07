@@ -1,10 +1,10 @@
 import { type Session } from "next-auth";
 import { memo } from "react";
 
-import { Subtitle } from "@/components/ui/Subtitle";
+import { GuessedAmount } from "@/ui/GuessedAmount";
+import { Subtitle } from "@/ui/Subtitle";
 
 import { UsernameLink } from "../UsernameLink";
-import { GuessedAmount } from "../ui/GuessedAmount";
 
 type ResultHeaderProps = Pick<Session["user"], "name"> & {
   correctAnswers: number;

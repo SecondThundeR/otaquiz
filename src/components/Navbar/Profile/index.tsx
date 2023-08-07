@@ -4,9 +4,9 @@ import { memo } from "react";
 
 import { SHIKIMORI_URL } from "@/constants/links";
 
-import { DropdownButton } from "../../ui/DropdownButton";
-import { DropdownContent } from "../../ui/DropdownContent";
-import { UserAvatar } from "../../ui/UserAvatar";
+import { DropdownButton } from "@/ui/DropdownButton";
+import { DropdownContent } from "@/ui/DropdownContent";
+import { UserAvatar } from "@/ui/UserAvatar";
 
 interface NavbarProfileProps extends Pick<Session["user"], "name" | "image"> {
   hasDropdown?: boolean;

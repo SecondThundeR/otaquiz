@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import { memo, useState } from "react";
 
-import { Link } from "@/components/ui/Link";
-
 import { PAGE_TITLE } from "@/constants/pageHeadData";
+
+import { Link } from "@/ui/Link";
 
 export interface NavbarTitleProps {
   title?: string;

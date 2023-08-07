@@ -6,11 +6,6 @@ import Head from "next/head";
 import { memo } from "react";
 
 import { AmountStepper } from "@/components/AmountStepper";
-import { Alert } from "@/components/ui/Alert";
-import { Button } from "@/components/ui/Button";
-import { Spinner } from "@/components/ui/Spinner";
-import { Subtitle } from "@/components/ui/Subtitle";
-import { Title } from "@/components/ui/Title";
 
 import { PAGE_TITLE } from "@/constants/pageHeadData";
 
@@ -20,6 +15,12 @@ import { useGameCreate } from "@/hooks/useGameCreate";
 import { PageLayout } from "@/layouts/PageLayout";
 
 import { getServerAuthSession } from "@/server/auth";
+
+import { Alert } from "@/ui/Alert";
+import { Button } from "@/ui/Button";
+import { Spinner } from "@/ui/Spinner";
+import { Subtitle } from "@/ui/Subtitle";
+import { Title } from "@/ui/Title";
 
 const HomePage = memo(function HomePage({
   user,

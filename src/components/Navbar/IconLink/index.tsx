@@ -1,7 +1,7 @@
 import { type Icon } from "@primer/octicons-react";
 import { memo } from "react";
 
-import { Link } from "@/components/ui/Link";
+import { Link } from "@/ui/Link";
 
 interface IconLinkProps {
   icon: Icon;

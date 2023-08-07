@@ -7,11 +7,12 @@ import {
 
 import { Footer } from "@/components/Footer";
 import { Navbar, type NavbarProps } from "@/components/Navbar";
-import { ContentContainer } from "@/components/ui/ContentContainer";
-import { Link } from "@/components/ui/Link";
-import { PageContainer } from "@/components/ui/PageContainer";
 
 import { GITHUB_ACCOUNT_LINK, SHIKIMORI_API_DOCS } from "@/constants/links";
+
+import { ContentContainer } from "@/ui/ContentContainer";
+import { Link } from "@/ui/Link";
+import { PageContainer } from "@/ui/PageContainer";
 
 type PageLayoutProps = NavbarProps &
   PropsWithChildren<{
