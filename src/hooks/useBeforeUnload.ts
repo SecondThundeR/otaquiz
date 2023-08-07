@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from "react";
 
-export function useBeforeUnload(handler: () => void) {
+export function useBeforeUnload(handler: () => Promise<void>) {
   const onBeforeUnload = useCallback(
     (event: BeforeUnloadEvent) => {
       event.preventDefault();
       event.returnValue = "";
-      handler();
+      handler().catch(console.error);
     },
     [handler],
   );
