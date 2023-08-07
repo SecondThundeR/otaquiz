@@ -33,8 +33,10 @@ jobs:
           cp .env.example .env
           echo "NEXTAUTH_SECRET=randomsecret" >> .env
 
-      - name: Push schema to database
-        run: pnpx prisma db push
+      - name: Deploy migrations to database
+        run: pnpx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Build application
         run: pnpm build
