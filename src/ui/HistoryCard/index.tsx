@@ -1,5 +1,9 @@
 import { memo } from "react";
 
+import { DeleteButton } from "@/components/DeleteButton";
+import { Screenshot } from "@/components/Screenshot";
+import { URLCopyButton } from "@/components/URLCopyButton";
+
 import { useFormattedDate } from "@/hooks/useFormattedDate";
 
 import { type DBAnimeArray } from "@/schemas/db/animes";
@@ -8,9 +12,6 @@ import { type DBAnswerArray } from "@/schemas/db/answers";
 import { getCorrectAnswersAmount } from "@/utils/game/getCorrectAnswersAmount";
 import { type RouterOutputs } from "@/utils/trpc/api";
 
-import { DeleteButton } from "../../DeleteButton";
-import { Screenshot } from "../../Screenshot";
-import { URLCopyButton } from "../../URLCopyButton";
 import { ButtonsGrid } from "../ButtonsGrid";
 import { CardContainer } from "../CardContainer";
 import { GuessedAmount } from "../GuessedAmount";
