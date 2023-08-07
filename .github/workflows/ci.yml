@@ -40,6 +40,8 @@ jobs:
 
       - name: Build application
         run: pnpm build
+        env:
+          SKIP_ENV_VALIDATION: true
 
       - name: Run all tests
         run: pnpm test
