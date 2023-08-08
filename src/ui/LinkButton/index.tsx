@@ -1,0 +1,44 @@
+import { memo, type PropsWithChildren } from "react";
+import clsx from "clsx";
+
+import {
+  ButtonSizeClasses,
+  ButtonStyleClasses,
+  type ButtonSizeVariants,
+  type ButtonStyleVariants,
+} from "../Button";
+import { Link, type LinkProps } from "../Link";
+
+type LinkButtonProps = Omit<LinkProps, "role" | "isStyled" | "isHover"> &
+  PropsWithChildren<{
+    size?: ButtonSizeVariants;
+    style?: ButtonStyleVariants;
+    disabled?: boolean;
+  }>;
+
+export const LinkButton = memo(function LinkButton({
+  children,
+  size = "md",
+  style = "primary",
+  disabled = false,
+  className,
+  ...linkProps
+}: LinkButtonProps) {
+  return (
+    <Link
+      isStyled={false}
+      isHover={false}
+      className={clsx(
+        "btn",
+        ButtonSizeClasses[size],
+        ButtonStyleClasses[style],
+        disabled && "btn-disabled",
+        className,
+      )}
+      role="button"
+      {...linkProps}
+    >
+      {children}
+    </Link>
+  );
+});

@@ -23,7 +23,7 @@ const LinkStyleClasses: Record<LinkStyleVariants, string> = {
   error: "link-error",
 };
 
-type LinkProps = Pick<
+export type LinkProps = Pick<
   AnchorHTMLAttributes<HTMLAnchorElement>,
   "href" | "role" | "target" | "onClick" | "className"
 > &
