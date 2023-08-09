@@ -97,6 +97,7 @@ export const CustomGameForm = memo(function CustomGameForm({
     >
       <FormInput
         type="number"
+        pattern="[0-9]*"
         min={1}
         max={50}
         className="input input-bordered"
@@ -105,6 +106,7 @@ export const CustomGameForm = memo(function CustomGameForm({
       />
       <FormInput
         type="number"
+        pattern="[0-9]*"
         min={1}
         max={9}
         placeholder="Введите минимальную оценку"
