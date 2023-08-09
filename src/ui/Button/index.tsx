@@ -76,7 +76,7 @@ export const Button = memo(function Button({
   return (
     <button
       className={clsx(
-        "btn",
+        "btn h-full py-2",
         size && ButtonSizeClasses[size],
         style && ButtonStyleClasses[style],
         className,
