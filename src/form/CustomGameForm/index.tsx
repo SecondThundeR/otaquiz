@@ -10,6 +10,7 @@ import { initialFormValues } from "@/constants/initialFormValues";
 
 import { type useGameCreate } from "@/hooks/useGameCreate";
 
+import { Alert } from "@/ui/Alert";
 import { Button } from "@/ui/Button";
 import { Spinner } from "@/ui/Spinner";
 
@@ -134,6 +135,16 @@ export const CustomGameForm = memo(function CustomGameForm({
         label="Цензура"
         {...form.getInputProps("censored", { type: "checkbox" })}
       /> */}
+      {form.values.rating.rx.checked && (
+        <Alert type="warning" fullWidth>
+          <strong>Будьте осторожны!</strong>
+          <br />
+          Данная категория может содержать изображения, не предназначенные для
+          лиц младше 18 лет
+          <br />
+          Продолжайте на свой страх и риск
+        </Alert>
+      )}
       <Button type="submit" disabled={isCreating}>
         {isCreating ? (
           <>
