@@ -18,6 +18,8 @@ import { getServerAuthSession } from "@/server/auth";
 
 import { Alert } from "@/ui/Alert";
 import { Button } from "@/ui/Button";
+import { Divider } from "@/ui/Divider";
+import { LinkButton } from "@/ui/LinkButton";
 import { Spinner } from "@/ui/Spinner";
 import { Subtitle } from "@/ui/Subtitle";
 import { Title } from "@/ui/Title";
@@ -32,7 +34,13 @@ const HomePage = memo(function HomePage({
   });
   const { onGameCreate, isCreating, isError } = useGameCreate();
 
-  const onClick = () => onGameCreate(amount);
+  const onClick = () =>
+    onGameCreate({
+      limit: amount,
+      kind: "!music",
+      score: 7,
+      rating: "!rx",
+    });
 
   return (
     <>
@@ -55,20 +63,27 @@ const HomePage = memo(function HomePage({
               increment={increment}
               decrement={decrement}
             />
-            <Button size="lg" disabled={isCreating} onClick={onClick}>
-              {isCreating ? (
-                <>
-                  <Spinner />
-                  Создание игры
-                </>
-              ) : (
-                "Начать игру"
-              )}
-            </Button>
+            <div className="flex flex-col gap-2">
+              <Button size="lg" disabled={isCreating} onClick={onClick}>
+                {isCreating ? (
+                  <>
+                    <Spinner />
+                    Создание игры
+                  </>
+                ) : (
+                  "Начать игру"
+                )}
+              </Button>
+              <Divider>или</Divider>
+              <LinkButton to="/game/custom" size="lg">
+                Кастомизировать игру
+              </LinkButton>
+            </div>
             {isError && (
               <Alert type="error">
-                Не удалось создать игру! Попробуй еще раз или напиши
-                разработчику на Github
+                <strong>Не удалось создать игру!</strong>
+                <br />
+                Попробуй еще раз или напиши разработчику на Github
               </Alert>
             )}
           </>

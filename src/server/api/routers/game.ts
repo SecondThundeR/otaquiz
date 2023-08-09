@@ -15,20 +15,27 @@ import {
 import { getRandomElement } from "@/utils/array/getRandomElement";
 import { getGraphQLFetchOptions } from "@/utils/query/getGraphQLFetchOptions";
 import { getSelectedIDs } from "@/utils/query/getSelectedIDs";
+import { checkForEmptyAnimes } from "@/utils/trpc/checkForEmptyAnimes";
+import { checkForFailedRes } from "@/utils/trpc/checkForFailedRes";
 import { processError } from "@/utils/trpc/processError";
 
 export const gameRouter = createTRPCRouter({
   createGame: protectedProcedure
     .input(
       z.object({
-        amount: z
-          .number()
-          .min(5)
-          .max(50)
-          .transform((raw) => raw - (raw % 5)),
+        options: z.object({
+          limit: z.number().min(1).max(50),
+          kind: z.string().nullish(),
+          status: z.string().nullish(),
+          score: z.number().min(1).max(9).nullish(),
+          duration: z.string().nullish(),
+          rating: z.string().nullish(),
+          censored: z.boolean().nullish(),
+        }),
       }),
     )
-    .mutation(async ({ ctx: { prisma, session }, input: { amount } }) => {
+    .mutation(async ({ ctx: { prisma, session }, input: { options } }) => {
+      const { limit: amount } = options;
       const selectedAnimes: Animes = [];
 
       try {
@@ -36,11 +43,16 @@ export const gameRouter = createTRPCRouter({
           const res = await fetch(
             SHIKIMORI_GRAPHQL_API_URL,
             getGraphQLFetchOptions(gameQuery, {
+              ...options,
+              limit: amount >= 20 ? amount : 20,
               excludeIds: getSelectedIDs(selectedAnimes),
             }),
           );
+          checkForFailedRes(res);
+
           const parsedAnimes = (await AnimesSchema.parseAsync(await res.json()))
             .data.animes;
+          checkForEmptyAnimes(parsedAnimes);
 
           const filteredAnimes = parsedAnimes.filter(
             (data) =>

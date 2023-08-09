@@ -1,7 +1,7 @@
 import { memo, type ButtonHTMLAttributes, type PropsWithChildren } from "react";
 import clsx from "clsx";
 
-type ButtonSizeVariants =
+export type ButtonSizeVariants =
   | "xs"
   | "sm"
   | "md"
@@ -11,7 +11,7 @@ type ButtonSizeVariants =
   | "block"
   | "circle";
 
-type ButtonStyleVariants =
+export type ButtonStyleVariants =
   | "neutral"
   | "primary"
   | "secondary"
@@ -28,7 +28,7 @@ type ButtonStyleVariants =
   | "glass"
   | "noAnimation";
 
-const ButtonSizeClasses: Record<ButtonSizeVariants, string> = {
+export const ButtonSizeClasses: Record<ButtonSizeVariants, string> = {
   xs: "btn-xs",
   md: "btn-md",
   sm: "btn-sm",
@@ -39,7 +39,7 @@ const ButtonSizeClasses: Record<ButtonSizeVariants, string> = {
   circle: "btn-circle",
 };
 
-const ButtonStyleClasses: Record<ButtonStyleVariants, string> = {
+export const ButtonStyleClasses: Record<ButtonStyleVariants, string> = {
   neutral: "btn-neutral",
   primary: "btn-primary",
   secondary: "btn-secondary",
@@ -59,11 +59,11 @@ const ButtonStyleClasses: Record<ButtonStyleVariants, string> = {
 
 type ButtonProps = Pick<
   ButtonHTMLAttributes<HTMLButtonElement>,
-  "disabled" | "onClick" | "className" | "aria-label"
+  "disabled" | "onClick" | "className" | "aria-label" | "type"
 > &
   PropsWithChildren<{
-    size?: ButtonSizeVariants;
-    style?: ButtonStyleVariants;
+    size?: ButtonSizeVariants | null;
+    style?: ButtonStyleVariants | null;
   }>;
 
 export const Button = memo(function Button({
@@ -77,8 +77,8 @@ export const Button = memo(function Button({
     <button
       className={clsx(
         "btn",
-        ButtonSizeClasses[size],
-        ButtonStyleClasses[style],
+        size && ButtonSizeClasses[size],
+        style && ButtonStyleClasses[style],
         className,
       )}
       {...buttonProps}

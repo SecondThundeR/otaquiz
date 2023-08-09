@@ -1,26 +1,19 @@
-import { LRUCache } from "lru-cache";
 import { z } from "zod";
 
 import { decoyQuery, screenshotsQuery } from "@/constants/graphQLQueries";
 import { SHIKIMORI_GRAPHQL_API_URL } from "@/constants/links";
 
 import { AnimesNonScreenshotSchema } from "@/schemas/animes";
-import {
-  AnimeScreenshotsSchema,
-  type AnimeScreenshotsData,
-} from "@/schemas/animeScreenshots";
+import { AnimeScreenshotsSchema } from "@/schemas/animeScreenshots";
 import { type DBAnswerAnime } from "@/schemas/db/answers";
 
 import { shuffleValues } from "@/utils/array/shuffleValues";
 import { getGraphQLFetchOptions } from "@/utils/query/getGraphQLFetchOptions";
+import { checkForEmptyAnimes } from "@/utils/trpc/checkForEmptyAnimes";
+import { checkForFailedRes } from "@/utils/trpc/checkForFailedRes";
 import { processError } from "@/utils/trpc/processError";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
-
-const screenshotsCache = new LRUCache<string, AnimeScreenshotsData>({
-  max: 100,
-});
-const decoysCache = new LRUCache<string, DBAnswerAnime[]>({ max: 100 });
 
 export const animeRouter = createTRPCRouter({
   getAnimeScreenshots: publicProcedure
@@ -31,21 +24,17 @@ export const animeRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input: { animeIds, sliceAmount } }) => {
-      const cacheKey = `${animeIds}-${sliceAmount}`;
-
-      if (screenshotsCache.has(cacheKey)) {
-        return screenshotsCache.get(cacheKey);
-      }
-
       try {
         const res = await fetch(
           SHIKIMORI_GRAPHQL_API_URL,
           getGraphQLFetchOptions(screenshotsQuery, { ids: animeIds }),
         );
+        checkForFailedRes(res);
 
         const parsedAnimes = (
           await AnimeScreenshotsSchema.parseAsync(await res.json())
         ).data.animes;
+        checkForEmptyAnimes(parsedAnimes);
 
         const shuffledScreenshots = parsedAnimes.map((anime) => {
           return {
@@ -53,8 +42,6 @@ export const animeRouter = createTRPCRouter({
             screenshots: shuffleValues(anime.screenshots).slice(0, sliceAmount),
           };
         });
-
-        screenshotsCache.set(cacheKey, shuffledScreenshots);
 
         return shuffledScreenshots;
       } catch (error: unknown) {
@@ -69,12 +56,6 @@ export const animeRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input: { animeIds } }) => {
-      const cacheKey = `decoys-${animeIds}`;
-
-      if (decoysCache.has(cacheKey)) {
-        return decoysCache.get(cacheKey);
-      }
-
       const animeAmount = animeIds.split(",").length;
       const decoyAnimes: DBAnswerAnime[] = [];
 
@@ -84,10 +65,12 @@ export const animeRouter = createTRPCRouter({
             SHIKIMORI_GRAPHQL_API_URL,
             getGraphQLFetchOptions(decoyQuery, { excludeIds: animeIds }),
           );
+          checkForFailedRes(res);
 
           const parsedAnimes = (
             await AnimesNonScreenshotSchema.parseAsync(await res.json())
           ).data.animes;
+          checkForEmptyAnimes(parsedAnimes);
 
           const filteredAnimes = parsedAnimes
             .filter((anime) => !!anime.russian)
@@ -97,8 +80,6 @@ export const animeRouter = createTRPCRouter({
             });
           decoyAnimes.push(...filteredAnimes.slice(0, animeAmount * 3));
         } while (decoyAnimes.length < animeAmount * 3);
-
-        decoysCache.set(cacheKey, decoyAnimes);
 
         return decoyAnimes;
       } catch (error: unknown) {
