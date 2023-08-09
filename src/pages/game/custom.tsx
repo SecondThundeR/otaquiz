@@ -13,6 +13,7 @@ import { getServerAuthSession } from "@/server/auth";
 
 import { Alert } from "@/ui/Alert";
 import { Subtitle } from "@/ui/Subtitle";
+import { Title } from "@/ui/Title";
 
 import { CustomGameForm } from "@/form/CustomGameForm";
 
@@ -27,7 +28,10 @@ const CustomGame = memo(function CustomGame({
         <title>Создать кастомную игру</title>
       </Head>
       <PageLayout user={user}>
-        <Subtitle>Настройка кастомной игры</Subtitle>
+        <Title>Настраиваемая игра</Title>
+        <Subtitle>
+          Настрой необходимые фильтры по которым ты хочешь играть
+        </Subtitle>
         <CustomGameForm isCreating={isCreating} onGameCreate={onGameCreate} />
         {isError && (
           <Alert type="error">
