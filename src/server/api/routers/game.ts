@@ -1,4 +1,3 @@
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { gameQuery } from "@/constants/graphQLQueries";
@@ -16,6 +15,8 @@ import {
 import { getRandomElement } from "@/utils/array/getRandomElement";
 import { getGraphQLFetchOptions } from "@/utils/query/getGraphQLFetchOptions";
 import { getSelectedIDs } from "@/utils/query/getSelectedIDs";
+import { checkForEmptyAnimes } from "@/utils/trpc/checkForEmptyAnimes";
+import { checkForFailedRes } from "@/utils/trpc/checkForFailedRes";
 import { processError } from "@/utils/trpc/processError";
 
 export const gameRouter = createTRPCRouter({
@@ -47,25 +48,11 @@ export const gameRouter = createTRPCRouter({
               excludeIds: getSelectedIDs(selectedAnimes),
             }),
           );
-
-          if (!res.ok) {
-            throw new TRPCError({
-              code: "BAD_REQUEST",
-              message:
-                "Shikimori API returned response with non-200 status code",
-            });
-          }
+          checkForFailedRes(res);
 
           const parsedAnimes = (await AnimesSchema.parseAsync(await res.json()))
             .data.animes;
-
-          if (parsedAnimes.length === 0) {
-            throw new TRPCError({
-              code: "BAD_REQUEST",
-              message:
-                "Can't fetch amount of required data with provided options. Try again!",
-            });
-          }
+          checkForEmptyAnimes(parsedAnimes);
 
           const filteredAnimes = parsedAnimes.filter(
             (data) =>

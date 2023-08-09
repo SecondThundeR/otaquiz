@@ -13,6 +13,8 @@ import { type DBAnswerAnime } from "@/schemas/db/answers";
 
 import { shuffleValues } from "@/utils/array/shuffleValues";
 import { getGraphQLFetchOptions } from "@/utils/query/getGraphQLFetchOptions";
+import { checkForEmptyAnimes } from "@/utils/trpc/checkForEmptyAnimes";
+import { checkForFailedRes } from "@/utils/trpc/checkForFailedRes";
 import { processError } from "@/utils/trpc/processError";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
@@ -42,10 +44,12 @@ export const animeRouter = createTRPCRouter({
           SHIKIMORI_GRAPHQL_API_URL,
           getGraphQLFetchOptions(screenshotsQuery, { ids: animeIds }),
         );
+        checkForFailedRes(res);
 
         const parsedAnimes = (
           await AnimeScreenshotsSchema.parseAsync(await res.json())
         ).data.animes;
+        checkForEmptyAnimes(parsedAnimes);
 
         const shuffledScreenshots = parsedAnimes.map((anime) => {
           return {
@@ -84,10 +88,12 @@ export const animeRouter = createTRPCRouter({
             SHIKIMORI_GRAPHQL_API_URL,
             getGraphQLFetchOptions(decoyQuery, { excludeIds: animeIds }),
           );
+          checkForFailedRes(res);
 
           const parsedAnimes = (
             await AnimesNonScreenshotSchema.parseAsync(await res.json())
           ).data.animes;
+          checkForEmptyAnimes(parsedAnimes);
 
           const filteredAnimes = parsedAnimes
             .filter((anime) => !!anime.russian)
