@@ -1,9 +1,7 @@
-import { memo, type PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 
-export const Subtitle = memo(function Subtitle({
-  children,
-}: PropsWithChildren) {
+export function Subtitle({ children }: PropsWithChildren) {
   return (
     <p className="text-center text-xl font-medium sm:text-2xl">{children}</p>
   );
-});
+}
