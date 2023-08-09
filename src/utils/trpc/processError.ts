@@ -16,6 +16,7 @@ export function processError(error: unknown) {
       message: "Something happened while working with the database. Try again",
       cause: error,
     });
+  if (error instanceof TRPCError) throw error;
 
   throw new TRPCError({
     code: "INTERNAL_SERVER_ERROR",
