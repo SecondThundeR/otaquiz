@@ -8,7 +8,10 @@ import { useForm } from "@mantine/form";
 
 import { initialFormValues } from "@/constants/initialFormValues";
 
+import { type useGameCreate } from "@/hooks/useGameCreate";
+
 import { Button } from "@/ui/Button";
+import { Spinner } from "@/ui/Spinner";
 
 import {
   convertObjectValues,
@@ -20,9 +23,13 @@ import { FormCheckboxContainer } from "../FormCheckboxContainer";
 import { FormContainer } from "../FormContainer";
 import { FormIncludeExcludeCheckbox } from "../FormIncludeExcludeCheckbox";
 import { FormInput } from "../FormInput";
-import { FormToggle } from "../FormToggle";
 
-export const CustomGameForm = memo(function CustomGameForm() {
+// import { FormToggle } from "../FormToggle";
+
+export const CustomGameForm = memo(function CustomGameForm({
+  isCreating,
+  onGameCreate,
+}: Omit<ReturnType<typeof useGameCreate>, "isError">) {
   const form = useForm({
     initialValues: initialFormValues,
 
@@ -83,9 +90,9 @@ export const CustomGameForm = memo(function CustomGameForm() {
 
   return (
     <FormContainer
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault();
-        console.log(form.getTransformedValues());
+        await onGameCreate(form.getTransformedValues());
       }}
     >
       <FormInput
@@ -119,11 +126,22 @@ export const CustomGameForm = memo(function CustomGameForm() {
           {getCheckboxes(form.values.rating, "rating")}
         </FormCheckboxContainer>
       </div>
+      {/*
+      TODO: Add when GraphQL-version of Shikimori API will correctly handle `censored` parameter
       <FormToggle
         label="Цензура"
         {...form.getInputProps("censored", { type: "checkbox" })}
-      />
-      <Button type="submit">Создать</Button>
+      /> */}
+      <Button type="submit" disabled={isCreating}>
+        {isCreating ? (
+          <>
+            <Spinner />
+            Создание игры
+          </>
+        ) : (
+          "Начать игру"
+        )}
+      </Button>
     </FormContainer>
   );
 });

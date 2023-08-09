@@ -1,7 +1,7 @@
 export const initialFormValues = {
   limit: 1,
   score: "",
-  censored: true,
+  censored: false,
   kind: {
     tv: {
       label: "TV Сериал",
