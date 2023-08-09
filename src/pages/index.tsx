@@ -34,7 +34,13 @@ const HomePage = memo(function HomePage({
   });
   const { onGameCreate, isCreating, isError } = useGameCreate();
 
-  const onClick = () => onGameCreate(amount);
+  const onClick = () =>
+    onGameCreate({
+      limit: amount,
+      kind: "!music",
+      score: 7,
+      rating: "!rx",
+    });
 
   return (
     <>
@@ -75,8 +81,9 @@ const HomePage = memo(function HomePage({
             </div>
             {isError && (
               <Alert type="error">
-                Не удалось создать игру! Попробуй еще раз или напиши
-                разработчику на Github
+                <strong>Не удалось создать игру!</strong>
+                <br />
+                Попробуй еще раз или напиши разработчику на Github
               </Alert>
             )}
           </>
