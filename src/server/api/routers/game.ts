@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { gameQuery } from "@/constants/graphQLQueries";
@@ -21,14 +22,19 @@ export const gameRouter = createTRPCRouter({
   createGame: protectedProcedure
     .input(
       z.object({
-        amount: z
-          .number()
-          .min(5)
-          .max(50)
-          .transform((raw) => raw - (raw % 5)),
+        options: z.object({
+          limit: z.number().min(1).max(50),
+          kind: z.string().nullish(),
+          status: z.string().nullish(),
+          score: z.number().min(1).max(9).nullish(),
+          duration: z.string().nullish(),
+          rating: z.string().nullish(),
+          censored: z.boolean().nullish(),
+        }),
       }),
     )
-    .mutation(async ({ ctx: { prisma, session }, input: { amount } }) => {
+    .mutation(async ({ ctx: { prisma, session }, input: { options } }) => {
+      const { limit: amount } = options;
       const selectedAnimes: Animes = [];
 
       try {
@@ -36,11 +42,30 @@ export const gameRouter = createTRPCRouter({
           const res = await fetch(
             SHIKIMORI_GRAPHQL_API_URL,
             getGraphQLFetchOptions(gameQuery, {
+              ...options,
+              limit: amount >= 20 ? amount : 20,
               excludeIds: getSelectedIDs(selectedAnimes),
             }),
           );
+
+          if (!res.ok) {
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message:
+                "Shikimori API returned response with non-200 status code",
+            });
+          }
+
           const parsedAnimes = (await AnimesSchema.parseAsync(await res.json()))
             .data.animes;
+
+          if (parsedAnimes.length === 0) {
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message:
+                "Can't fetch amount of required data with provided options. Try again!",
+            });
+          }
 
           const filteredAnimes = parsedAnimes.filter(
             (data) =>

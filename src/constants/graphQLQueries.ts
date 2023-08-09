@@ -1,14 +1,24 @@
 export const gameQuery = `
-  query GameAnimes($excludeIds: String) {
-    animes(order: random, limit: 50, excludeIds: $excludeIds, score: 7, kind: "!music") {
+  query GameAnimes($limit: Int, $kind: AnimeKindString, $status: StatusString, $score: Int, $duration: DurationString, $rating: RatingString, $censored: Boolean, $excludeIds: String) {
+    animes(
+      limit: $limit
+      order: random
+      kind: $kind
+      status: $status
+      score: $score
+      duration: $duration
+      rating: $rating
+      censored: $censored
+      excludeIds: $excludeIds
+    ) {
       id
       russian
       screenshots {
-        id
-        originalUrl
+          id
+          originalUrl
       }
       genres {
-        name
+          name
       }
     }
   }
