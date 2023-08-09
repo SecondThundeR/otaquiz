@@ -10,7 +10,7 @@ export const FormContainer = memo(function FormContainer({
 }: FormContainerProps) {
   return (
     <form
-      className="flex w-fit flex-col gap-2 rounded-xl bg-base-200 p-6 sm:max-w-2xl"
+      className="flex w-fit flex-col gap-2 rounded-xl bg-base-200 p-6 sm:max-w-3xl"
       onSubmit={onSubmit}
     >
       {children}
