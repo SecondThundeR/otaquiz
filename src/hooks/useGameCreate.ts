@@ -2,7 +2,9 @@ import { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { type TRPCError } from "@trpc/server";
 
-import { api } from "@/utils/trpc/api";
+import { api, type RouterInputs } from "@/utils/trpc/api";
+
+type UseGameCreateOptions = RouterInputs["game"]["createGame"]["options"];
 
 export function useGameCreate() {
   const router = useRouter();
@@ -11,15 +13,13 @@ export function useGameCreate() {
   const { mutateAsync, isError } = api.game.createGame.useMutation();
 
   const onGameCreate = useCallback(
-    async (amount: number) => {
+    async (options: UseGameCreateOptions) => {
       try {
         setIsCreating(true);
-        const gameId = await mutateAsync({
-          amount,
-        });
+        const gameId = await mutateAsync({ options });
         return router.push(`/game/${gameId}`);
-      } catch (e: unknown) {
-        console.error((e as TRPCError).message);
+      } catch (error: unknown) {
+        console.error((error as TRPCError).message);
         setIsCreating(false);
       }
     },
