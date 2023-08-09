@@ -159,7 +159,7 @@ describe("Game Router Test (createGame route)", () => {
     const caller = appRouter.createCaller({ ...ctx, prisma: prisma });
 
     const example = caller.game.createGame({
-      amount: 5,
+      options: { limit: 5 },
     });
 
     await expect(example).rejects.toThrow();
@@ -172,23 +172,25 @@ describe("Game Router Test (createGame route)", () => {
     const caller = appRouter.createCaller({ ...ctx, prisma: prisma });
 
     const example = await caller.game.createGame({
-      amount: 5,
+      options: { limit: 5 },
     });
 
     expect(example).toBe(createGameDataMock.id);
   });
 
-  it("should create game with incorrect number in range", async () => {
-    prisma.game.create.mockResolvedValueOnce(createGameDataMock);
-
+  it("should fail on empty options", async () => {
     const ctx = createInnerTRPCContext(exampleSession);
     const caller = appRouter.createCaller({ ...ctx, prisma: prisma });
 
-    const example = await caller.game.createGame({
-      amount: 7, // Will be transformed to 5
+    const exampleUndefinedInput = caller.game.createGame(undefined as never);
+
+    await expect(exampleUndefinedInput).rejects.toThrow();
+
+    const exampleUndefinedOptions = caller.game.createGame({
+      options: undefined as never,
     });
 
-    expect(example).toBe(createGameDataMock.id);
+    await expect(exampleUndefinedOptions).rejects.toThrow();
   });
 
   it("should fail on incorrect amount range", async () => {
@@ -196,13 +198,30 @@ describe("Game Router Test (createGame route)", () => {
     const caller = appRouter.createCaller({ ...ctx, prisma: prisma });
 
     const exampleMin = caller.game.createGame({
-      amount: 1,
+      options: { limit: 0 },
     });
 
     await expect(exampleMin).rejects.toThrow();
 
     const exampleMax = caller.game.createGame({
-      amount: 999,
+      options: { limit: 727 },
+    });
+
+    await expect(exampleMax).rejects.toThrow();
+  });
+
+  it("should fail on incorrect score range", async () => {
+    const ctx = createInnerTRPCContext(exampleSession);
+    const caller = appRouter.createCaller({ ...ctx, prisma: prisma });
+
+    const exampleMin = caller.game.createGame({
+      options: { limit: 5, score: 0 },
+    });
+
+    await expect(exampleMin).rejects.toThrow();
+
+    const exampleMax = caller.game.createGame({
+      options: { limit: 5, score: 10 },
     });
 
     await expect(exampleMax).rejects.toThrow();
