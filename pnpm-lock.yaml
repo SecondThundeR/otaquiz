@@ -47,9 +47,6 @@ dependencies:
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
-  lru-cache:
-    specifier: ^10.0.0
-    version: 10.0.0
   luxon:
     specifier: ^3.3.0
     version: 3.3.0
@@ -3497,11 +3494,6 @@ packages:
     dependencies:
       get-func-name: 2.0.0
     dev: true
-
-  /lru-cache@10.0.0:
-    resolution: {integrity: sha512-svTf/fzsKHffP42sujkO/Rjs37BCIsQVRCeNYIm9WN8rgT7ffoUnRtZCqU+6BqcSBdv8gwJeTz8knJpgACeQMw==}
-    engines: {node: 14 || >=16.14}
-    dev: false
 
   /lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}

@@ -1,14 +1,10 @@
-import { LRUCache } from "lru-cache";
 import { z } from "zod";
 
 import { decoyQuery, screenshotsQuery } from "@/constants/graphQLQueries";
 import { SHIKIMORI_GRAPHQL_API_URL } from "@/constants/links";
 
 import { AnimesNonScreenshotSchema } from "@/schemas/animes";
-import {
-  AnimeScreenshotsSchema,
-  type AnimeScreenshotsData,
-} from "@/schemas/animeScreenshots";
+import { AnimeScreenshotsSchema } from "@/schemas/animeScreenshots";
 import { type DBAnswerAnime } from "@/schemas/db/answers";
 
 import { shuffleValues } from "@/utils/array/shuffleValues";
@@ -19,11 +15,6 @@ import { processError } from "@/utils/trpc/processError";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
-const screenshotsCache = new LRUCache<string, AnimeScreenshotsData>({
-  max: 100,
-});
-const decoysCache = new LRUCache<string, DBAnswerAnime[]>({ max: 100 });
-
 export const animeRouter = createTRPCRouter({
   getAnimeScreenshots: publicProcedure
     .input(
@@ -33,12 +24,6 @@ export const animeRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input: { animeIds, sliceAmount } }) => {
-      const cacheKey = `${animeIds}-${sliceAmount}`;
-
-      if (screenshotsCache.has(cacheKey)) {
-        return screenshotsCache.get(cacheKey);
-      }
-
       try {
         const res = await fetch(
           SHIKIMORI_GRAPHQL_API_URL,
@@ -58,8 +43,6 @@ export const animeRouter = createTRPCRouter({
           };
         });
 
-        screenshotsCache.set(cacheKey, shuffledScreenshots);
-
         return shuffledScreenshots;
       } catch (error: unknown) {
         processError(error);
@@ -73,12 +56,6 @@ export const animeRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input: { animeIds } }) => {
-      const cacheKey = `decoys-${animeIds}`;
-
-      if (decoysCache.has(cacheKey)) {
-        return decoysCache.get(cacheKey);
-      }
-
       const animeAmount = animeIds.split(",").length;
       const decoyAnimes: DBAnswerAnime[] = [];
 
@@ -103,8 +80,6 @@ export const animeRouter = createTRPCRouter({
             });
           decoyAnimes.push(...filteredAnimes.slice(0, animeAmount * 3));
         } while (decoyAnimes.length < animeAmount * 3);
-
-        decoysCache.set(cacheKey, decoyAnimes);
 
         return decoyAnimes;
       } catch (error: unknown) {
