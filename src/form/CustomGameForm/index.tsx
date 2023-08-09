@@ -39,6 +39,7 @@ export const CustomGameForm = memo(function CustomGameForm({
       const score = values.score === "" ? null : Number(values.score);
       const kind = convertObjectValues(values.kind);
       const status = convertObjectValues(values.status);
+      const season = convertObjectValues(values.season);
       const duration = convertObjectValues(values.duration);
       const rating = convertObjectValues(values.rating);
 
@@ -48,6 +49,7 @@ export const CustomGameForm = memo(function CustomGameForm({
         censored: values.censored,
         kind: getTransformedValues(kind),
         status: getTransformedValues(status),
+        season: getTransformedValues(season),
         duration: getTransformedValues(duration),
         rating: getTransformedValues(rating),
       };
@@ -128,7 +130,10 @@ export const CustomGameForm = memo(function CustomGameForm({
         <FormCheckboxContainer label="Тип">
           {getCheckboxes(form.values.kind, "kind")}
         </FormCheckboxContainer>
-        <FormCheckboxContainer label="Рейтинг">
+        <FormCheckboxContainer label="Сезон">
+          {getCheckboxes(form.values.season, "season")}
+        </FormCheckboxContainer>
+        <FormCheckboxContainer label="Рейтинг" className="sm:col-span-2">
           {getCheckboxes(form.values.rating, "rating")}
         </FormCheckboxContainer>
       </div>

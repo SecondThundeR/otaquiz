@@ -66,6 +66,53 @@ export const initialFormValues = {
       excluded: false,
     },
   },
+  season: {
+    "2023": {
+      label: "2023 год",
+      checked: false,
+      excluded: false,
+    },
+    "2022": {
+      label: "2022 год",
+      checked: false,
+      excluded: false,
+    },
+    "2020_2021": {
+      label: "2020-2021",
+      checked: false,
+      excluded: false,
+    },
+    "2015_2019": {
+      label: "2015-2019",
+      checked: false,
+      excluded: false,
+    },
+    "2010_2014": {
+      label: "2010-2014",
+      checked: false,
+      excluded: false,
+    },
+    "2000_2010": {
+      label: "2000-2010",
+      checked: false,
+      excluded: false,
+    },
+    "199x": {
+      label: "1990е годы",
+      checked: false,
+      excluded: false,
+    },
+    "198x": {
+      label: "1980е годы",
+      checked: false,
+      excluded: false,
+    },
+    ancient: {
+      label: "Более старые",
+      checked: false,
+      excluded: false,
+    },
+  },
   duration: {
     S: {
       label: "До 10 минут",
