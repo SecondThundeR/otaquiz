@@ -1,4 +1,4 @@
-type ObjectType = Record<
+export type ObjectType = Record<
   string,
   {
     label: string;
