@@ -31,15 +31,19 @@ const MemoizedNavbar = memo(function Navbar({
 
   return (
     <div className="navbar sticky top-0 z-50 gap-4 bg-base-100 px-4">
-      <NavbarTitle {...titleProps} />
-      <IconLink icon={MarkGithubIcon} href={GITHUB_REPO_LINK} />
-      {user !== null ? (
-        <NavbarProfile hasDropdown={hasDropdown} {...user} />
-      ) : (
-        <Button style="primary" onClick={onSignIn} disabled={isLogin}>
-          {isLogin ? <Spinner /> : "Вход в аккаунт"}
-        </Button>
-      )}
+      <div className="navbar-start">
+        <NavbarTitle {...titleProps} />
+      </div>
+      <div className="navbar-end gap-4">
+        <IconLink icon={MarkGithubIcon} href={GITHUB_REPO_LINK} />
+        {user !== null ? (
+          <NavbarProfile hasDropdown={hasDropdown} {...user} />
+        ) : (
+          <Button style="primary" onClick={onSignIn} disabled={isLogin}>
+            {isLogin ? <Spinner /> : "Вход в аккаунт"}
+          </Button>
+        )}
+      </div>
     </div>
   );
 });

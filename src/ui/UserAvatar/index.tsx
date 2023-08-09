@@ -20,7 +20,7 @@ export const UserAvatar = memo(function UserAvatar({
       })}
     >
       <div
-        className={clsx("w-10 rounded-full", {
+        className={clsx("w-9 rounded-full", {
           "bg-primary text-neutral-content": !image,
         })}
       >

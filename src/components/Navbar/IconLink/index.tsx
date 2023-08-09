@@ -14,7 +14,7 @@ export const IconLink = memo(function IconLink({
 }: IconLinkProps) {
   return (
     <Link isStyled={false} isHover={false} href={href} target="_blank">
-      <Icon className="h-7 w-7 hover:fill-primary" />
+      <Icon className="h-6 w-6 hover:fill-primary" />
     </Link>
   );
 });
