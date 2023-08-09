@@ -54,6 +54,9 @@ export const CustomGameForm = memo(function CustomGameForm({
     },
   });
 
+  const isWarningTriggered =
+    form.values.rating.rx.checked && !form.values.rating.rx.excluded;
+
   const getCheckboxes = useCallback(
     (obj: ObjectType, objName: string) =>
       Object.entries(obj).map((entry) => {
@@ -135,7 +138,7 @@ export const CustomGameForm = memo(function CustomGameForm({
         label="Цензура"
         {...form.getInputProps("censored", { type: "checkbox" })}
       /> */}
-      {form.values.rating.rx.checked && (
+      {isWarningTriggered && (
         <Alert type="warning" fullWidth>
           <strong>Будьте осторожны!</strong>
           <br />
