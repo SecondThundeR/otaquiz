@@ -3,15 +3,15 @@ import { type Icon } from "@primer/octicons-react";
 
 import { Link } from "@/ui/Link";
 
-interface IconLinkProps {
+interface NavbarIconLinkProps {
   icon: Icon;
   href: string;
 }
 
-export const IconLink = memo(function IconLink({
+export const NavbarIconLink = memo(function NavbarIconLink({
   icon: Icon,
   href,
-}: IconLinkProps) {
+}: NavbarIconLinkProps) {
   return (
     <Link isStyled={false} isHover={false} href={href} target="_blank">
       <Icon className="h-6 w-6 hover:fill-primary" />

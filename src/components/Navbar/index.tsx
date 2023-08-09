@@ -8,7 +8,7 @@ import { GITHUB_REPO_LINK } from "@/constants/links";
 import { Button } from "@/ui/Button";
 import { Spinner } from "@/ui/Spinner";
 
-import { IconLink } from "./IconLink";
+import { NavbarIconLink } from "./IconLink";
 import { NavbarProfile } from "./Profile";
 import { NavbarTitle, type NavbarTitleProps } from "./Title";
 
@@ -35,7 +35,7 @@ const MemoizedNavbar = memo(function Navbar({
         <NavbarTitle {...titleProps} />
       </div>
       <div className="navbar-end gap-4">
-        <IconLink icon={MarkGithubIcon} href={GITHUB_REPO_LINK} />
+        <NavbarIconLink icon={MarkGithubIcon} href={GITHUB_REPO_LINK} />
         {user !== null ? (
           <NavbarProfile hasDropdown={hasDropdown} {...user} />
         ) : (
