@@ -6,8 +6,8 @@ export default {
     extend: {},
   },
   daisyui: {
-    themes: ["light", "synthwave"],
-    darkTheme: "synthwave",
+    themes: ["light", "night"],
+    darkTheme: "night",
   },
   plugins: [require("daisyui")],
 } satisfies Config;
