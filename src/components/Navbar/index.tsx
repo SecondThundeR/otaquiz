@@ -37,14 +37,7 @@ const MemoizedNavbar = memo(function Navbar({
         <NavbarProfile hasDropdown={hasDropdown} {...user} />
       ) : (
         <Button style="primary" onClick={onSignIn} disabled={isLogin}>
-          {isLogin ? (
-            <>
-              <Spinner />
-              Входим в аккаунт
-            </>
-          ) : (
-            "Войти через Шикимори"
-          )}
+          {isLogin ? <Spinner /> : "Вход в аккаунт"}
         </Button>
       )}
     </div>
