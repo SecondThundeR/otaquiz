@@ -31,11 +31,12 @@ export const gameRouter = createTRPCRouter({
           duration: z.string().nullish(),
           rating: z.string().nullish(),
           censored: z.boolean().nullish(),
+          isShowingResult: z.boolean(),
         }),
       }),
     )
     .mutation(async ({ ctx: { prisma, session }, input: { options } }) => {
-      const { limit: amount } = options;
+      const { limit: amount, isShowingResult } = options;
       const selectedAnimes: Animes = [];
 
       try {
@@ -81,6 +82,7 @@ export const gameRouter = createTRPCRouter({
             amount,
             animes: gameAnimes,
             userId: session.user.id,
+            isShowingResult,
           },
         });
 
