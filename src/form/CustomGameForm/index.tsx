@@ -24,8 +24,7 @@ import { FormCheckboxContainer } from "../FormCheckboxContainer";
 import { FormContainer } from "../FormContainer";
 import { FormIncludeExcludeCheckbox } from "../FormIncludeExcludeCheckbox";
 import { FormInput } from "../FormInput";
-
-// import { FormToggle } from "../FormToggle";
+import { FormToggle } from "../FormToggle";
 
 export const CustomGameForm = memo(function CustomGameForm({
   isCreating,
@@ -47,6 +46,7 @@ export const CustomGameForm = memo(function CustomGameForm({
         limit,
         score,
         censored: values.censored,
+        isShowingResult: values.isShowingResult,
         kind: getTransformedValues(kind),
         status: getTransformedValues(status),
         season: getTransformedValues(season),
@@ -137,6 +137,10 @@ export const CustomGameForm = memo(function CustomGameForm({
           {getCheckboxes(form.values.rating, "rating")}
         </FormCheckboxContainer>
       </div>
+      <FormToggle
+        label="Показывать результат во время игры"
+        {...form.getInputProps("isShowingResult", { type: "checkbox" })}
+      />
       {/*
       TODO: Add when GraphQL-version of Shikimori API will correctly handle `censored` parameter
       <FormToggle

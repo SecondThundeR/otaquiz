@@ -2,6 +2,7 @@ export const initialFormValues = {
   limit: 1,
   score: "",
   censored: false,
+  isShowingResult: false,
   kind: {
     tv: {
       label: "TV Сериал",

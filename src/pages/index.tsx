@@ -10,6 +10,7 @@ import { AmountStepper } from "@/components/AmountStepper";
 import { PAGE_TITLE } from "@/constants/pageHeadData";
 
 import { useAmount } from "@/hooks/useAmount";
+import { useCheckbox } from "@/hooks/useCheckbox";
 import { useGameCreate } from "@/hooks/useGameCreate";
 
 import { PageLayout } from "@/layouts/PageLayout";
@@ -18,6 +19,7 @@ import { getServerAuthSession } from "@/server/auth";
 
 import { Alert } from "@/ui/Alert";
 import { Button } from "@/ui/Button";
+import { Checkbox } from "@/ui/Checkbox";
 import { Divider } from "@/ui/Divider";
 import { LinkButton } from "@/ui/LinkButton";
 import { Spinner } from "@/ui/Spinner";
@@ -27,6 +29,7 @@ import { Title } from "@/ui/Title";
 const HomePage = memo(function HomePage({
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { checked: isShowingResult, onChange } = useCheckbox();
   const { amount, increment, decrement } = useAmount({
     min: 5,
     max: 50,
@@ -40,6 +43,7 @@ const HomePage = memo(function HomePage({
       kind: "!music",
       score: 7,
       rating: "!rx",
+      isShowingResult,
     });
 
   return (
@@ -64,6 +68,11 @@ const HomePage = memo(function HomePage({
               decrement={decrement}
             />
             <div className="flex flex-col gap-2">
+              <Checkbox
+                label="Показывать результат во время игры"
+                checked={isShowingResult}
+                onChange={onChange}
+              />
               <Button size="lg" disabled={isCreating} onClick={onClick}>
                 {isCreating ? (
                   <>
