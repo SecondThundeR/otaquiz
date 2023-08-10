@@ -29,6 +29,7 @@ export const QuestionButtons = memo(function QuestionButtons({
   );
 
   const showSelected = correctButtonID !== false;
+  const isPointerDisabled = showSelected && correctButtonID !== null;
 
   const getButtonStyle = (buttonID: string) => {
     if (!correctButtonID) return "primary";
@@ -56,6 +57,7 @@ export const QuestionButtons = memo(function QuestionButtons({
       {shuffledButtons.map((anime) => {
         const { id, name } = anime;
         const isButtonSelected = id === selectedButtonID;
+        const isSuffixAdded = showSelected && isButtonSelected;
         const buttonStyle = getButtonStyle(id);
 
         return (
@@ -63,9 +65,10 @@ export const QuestionButtons = memo(function QuestionButtons({
             key={id}
             style={buttonStyle}
             onClick={() => onClick(anime)}
+            className={isPointerDisabled ? "pointer-events-none" : undefined}
             disabled={isDisabled}
           >
-            {showSelected && isButtonSelected && "Выбрано:"} {name}
+            {isSuffixAdded && "Выбрано:"} {name}
           </Button>
         );
       })}
