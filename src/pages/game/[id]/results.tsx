@@ -11,6 +11,8 @@ import { ResultAnswers } from "@/components/ResultAnswers";
 import { ResultHeader } from "@/components/ResultHeader";
 import { URLCopyButton } from "@/components/URLCopyButton";
 
+import { PAGE_LINK, PAGE_TITLE } from "@/constants/pageHeadData";
+
 import { PageLayout } from "@/layouts/PageLayout";
 
 import { DBAnimeArraySchema } from "@/schemas/db/animes";
@@ -34,6 +36,7 @@ const ResultsPage = memo(function ResultsPage({
   host,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const playerTitleName = userName ?? "анонима";
+  const titleText = `Результат игры ${playerTitleName}`;
   const correctAnswersAmount = getCorrectAnswersAmount(amount, answers);
   const ogImageLink = getOGImageLink(
     host,
@@ -46,8 +49,14 @@ const ResultsPage = memo(function ResultsPage({
   return (
     <>
       <Head>
-        <title>{`Результат игры ${playerTitleName}`}</title>
+        <title>{titleText}</title>
+        <meta property="og:description" content={titleText} />
         <meta property="og:image" content={ogImageLink} />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={PAGE_LINK} />
+        <meta property="twitter:title" content={PAGE_TITLE} />
+        <meta property="twitter:description" content={titleText} />
+        <meta property="twitter:image" content={ogImageLink} />
       </Head>
       <PageLayout user={user}>
         <Title>Результат игры</Title>

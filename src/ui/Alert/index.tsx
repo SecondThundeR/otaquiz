@@ -1,5 +1,5 @@
 import { memo, type PropsWithChildren } from "react";
-import { AlertIcon, InfoIcon } from "@primer/octicons-react";
+import { AlertIcon, CircleSlashIcon, InfoIcon } from "@primer/octicons-react";
 import clsx from "clsx";
 
 const AlertProperties = {
@@ -8,18 +8,38 @@ const AlertProperties = {
     class: "alert-info",
   },
   error: {
-    icon: AlertIcon,
+    icon: CircleSlashIcon,
     class: "alert-error",
+  },
+  warning: {
+    icon: AlertIcon,
+    class: "alert-warning",
   },
 };
 
-type AlertProps = PropsWithChildren<{ type: keyof typeof AlertProperties }>;
+type AlertProps = PropsWithChildren<{
+  type: keyof typeof AlertProperties;
+  fullWidth?: boolean;
+}>;
 
-export const Alert = memo(function Alert({ type, children }: AlertProps) {
+export const Alert = memo(function Alert({
+  type,
+  fullWidth = false,
+  children,
+}: AlertProps) {
   const { class: alertClass, icon: Icon } = AlertProperties[type];
 
   return (
-    <div className={clsx("alert sm:max-w-lg", alertClass)}>
+    <div
+      className={clsx(
+        "alert",
+        {
+          "sm:max-w-lg": !fullWidth,
+          "w-full": fullWidth,
+        },
+        alertClass,
+      )}
+    >
       <Icon className="hidden h-6 w-6 sm:block" />
       <span>{children}</span>
     </div>

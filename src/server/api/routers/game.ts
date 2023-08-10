@@ -27,6 +27,7 @@ export const gameRouter = createTRPCRouter({
           limit: z.number().min(1).max(50),
           kind: z.string().nullish(),
           status: z.string().nullish(),
+          season: z.string().nullish(),
           score: z.number().min(1).max(9).nullish(),
           duration: z.string().nullish(),
           rating: z.string().nullish(),

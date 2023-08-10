@@ -25,18 +25,16 @@ export const NavbarTitle = memo(function NavbarTitle({
   };
 
   return (
-    <div className="flex-grow">
-      <Link
-        isStyled={false}
-        isHover={false}
-        to="/"
-        className={clsx("btn btn-ghost text-xl normal-case", {
-          "btn-disabled": isDisabled,
-        })}
-        onClick={onLinkClick}
-      >
-        {isHome ? PAGE_TITLE : title ?? "Вернуться домой"}
-      </Link>
-    </div>
+    <Link
+      isStyled={false}
+      isHover={false}
+      to="/"
+      className={clsx("btn btn-ghost text-xl normal-case", {
+        "btn-disabled": isDisabled,
+      })}
+      onClick={onLinkClick}
+    >
+      {isHome ? PAGE_TITLE : title ?? "Вернуться домой"}
+    </Link>
   );
 });

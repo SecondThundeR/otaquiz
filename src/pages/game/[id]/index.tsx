@@ -5,13 +5,14 @@ import {
 } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useScrollIntoView } from "@mantine/hooks";
+import { useLocalStorage, useScrollIntoView } from "@mantine/hooks";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
 
 import { QuestionButtons } from "@/components/QuestionButtons";
 import { QuestionScreenshots } from "@/components/QuestionScreenshots";
 
+import { useDetectSafari } from "@/hooks/useDetectSafari";
 import { useGameController } from "@/hooks/useGameController";
 
 import { PageLayout } from "@/layouts/PageLayout";
@@ -23,6 +24,8 @@ import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 
+import { Alert } from "@/ui/Alert";
+import { Button } from "@/ui/Button";
 import { Subtitle } from "@/ui/Subtitle";
 
 import { asyncTimeout } from "@/utils/general/asyncTimeout";
@@ -53,7 +56,11 @@ const GamePage = memo(function GamePage({
     animeIds,
     currentAnswers,
   });
-
+  const isSafari = useDetectSafari();
+  const [isDismissed, setIsDismissed] = useLocalStorage({
+    key: "safari-note-dismiss",
+    defaultValue: false,
+  });
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
     duration: 425,
   });
@@ -66,6 +73,10 @@ const GamePage = memo(function GamePage({
     (data) => data.id === currentAnime.id,
   )?.screenshots;
   const currentButtons = getButtonAnswers(currentAnime, currentIndex);
+
+  const onNoteDismiss = () => {
+    setIsDismissed(true);
+  };
 
   const onAnswerClick = useCallback(
     async (anime: DBAnswerAnime) => {
@@ -112,6 +123,21 @@ const GamePage = memo(function GamePage({
         hasDropdown={false}
         ref={targetRef}
       >
+        {isSafari && !isDismissed && (
+          <Alert type="info">
+            <strong>Имеются проблемы с браузером Safari</strong>
+            <br />
+            К сожалению, данный браузер не позволяет выполнять сохранение
+            вопросов, если происходит перезагрузка страницы
+            <br />
+            Имейте это ввиду при игре и не читерите!
+            <div className="mt-2">
+              <Button style="neutral" size="block" onClick={onNoteDismiss}>
+                Закрыть
+              </Button>
+            </div>
+          </Alert>
+        )}
         <Subtitle>Раунд {currentAnswerTitle}</Subtitle>
         <QuestionScreenshots screenshots={currentAnimeScreenshots} />
         <QuestionButtons

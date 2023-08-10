@@ -10,6 +10,7 @@ import { initialFormValues } from "@/constants/initialFormValues";
 
 import { type useGameCreate } from "@/hooks/useGameCreate";
 
+import { Alert } from "@/ui/Alert";
 import { Button } from "@/ui/Button";
 import { Spinner } from "@/ui/Spinner";
 
@@ -37,6 +38,7 @@ export const CustomGameForm = memo(function CustomGameForm({
       const score = values.score === "" ? null : Number(values.score);
       const kind = convertObjectValues(values.kind);
       const status = convertObjectValues(values.status);
+      const season = convertObjectValues(values.season);
       const duration = convertObjectValues(values.duration);
       const rating = convertObjectValues(values.rating);
 
@@ -47,11 +49,15 @@ export const CustomGameForm = memo(function CustomGameForm({
         isShowingResult: values.isShowingResult,
         kind: getTransformedValues(kind),
         status: getTransformedValues(status),
+        season: getTransformedValues(season),
         duration: getTransformedValues(duration),
         rating: getTransformedValues(rating),
       };
     },
   });
+
+  const isWarningTriggered =
+    form.values.rating.rx.checked && !form.values.rating.rx.excluded;
 
   const getCheckboxes = useCallback(
     (obj: ObjectType, objName: string) =>
@@ -97,6 +103,7 @@ export const CustomGameForm = memo(function CustomGameForm({
     >
       <FormInput
         type="number"
+        pattern="[0-9]*"
         min={1}
         max={50}
         className="input input-bordered"
@@ -105,6 +112,7 @@ export const CustomGameForm = memo(function CustomGameForm({
       />
       <FormInput
         type="number"
+        pattern="[0-9]*"
         min={1}
         max={9}
         placeholder="Введите минимальную оценку"
@@ -122,7 +130,10 @@ export const CustomGameForm = memo(function CustomGameForm({
         <FormCheckboxContainer label="Тип">
           {getCheckboxes(form.values.kind, "kind")}
         </FormCheckboxContainer>
-        <FormCheckboxContainer label="Рейтинг">
+        <FormCheckboxContainer label="Сезон">
+          {getCheckboxes(form.values.season, "season")}
+        </FormCheckboxContainer>
+        <FormCheckboxContainer label="Рейтинг" className="sm:col-span-2">
           {getCheckboxes(form.values.rating, "rating")}
         </FormCheckboxContainer>
       </div>
@@ -136,6 +147,16 @@ export const CustomGameForm = memo(function CustomGameForm({
         label="Цензура"
         {...form.getInputProps("censored", { type: "checkbox" })}
       /> */}
+      {isWarningTriggered && (
+        <Alert type="warning" fullWidth>
+          <strong>Будьте осторожны!</strong>
+          <br />
+          Данная категория может содержать изображения, не предназначенные для
+          лиц младше 18 лет
+          <br />
+          Продолжайте на свой страх и риск
+        </Alert>
+      )}
       <Button type="submit" disabled={isCreating}>
         {isCreating ? (
           <>

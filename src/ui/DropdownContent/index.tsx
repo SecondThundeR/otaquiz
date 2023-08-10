@@ -1,8 +1,6 @@
-import { memo, type PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 
-export const DropdownContent = memo(function DropdownContent({
-  children,
-}: PropsWithChildren) {
+export function DropdownContent({ children }: PropsWithChildren) {
   return (
     <ul
       tabIndex={0}
@@ -11,4 +9,4 @@ export const DropdownContent = memo(function DropdownContent({
       {children}
     </ul>
   );
-});
+}

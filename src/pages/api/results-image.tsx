@@ -28,8 +28,8 @@ export default function handler(request: NextRequest) {
             alignItems: "center",
             flexDirection: "column",
             padding: "16px",
-            backgroundColor: "#1a103d",
-            color: "#f9f7fd",
+            backgroundImage: "linear-gradient(to bottom, #dbf4ff, #fff1f1)",
+            color: "black",
             gap: "16px",
           }}
         >
@@ -37,7 +37,7 @@ export default function handler(request: NextRequest) {
             style={{
               fontSize: "132px",
               fontWeight: "bold",
-              opacity: 0.2,
+              opacity: 0.5,
               marginTop: 0,
             }}
           >
@@ -58,12 +58,13 @@ export default function handler(request: NextRequest) {
               src={`https://desu.shikimori.me/system/users/x160/${profileID}.png`}
               style={{
                 borderRadius: 128,
+                border: "8px solid #570df8",
               }}
               alt=""
             />
             <h1
               style={{
-                color: "#e779c1",
+                color: "#570df8",
                 fontWeight: "bold",
                 fontSize: "52px",
                 marginBottom: 0,

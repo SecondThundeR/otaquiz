@@ -1,10 +1,11 @@
 export const gameQuery = `
-  query GameAnimes($limit: Int, $kind: AnimeKindString, $status: StatusString, $score: Int, $duration: DurationString, $rating: RatingString, $censored: Boolean, $excludeIds: String) {
+  query GameAnimes($limit: Int, $kind: AnimeKindString, $status: StatusString, $season: SeasonString, $score: Int, $duration: DurationString, $rating: RatingString, $censored: Boolean, $excludeIds: String) {
     animes(
       limit: $limit
       order: random
       kind: $kind
       status: $status
+      season: $season
       score: $score
       duration: $duration
       rating: $rating
