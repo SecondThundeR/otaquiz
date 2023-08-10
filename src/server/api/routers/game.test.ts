@@ -20,7 +20,7 @@ const exampleSession = {
   },
 };
 
-const gameDataMock = {
+export const gameDataMock = {
   id: "cll17jrnk000008l7bdc8bspm",
   amount: 5,
   animes: [
