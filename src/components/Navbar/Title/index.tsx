@@ -1,4 +1,5 @@
 import { memo, useState } from "react";
+import { ArrowLeftIcon } from "@primer/octicons-react";
 
 import { PAGE_TITLE } from "@/constants/pageHeadData";
 
@@ -25,13 +26,20 @@ export const NavbarTitle = memo(function NavbarTitle({
 
   return (
     <LinkButton
-      style={isHome ? "ghost" : "neutral"}
+      style="ghost"
       to="/"
       className="text-xl normal-case"
       disabled={isDisabled}
       onClick={onLinkClick}
     >
-      {isHome ? PAGE_TITLE : title ?? "Вернуться домой"}
+      {isHome ? (
+        PAGE_TITLE
+      ) : (
+        <>
+          <ArrowLeftIcon className="h-6 w-6" />
+          {title ?? "На главную"}
+        </>
+      )}
     </LinkButton>
   );
 });
