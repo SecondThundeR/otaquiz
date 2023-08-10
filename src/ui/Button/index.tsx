@@ -76,7 +76,7 @@ export const Button = memo(function Button({
   return (
     <button
       className={clsx(
-        "btn",
+        "btn transition-colors duration-300",
         size && ButtonSizeClasses[size],
         style && ButtonStyleClasses[style],
         className,
