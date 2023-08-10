@@ -9,7 +9,10 @@ import {
 } from "../Button";
 import { Link, type LinkProps } from "../Link";
 
-type LinkButtonProps = Omit<LinkProps, "role" | "isStyled" | "isHover"> &
+type LinkButtonProps = Omit<
+  LinkProps,
+  "role" | "isStyled" | "isHover" | "style"
+> &
   PropsWithChildren<{
     size?: ButtonSizeVariants;
     style?: ButtonStyleVariants;

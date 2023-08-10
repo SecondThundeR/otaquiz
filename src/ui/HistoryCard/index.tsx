@@ -30,7 +30,7 @@ export const HistoryCard = memo(function HistoryCard({
 }: HistoryCardProps) {
   const formattedDate = useFormattedDate(
     game.createdAt,
-    "Игра в dd.MM.yyyy в HH:mm",
+    "Игра от dd.MM.yyyy в HH:mm",
   );
   const { id, amount, answers, animes } = game;
   const resultsPath = `/game/${id}/results`;
@@ -46,7 +46,7 @@ export const HistoryCard = memo(function HistoryCard({
       <div className="flex flex-col gap-2">
         <h2 className="card-title">
           <Link style="primary" to={resultsPath}>
-            {formattedDate ?? "Игра в ..."}
+            {formattedDate ?? "Игра от ..."}
           </Link>
         </h2>
         <p>Количество раундов: {amount}</p>
