@@ -105,6 +105,7 @@ const gameDataMock = {
     },
   ],
   currentAnimeIndex: 5,
+  isShowingResult: false,
   isFinished: true,
   createdAt: new Date(),
   updatedAt: new Date(),

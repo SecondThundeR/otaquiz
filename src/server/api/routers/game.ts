@@ -32,7 +32,7 @@ export const gameRouter = createTRPCRouter({
           duration: z.string().nullish(),
           rating: z.string().nullish(),
           censored: z.boolean().nullish(),
-          isShowingResult: z.boolean(),
+          isShowingResult: z.boolean().default(false),
         }),
       }),
     )
