@@ -29,10 +29,13 @@ export function useGameController({
   } = useAnimeData(animeIds);
   const [answers, setAnswers] = useState(currentAnswers);
   const [isUpdatedBeforeUnload, setIsUpdatedBeforeUnload] = useState(false);
-  const [isDeletingGame, setIsDeletingGame] = useState(false);
 
-  const { mutateAsync: updateAsync } = api.game.updateGameAnswers.useMutation();
-  const { mutateAsync: deleteAsync } = api.game.deleteGame.useMutation();
+  const { mutateAsync: updateAsync, isLoading: isUpdating } =
+    api.game.updateGameAnswers.useMutation();
+  const { mutateAsync: deleteAsync, isLoading: isDeleting } =
+    api.game.deleteGame.useMutation();
+
+  const isLoading = isUpdating || isDeleting;
 
   const onBeforeUnload = useCallback(async () => {
     if (isUpdatedBeforeUnload) return;
@@ -48,7 +51,6 @@ export function useGameController({
   useBeforeUnload(onBeforeUnload);
 
   const onGameExit = useCallback(async () => {
-    setIsDeletingGame(true);
     await deleteAsync({ gameId });
   }, [deleteAsync, gameId]);
 
@@ -86,7 +88,7 @@ export function useGameController({
   );
 
   return {
-    data: { screenshots, isDeletingGame },
+    data: { screenshots, isLoading },
     handlers: {
       onGameExit,
       getButtonAnswers,
