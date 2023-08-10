@@ -64,6 +64,7 @@ model Game {
     animes            Json
     answers           Json?
     currentAnimeIndex Int      @default(0)
+    isShowingResult   Boolean  @default(false)
     user              User     @relation(fields: [userId], references: [id])
     userId            String
     createdAt         DateTime @default(now())
