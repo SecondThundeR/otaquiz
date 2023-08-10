@@ -6,7 +6,7 @@ import { useOnImageLoad } from "@/hooks/useOnImageLoad";
 
 import { ScreenshotPlaceholder } from "@/ui/ScreenshotPlaceholder";
 
-const SCREENSHOT_CLASSES = "h-64 rounded-xl object-cover";
+const SCREENSHOT_CLASSES = "h-48 sm:h-56 2xl:h-64 rounded-xl object-cover";
 
 interface ScreenshotProps {
   src?: string;
@@ -33,7 +33,7 @@ export const Screenshot = memo(function Screenshot({
         height={720}
         src={src}
         priority
-        className={clsx(SCREENSHOT_CLASSES, {
+        className={clsx(SCREENSHOT_CLASSES, "", {
           hidden: isLoading,
         })}
         alt=""

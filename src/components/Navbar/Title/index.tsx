@@ -1,9 +1,8 @@
 import { memo, useState } from "react";
-import clsx from "clsx";
 
 import { PAGE_TITLE } from "@/constants/pageHeadData";
 
-import { Link } from "@/ui/Link";
+import { LinkButton } from "@/ui/LinkButton";
 
 export interface NavbarTitleProps {
   title?: string;
@@ -25,16 +24,14 @@ export const NavbarTitle = memo(function NavbarTitle({
   };
 
   return (
-    <Link
-      isStyled={false}
-      isHover={false}
+    <LinkButton
+      style={isHome ? "ghost" : "neutral"}
       to="/"
-      className={clsx("btn btn-ghost text-xl normal-case", {
-        "btn-disabled": isDisabled,
-      })}
+      className="text-xl normal-case"
+      disabled={isDisabled}
       onClick={onLinkClick}
     >
       {isHome ? PAGE_TITLE : title ?? "Вернуться домой"}
-    </Link>
+    </LinkButton>
   );
 });
