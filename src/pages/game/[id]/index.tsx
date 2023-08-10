@@ -25,6 +25,7 @@ import { prisma } from "@/server/db";
 
 import { Subtitle } from "@/ui/Subtitle";
 
+import { asyncTimeout } from "@/utils/general/asyncTimeout";
 import { isGameExpired } from "@/utils/server/isGameExpired";
 import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
 
@@ -34,17 +35,18 @@ const GamePage = memo(function GamePage({
     animes,
     animeIds,
     currentAnswers,
+    isShowingResult,
     amount,
     currentAnimeIndex,
   },
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
+  const [correctButtonID, setCorrectButtonID] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(currentAnimeIndex);
-  const [isUpdatingAnswer, setIsUpdatingAnswer] = useState(false);
 
   const {
-    data: { screenshots, isDeletingGame },
+    data: { screenshots, isLoading },
     handlers: { onGameExit, getButtonAnswers, updateAnswers },
   } = useGameController({
     gameId,
@@ -67,7 +69,12 @@ const GamePage = memo(function GamePage({
 
   const onAnswerClick = useCallback(
     async (anime: DBAnswerAnime) => {
-      setIsUpdatingAnswer(true);
+      if (isShowingResult) {
+        setCorrectButtonID(currentAnime.id);
+        await asyncTimeout(1500);
+        setCorrectButtonID(null);
+      }
+
       await updateAnswers({
         anime,
         currentAnime,
@@ -77,14 +84,15 @@ const GamePage = memo(function GamePage({
       if (isFinished) {
         return await router.push(`${router.asPath}/results`);
       }
+
       setCurrentIndex(currentIndex + 1);
-      setIsUpdatingAnswer(false);
       scrollIntoView();
     },
     [
       currentAnime,
       currentIndex,
       isFinished,
+      isShowingResult,
       router,
       scrollIntoView,
       updateAnswers,
@@ -108,7 +116,8 @@ const GamePage = memo(function GamePage({
         <QuestionScreenshots screenshots={currentAnimeScreenshots} />
         <QuestionButtons
           buttons={currentButtons}
-          isDisabled={isUpdatingAnswer || isDeletingGame}
+          isDisabled={isLoading}
+          correctButtonID={isShowingResult && correctButtonID}
           onAnswerClick={onAnswerClick}
         />
       </PageLayout>
@@ -191,7 +200,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  const { id, amount, animes, answers, currentAnimeIndex } = gameData;
+  const { id, amount, animes, answers, currentAnimeIndex, isShowingResult } =
+    gameData;
   const parsedAnimes = await DBAnimeArraySchema.parseAsync(animes);
   const parsedAnswers = answers
     ? await DBAnswerArraySchema.parseAsync(answers)
@@ -209,6 +219,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
         gameId: id,
         amount,
         currentAnimeIndex,
+        isShowingResult,
         animes: parsedAnimes.map((anime) => {
           return {
             id: anime.id,
