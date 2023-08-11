@@ -32,6 +32,8 @@ import { asyncTimeout } from "@/utils/general/asyncTimeout";
 import { isGameExpired } from "@/utils/server/isGameExpired";
 import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
 
+const ANSWER_TIMEOUT_MS = 2000;
+
 const GamePage = memo(function GamePage({
   gameData: {
     gameId,
@@ -83,7 +85,7 @@ const GamePage = memo(function GamePage({
     async (anime: DBAnswerAnime) => {
       if (isShowingResult) {
         setCorrectButtonID(currentAnime.id);
-        await asyncTimeout(1500);
+        await asyncTimeout(ANSWER_TIMEOUT_MS);
         setCorrectButtonID(null);
       }
       setIsUpdatingAnswer(true);
