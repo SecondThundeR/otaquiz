@@ -47,6 +47,7 @@ const GamePage = memo(function GamePage({
   const router = useRouter();
   const [correctButtonID, setCorrectButtonID] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(currentAnimeIndex);
+  const [isUpdatingAnswer, setIsUpdatingAnswer] = useState(false);
 
   const {
     data: { screenshots, isLoading },
@@ -85,6 +86,7 @@ const GamePage = memo(function GamePage({
         await asyncTimeout(1500);
         setCorrectButtonID(null);
       }
+      setIsUpdatingAnswer(true);
 
       await updateAnswers({
         anime,
@@ -97,6 +99,7 @@ const GamePage = memo(function GamePage({
       }
 
       setCurrentIndex(currentIndex + 1);
+      setIsUpdatingAnswer(false);
       scrollIntoView();
     },
     [
@@ -142,7 +145,7 @@ const GamePage = memo(function GamePage({
         <QuestionScreenshots screenshots={currentAnimeScreenshots} />
         <QuestionButtons
           buttons={currentButtons}
-          isDisabled={isLoading}
+          isDisabled={isLoading || isUpdatingAnswer}
           correctButtonID={isShowingResult && correctButtonID}
           onAnswerClick={onAnswerClick}
         />
