@@ -90,10 +90,11 @@ export const CustomGameForm = memo(function CustomGameForm({
                 type: "checkbox",
               })}
               onChange={customOnChange}
+              disabled={isCreating}
             />
           );
         }),
-    [form],
+    [form, isCreating],
   );
 
   return (
@@ -110,6 +111,7 @@ export const CustomGameForm = memo(function CustomGameForm({
         max={50}
         className="input input-bordered"
         label="Количество аниме"
+        disabled={isCreating}
         {...form.getInputProps("limit", { type: "input" })}
       />
       <FormInput
@@ -120,6 +122,7 @@ export const CustomGameForm = memo(function CustomGameForm({
         placeholder="Введите минимальную оценку"
         className="input input-bordered"
         label="Минимальная оценка"
+        disabled={isCreating}
         {...form.getInputProps("score", { type: "input" })}
       />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -141,6 +144,7 @@ export const CustomGameForm = memo(function CustomGameForm({
       </div>
       <FormToggle
         label="Показывать результат во время игры"
+        disabled={isCreating}
         {...form.getInputProps("isShowingResult", { type: "checkbox" })}
       />
       {/*
