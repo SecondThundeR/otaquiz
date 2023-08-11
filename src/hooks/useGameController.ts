@@ -38,7 +38,7 @@ export function useGameController({
   const isLoading = isUpdating || isDeleting;
 
   const onBeforeUnload = useCallback(async () => {
-    if (isUpdatedBeforeUnload) return;
+    if (isUpdatedBeforeUnload || answers.length === 0) return;
     setIsUpdatedBeforeUnload(true);
     const isFinished = answers.length === animeIds.split(",").length;
     await updateAsync({
