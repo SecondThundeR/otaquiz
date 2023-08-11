@@ -51,7 +51,7 @@ const HomePage = memo(function HomePage({
       <Head>
         <title>{PAGE_TITLE}</title>
       </Head>
-      <PageLayout user={user} isHome>
+      <PageLayout user={user} isHome hasDropdown={!isCreating}>
         {!user ? (
           <Alert type="info">
             На данный момент, игры для анонимных пользователей не поддерживаются
@@ -66,11 +66,13 @@ const HomePage = memo(function HomePage({
               amount={amount}
               increment={increment}
               decrement={decrement}
+              isDisabled={isCreating}
             />
             <div className="flex flex-col gap-2">
               <Checkbox
                 label="Показывать результат во время игры"
                 checked={isShowingResult}
+                disabled={isCreating}
                 onChange={onChange}
               />
               <Button size="lg" disabled={isCreating} onClick={onClick}>
@@ -84,7 +86,7 @@ const HomePage = memo(function HomePage({
                 )}
               </Button>
               <Divider>или</Divider>
-              <LinkButton to="/game/custom" size="lg">
+              <LinkButton to="/game/custom" size="lg" disabled={isCreating}>
                 Кастомизировать игру
               </LinkButton>
             </div>
