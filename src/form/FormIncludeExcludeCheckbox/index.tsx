@@ -1,4 +1,4 @@
-import { memo, type InputHTMLAttributes } from "react";
+import { memo, useEffect, useRef, type InputHTMLAttributes } from "react";
 import clsx from "clsx";
 
 import { Button } from "@/ui/Button";
@@ -19,10 +19,23 @@ export const FormIncludeExcludeCheckbox = memo(
     setIsExcluded,
     ...props
   }: FormIncludeExcludeCheckboxProps) {
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+      if (inputRef.current) {
+        inputRef.current.indeterminate = isExcluded;
+      }
+    }, [isExcluded]);
+
     return (
       <label className="label cursor-pointer justify-between gap-4">
         <div className="flex items-center gap-4">
-          <input type="checkbox" className="checkbox" {...props} />
+          <input
+            ref={inputRef}
+            type="checkbox"
+            className="checkbox"
+            {...props}
+          />
           <span className="label-text">{label}</span>
         </div>
         <Button
