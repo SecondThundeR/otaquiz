@@ -52,7 +52,7 @@ export const initialFormValues = {
   },
   status: {
     anons: {
-      label: "Анонисировано",
+      label: "Анонсировано",
       checked: false,
       excluded: false,
     },
