@@ -61,36 +61,38 @@ export const CustomGameForm = memo(function CustomGameForm({
 
   const getCheckboxes = useCallback(
     (obj: ObjectType, objName: string) =>
-      Object.entries(obj).map((entry) => {
-        const [name, values] = entry;
-        const { label, checked, excluded } = values;
+      Object.entries(obj)
+        .sort((a, b) => Number(b[0]) - Number(a[0]))
+        .map((entry) => {
+          const [name, values] = entry;
+          const { label, checked, excluded } = values;
 
-        const setIsExcluded = () =>
-          form.setFieldValue(`${objName}.${name}.excluded`, !excluded);
+          const setIsExcluded = () =>
+            form.setFieldValue(`${objName}.${name}.excluded`, !excluded);
 
-        const customOnChange = (event: ChangeEvent<HTMLInputElement>) => {
-          (
-            form.getInputProps(`${objName}.${name}.checked`)
-              .onChange as ChangeEventHandler<HTMLInputElement>
-          )(event);
-          if (excluded)
-            form.setFieldValue(`${objName}.${name}.excluded`, false);
-        };
+          const customOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+            (
+              form.getInputProps(`${objName}.${name}.checked`)
+                .onChange as ChangeEventHandler<HTMLInputElement>
+            )(event);
+            if (excluded)
+              form.setFieldValue(`${objName}.${name}.excluded`, false);
+          };
 
-        return (
-          <FormIncludeExcludeCheckbox
-            key={name}
-            label={label}
-            isChecked={checked}
-            isExcluded={excluded}
-            setIsExcluded={setIsExcluded}
-            {...form.getInputProps(`${objName}.${name}.checked`, {
-              type: "checkbox",
-            })}
-            onChange={customOnChange}
-          />
-        );
-      }),
+          return (
+            <FormIncludeExcludeCheckbox
+              key={name}
+              label={label}
+              isChecked={checked}
+              isExcluded={excluded}
+              setIsExcluded={setIsExcluded}
+              {...form.getInputProps(`${objName}.${name}.checked`, {
+                type: "checkbox",
+              })}
+              onChange={customOnChange}
+            />
+          );
+        }),
     [form],
   );
 
