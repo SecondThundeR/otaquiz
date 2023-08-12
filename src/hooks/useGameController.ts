@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { useRouter } from "next/router";
 
 import { type DBAnswerAnime, type DBAnswerArray } from "@/schemas/db/answers";
 
@@ -24,6 +25,7 @@ export function useGameController({
   animeIds,
   currentAnswers,
 }: UseGameControllerProps) {
+  const router = useRouter();
   const {
     data: { screenshots, decoys },
   } = useAnimeData(animeIds);
@@ -34,8 +36,6 @@ export function useGameController({
     api.game.updateGameAnswers.useMutation();
   const { mutateAsync: deleteAsync, isLoading: isDeleting } =
     api.game.deleteGame.useMutation();
-
-  const isLoading = isUpdating || isDeleting;
 
   const onBeforeUnload = useCallback(async () => {
     if (isUpdatedBeforeUnload || answers.length === 0) return;
@@ -76,19 +76,20 @@ export function useGameController({
         },
       ];
       if (isFinished) {
-        return await updateAsync({
+        await updateAsync({
           gameId,
           answers: newAnswers,
           isFinished,
         });
+        return await router.push(`${router.asPath}/results`);
       }
       setAnswers(newAnswers);
     },
-    [answers, updateAsync, gameId],
+    [answers, updateAsync, gameId, router],
   );
 
   return {
-    data: { screenshots, isLoading },
+    data: { screenshots, isDeleting, isUpdating },
     handlers: {
       onGameExit,
       getButtonAnswers,
