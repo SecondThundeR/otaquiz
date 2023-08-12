@@ -8,19 +8,21 @@ import { LinkButton } from "@/ui/LinkButton";
 export interface NavbarTitleProps {
   title?: string;
   isHome?: boolean;
+  isButtonDisabled?: boolean;
   onClick?: () => void;
 }
 
 export const NavbarTitle = memo(function NavbarTitle({
   title,
   isHome = false,
+  isButtonDisabled = false,
   onClick,
 }: NavbarTitleProps) {
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isOnClickRunning, setIsOnClickRunning] = useState(false);
 
   const onLinkClick = () => {
     if (onClick === undefined) return;
-    setIsDisabled(true);
+    setIsOnClickRunning(true);
     onClick();
   };
 
@@ -29,7 +31,7 @@ export const NavbarTitle = memo(function NavbarTitle({
       style="ghost"
       to="/"
       className="text-xl normal-case"
-      disabled={isDisabled}
+      disabled={isButtonDisabled || isOnClickRunning}
       onClick={onLinkClick}
     >
       {isHome ? (
