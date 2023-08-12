@@ -4,7 +4,6 @@ import {
   type InferGetServerSidePropsType,
 } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useLocalStorage, useScrollIntoView } from "@mantine/hooks";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
@@ -46,13 +45,12 @@ const GamePage = memo(function GamePage({
   },
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const router = useRouter();
   const [correctButtonID, setCorrectButtonID] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(currentAnimeIndex);
   const [isUpdatingAnswer, setIsUpdatingAnswer] = useState(false);
 
   const {
-    data: { screenshots, isLoading },
+    data: { screenshots, isDeleting, isUpdating },
     handlers: { onGameExit, getButtonAnswers, updateAnswers },
   } = useGameController({
     gameId,
@@ -76,6 +74,8 @@ const GamePage = memo(function GamePage({
     (data) => data.id === currentAnime.id,
   )?.screenshots;
   const currentButtons = getButtonAnswers(currentAnime, currentIndex);
+  const isButtonsDisabled = isUpdating || isDeleting || isUpdatingAnswer;
+  const isSavingResult = isUpdating || (isUpdatingAnswer && isFinished);
 
   const onNoteDismiss = () => {
     setIsDismissed(true);
@@ -96,10 +96,6 @@ const GamePage = memo(function GamePage({
         isFinished,
       });
 
-      if (isFinished) {
-        return await router.push(`${router.asPath}/results`);
-      }
-
       setCurrentIndex(currentIndex + 1);
       setIsUpdatingAnswer(false);
       scrollIntoView();
@@ -109,7 +105,6 @@ const GamePage = memo(function GamePage({
       currentIndex,
       isFinished,
       isShowingResult,
-      router,
       scrollIntoView,
       updateAnswers,
     ],
@@ -126,6 +121,7 @@ const GamePage = memo(function GamePage({
         onClick={onGameExit}
         hasFooter={false}
         hasDropdown={false}
+        isButtonDisabled={isSavingResult}
         ref={targetRef}
       >
         {isSafari && !isDismissed && (
@@ -143,11 +139,14 @@ const GamePage = memo(function GamePage({
             </div>
           </Alert>
         )}
-        <Subtitle>Раунд {currentAnswerTitle}</Subtitle>
+        <Subtitle>
+          Раунд {currentAnswerTitle}{" "}
+          {isSavingResult && "| Идет сохранение ответов"}
+        </Subtitle>
         <QuestionScreenshots screenshots={currentAnimeScreenshots} />
         <QuestionButtons
           buttons={currentButtons}
-          isDisabled={isLoading || isUpdatingAnswer}
+          isDisabled={isButtonsDisabled}
           correctButtonID={isShowingResult && correctButtonID}
           onAnswerClick={onAnswerClick}
         />
