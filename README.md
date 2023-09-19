@@ -10,7 +10,7 @@ Some random anime quiz web application. Built with T3 Stack, powered by Shikimor
 
 This is an anime quiz game, which queries random animes, shows screenshots and gives buttons for player to guess, which anime name is correct
 
-> More game modes are on the way
+> ~More game modes are on the way~ Project is currently postponed indefinitely
 
 ## Getting started
 
