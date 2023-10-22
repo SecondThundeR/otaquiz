@@ -29,7 +29,7 @@ To launch app, simply run `pnpm dev`
 
 ### Creating Shikimori app for authorization
 
-To create Shikimori app for NextAuth, go to [Shikimori OAuth Apps](https://shikimori.me/oauth/applications) page and press button with text `Создать` near page title
+To create Shikimori app for NextAuth, go to [Shikimori OAuth Apps](https://shikimori.one/oauth/applications) page and press button with text `Создать` near page title
 
 Fill input fieids with necessary information and fill `Redirect URI` field with such link:
 

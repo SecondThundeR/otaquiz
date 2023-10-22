@@ -55,7 +55,7 @@ export default function handler(request: NextRequest) {
             <img
               width="144"
               height="144"
-              src={`https://desu.shikimori.me/system/users/x160/${profileID}.png`}
+              src={`https://desu.shikimori.one/system/users/x160/${profileID}.png`}
               style={{
                 borderRadius: 128,
                 border: "8px solid #570df8",

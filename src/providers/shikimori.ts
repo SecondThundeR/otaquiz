@@ -45,9 +45,9 @@ export default function Shikimori<P extends ShikimoriUser>(
     id: "shikimori",
     name: "Shikimori",
     type: "oauth",
-    token: "https://shikimori.me/oauth/token",
-    authorization: "https://shikimori.me/oauth/authorize?scope=",
-    userinfo: "https://shikimori.me/api/users/whoami",
+    token: "https://shikimori.one/oauth/token",
+    authorization: "https://shikimori.one/oauth/authorize?scope=",
+    userinfo: "https://shikimori.one/api/users/whoami",
     profile(profile) {
       return {
         id: String(profile.id),
