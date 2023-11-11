@@ -30,16 +30,13 @@ export const AnimesNonScreenshotSchema = z.object({
   }),
 });
 
-export type FilteredAnime = Omit<
-  z.infer<typeof AnimeDataWithGenresSchema>,
-  "russian"
-> & {
+export type FilteredAnime = z.infer<typeof AnimeDataWithGenresSchema> & {
   russian: string;
 };
 
 export type FilteredAnimeNonScreenshot = Omit<
   z.infer<typeof AnimeDataSchema>,
-  "screenshots" | "russian"
+  "screenshots"
 > & { russian: string };
 
 export type Animes = z.infer<typeof AnimeDataSchema>[];
