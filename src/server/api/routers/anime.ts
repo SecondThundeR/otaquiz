@@ -3,7 +3,10 @@ import { z } from "zod";
 import { decoyQuery, screenshotsQuery } from "@/constants/graphQLQueries";
 import { SHIKIMORI_GRAPHQL_API_URL } from "@/constants/links";
 
-import { AnimesNonScreenshotSchema } from "@/schemas/animes";
+import {
+  AnimesNonScreenshotSchema,
+  type FilteredAnimeNonScreenshot,
+} from "@/schemas/animes";
 import { AnimeScreenshotsSchema } from "@/schemas/animeScreenshots";
 import { type DBAnswerAnime } from "@/schemas/db/answers";
 
@@ -73,7 +76,9 @@ export const animeRouter = createTRPCRouter({
           checkForEmptyAnimes(parsedAnimes);
 
           const filteredAnimes = parsedAnimes
-            .filter((anime) => !!anime.russian)
+            .filter(
+              (anime): anime is FilteredAnimeNonScreenshot => !!anime.russian,
+            )
             .map((anime) => {
               const { id, russian } = anime;
               return { id, name: russian };

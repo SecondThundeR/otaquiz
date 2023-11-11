@@ -3,7 +3,11 @@ import { z } from "zod";
 import { gameQuery } from "@/constants/graphQLQueries";
 import { SHIKIMORI_GRAPHQL_API_URL } from "@/constants/links";
 
-import { AnimesSchema, type Animes } from "@/schemas/animes";
+import {
+  AnimesSchema,
+  type Animes,
+  type FilteredAnime,
+} from "@/schemas/animes";
 import { DBAnswerArraySchema } from "@/schemas/db/answers";
 
 import {
@@ -57,7 +61,7 @@ export const gameRouter = createTRPCRouter({
           checkForEmptyAnimes(parsedAnimes);
 
           const filteredAnimes = parsedAnimes.filter(
-            (data) =>
+            (data): data is FilteredAnime =>
               data.screenshots.length > 0 &&
               data.genres.length > 0 &&
               !!data.russian,
