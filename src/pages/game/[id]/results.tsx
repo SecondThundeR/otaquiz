@@ -11,7 +11,7 @@ import { ResultAnswers } from "@/components/ResultAnswers";
 import { ResultHeader } from "@/components/ResultHeader";
 import { URLCopyButton } from "@/components/URLCopyButton";
 
-import { PAGE_LINK, PAGE_TITLE } from "@/constants/pageHeadData";
+import { PAGE_LINK } from "@/constants/pageHeadData";
 
 import { PageLayout } from "@/layouts/PageLayout";
 
@@ -38,6 +38,7 @@ const ResultsPage = memo(function ResultsPage({
   const playerTitleName = userName ?? "анонима";
   const titleText = `Результат игры ${playerTitleName}`;
   const correctAnswersAmount = getCorrectAnswersAmount(amount, answers);
+  const descriptionText = `Правильно отгадано ${correctAnswersAmount} из ${amount} вопросов`;
   const ogImageLink = getOGImageLink(
     host,
     id,
@@ -50,11 +51,14 @@ const ResultsPage = memo(function ResultsPage({
     <>
       <Head>
         <title>{titleText}</title>
-        <meta property="og:description" content={titleText} />
+        <meta property="title" content={titleText} />
+        <meta property="description" content={descriptionText} />
+        <meta property="og:title" content={titleText} />
+        <meta property="og:description" content={descriptionText} />
         <meta property="og:image" content={ogImageLink} />
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content={PAGE_LINK} />
-        <meta property="twitter:title" content={PAGE_TITLE} />
+        <meta property="twitter:title" content={titleText} />
         <meta property="twitter:description" content={titleText} />
         <meta property="twitter:image" content={ogImageLink} />
       </Head>
