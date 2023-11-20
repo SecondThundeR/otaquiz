@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { track } from "@vercel/analytics/server";
 
 import { TEN_MINUTES } from "@/constants/time";
 
@@ -19,11 +18,6 @@ export default async function handler(
   }
 
   try {
-    await track("Cron Task Event", {
-      data: "serverless",
-      router: "pages",
-    });
-
     await prisma.game.deleteMany({
       where: {
         isFinished: {
