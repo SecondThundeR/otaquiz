@@ -59,7 +59,7 @@ const ResultsPage = memo(function ResultsPage({
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content={PAGE_LINK} />
         <meta property="twitter:title" content={titleText} />
-        <meta property="twitter:description" content={titleText} />
+        <meta property="twitter:description" content={descriptionText} />
         <meta property="twitter:image" content={ogImageLink} />
       </Head>
       <PageLayout user={user}>
