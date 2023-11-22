@@ -143,16 +143,14 @@ export const CustomGameForm = memo(function CustomGameForm({
         </FormCheckboxContainer>
       </div>
       <FormToggle
+        label="Активировать цензуру для аниме"
+        {...form.getInputProps("censored", { type: "checkbox" })}
+      />
+      <FormToggle
         label="Показывать результат во время игры"
         disabled={isCreating}
         {...form.getInputProps("isShowingResult", { type: "checkbox" })}
       />
-      {/*
-      TODO: Add when GraphQL-version of Shikimori API will correctly handle `censored` parameter
-      <FormToggle
-        label="Цензура"
-        {...form.getInputProps("censored", { type: "checkbox" })}
-      /> */}
       {isWarningTriggered && (
         <Alert type="warning" fullWidth>
           <strong>Будьте осторожны!</strong>
