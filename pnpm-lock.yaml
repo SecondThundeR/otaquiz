@@ -38,12 +38,12 @@ dependencies:
   '@trpc/server':
     specifier: ^10.40.0
     version: 10.40.0
-  '@vercel/analytics':
-    specifier: ^1.1.0
-    version: 1.1.0
   '@vercel/og':
     specifier: ^0.5.17
     version: 0.5.17
+  '@vercel/speed-insights':
+    specifier: ^1.0.1
+    version: 1.0.1
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
@@ -1193,12 +1193,6 @@ packages:
       eslint-visitor-keys: 3.4.3
     dev: true
 
-  /@vercel/analytics@1.1.0:
-    resolution: {integrity: sha512-k5ePYZPxitxxD1eJenPUUuH3qK+EtaA9OVD3oO0BRbyT/LarmZF0qdkptRSidip1arQxsTEIWvHbTuj1oksl+Q==}
-    dependencies:
-      server-only: 0.0.1
-    dev: false
-
   /@vercel/og@0.5.17:
     resolution: {integrity: sha512-/GOyUBq3MhB3ygbhTJoZ0cHvwlyKdt0g8f4npuj4mwFlp57S7j4XWwgtqILK3XdFf25esN9i77fInrDkeRJfgA==}
     engines: {node: '>=16'}
@@ -1206,6 +1200,11 @@ packages:
       '@resvg/resvg-wasm': 2.4.1
       satori: 0.10.8
       yoga-wasm-web: 0.3.3
+    dev: false
+
+  /@vercel/speed-insights@1.0.1:
+    resolution: {integrity: sha512-cm8KTTsDgS1AbWsgIEZuMoyPUjclzeqJihyLp0tnA21B/x9iTE8hu2S5zM+/DBzihuHxWL1dx9pCWk22ctMFWQ==}
+    requiresBuild: true
     dev: false
 
   /@vitest/expect@0.34.6:
@@ -3943,10 +3942,6 @@ packages:
     dependencies:
       lru-cache: 6.0.0
     dev: true
-
-  /server-only@0.0.1:
-    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
-    dev: false
 
   /set-cookie-parser@2.6.0:
     resolution: {integrity: sha512-RVnVQxTXuerk653XfuliOxBP81Sf0+qfQE73LIYKcyMYHG94AuH0kgrQpRDuTZnSmjpysHmzxJXKNfa6PjFhyQ==}

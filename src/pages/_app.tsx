@@ -1,6 +1,6 @@
 import { type AppType } from "next/app";
 import { JetBrains_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
@@ -23,7 +23,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <main className={font.className}>
         <Component {...pageProps} />
       </main>
-      <Analytics />
+      <SpeedInsights />
     </SessionProvider>
   );
 };
