@@ -1,4 +1,4 @@
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 
 import { SHIKIMORI_GRAPHQL_API_URL } from "@/constants/links";
 
@@ -150,18 +150,24 @@ const animes = {
 };
 
 export const handlers = [
-  rest.post(SHIKIMORI_GRAPHQL_API_URL, async (req, res, ctx) => {
-    const data: QueryParameters = await req.json();
-    const query = data.query;
+  http.post(SHIKIMORI_GRAPHQL_API_URL, async ({ request }) => {
+    const data = await request.json();
+    if (!data)
+      return new HttpResponse(null, {
+        status: 500,
+      });
+    const query = (data as QueryParameters).query;
     if (query.includes("DecoyAnimes")) {
-      return res(ctx.status(200), ctx.json(decoys));
+      return HttpResponse.json(decoys);
     }
     if (query.includes("AnimeScreenshots")) {
-      return res(ctx.status(200), ctx.json(screenshots));
+      return HttpResponse.json(screenshots);
     }
     if (query.includes("GameAnimes")) {
-      return res(ctx.status(200), ctx.json(animes));
+      return HttpResponse.json(animes);
     }
-    return res(ctx.status(500));
+    return new HttpResponse(null, {
+      status: 500,
+    });
   }),
 ];
