@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { api } from "@/utils/trpc/api";
 
 export function useGameHistory() {
-  const utils = api.useContext();
+  const utils = api.useUtils();
   const historyQuery = api.history.getGameHistory.useQuery(undefined, {
     refetchOnWindowFocus: false,
   });
