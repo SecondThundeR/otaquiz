@@ -1,18 +1,18 @@
-import { memo, useCallback, useState } from "react";
+import { memo } from "react";
 import {
   type GetServerSidePropsContext,
   type InferGetServerSidePropsType,
 } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { useScrollIntoView } from "@mantine/hooks";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
 
 import { useGameController } from "@/hooks/useGameController";
+import { useGameState } from "@/hooks/useGameState";
 
 import { DBAnimeArraySchema } from "@/schemas/db/animes";
-import { DBAnswerArraySchema, type DBAnswerAnime } from "@/schemas/db/answers";
+import { DBAnswerArraySchema } from "@/schemas/db/answers";
 
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
@@ -21,11 +21,8 @@ import { prisma } from "@/server/db";
 import { Spinner } from "@/ui/Spinner";
 import { Subtitle } from "@/ui/Subtitle";
 
-import { asyncTimeout } from "@/utils/general/asyncTimeout";
 import { isGameExpired } from "@/utils/server/isGameExpired";
 import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
-
-const ANSWER_TIMEOUT_MS = 2000;
 
 const DynamicPageLayout = dynamic(
   () =>
@@ -69,10 +66,6 @@ const GamePage = memo(function GamePage({
   },
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [correctButtonID, setCorrectButtonID] = useState<string | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(currentAnimeIndex);
-  const [isUpdatingAnswer, setIsUpdatingAnswer] = useState(false);
-
   const {
     data: { screenshots, isDeleting, isUpdating },
     handlers: { onGameExit, getButtonAnswers, updateAnswers },
@@ -81,49 +74,27 @@ const GamePage = memo(function GamePage({
     animeIds,
     currentAnswers,
   });
-  const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
-    duration: 425,
-  });
-
-  const maxIndex = animes.length - 1;
-  const currentAnime = animes[currentIndex]!;
-  const isFinished = currentIndex === maxIndex;
-  const currentAnswerTitle = `${currentIndex + 1} из ${amount}`;
-  const currentAnimeScreenshots = screenshots?.find(
-    (data) => data.id === currentAnime.id,
-  )?.screenshots;
-  const currentButtons = getButtonAnswers(currentAnime, currentIndex);
-  const isButtonsDisabled = isUpdating || isDeleting || isUpdatingAnswer;
-  const isSavingResult = isUpdating || (isUpdatingAnswer && isFinished);
-
-  const onAnswerClick = useCallback(
-    async (anime: DBAnswerAnime) => {
-      if (isShowingResult) {
-        setCorrectButtonID(currentAnime.id);
-        await asyncTimeout(ANSWER_TIMEOUT_MS);
-        setCorrectButtonID(null);
-      }
-      setIsUpdatingAnswer(true);
-
-      await updateAnswers({
-        anime,
-        currentAnime,
-        isFinished,
-      });
-
-      setCurrentIndex(currentIndex + 1);
-      setIsUpdatingAnswer(false);
-      scrollIntoView();
+  const {
+    data: {
+      correctButtonID,
+      currentAnswerTitle,
+      currentAnimeScreenshots,
+      currentButtons,
+      isButtonsDisabled,
+      isSavingResult,
     },
-    [
-      currentAnime,
-      currentIndex,
-      isFinished,
-      isShowingResult,
-      scrollIntoView,
-      updateAnswers,
-    ],
-  );
+    handlers: { onAnswerClick },
+  } = useGameState({
+    animes,
+    currentAnimeIndex,
+    amount,
+    isShowingResult,
+    screenshots,
+    isDeleting,
+    isUpdating,
+    getButtonAnswers,
+    updateAnswers,
+  });
 
   return (
     <>
@@ -137,7 +108,6 @@ const GamePage = memo(function GamePage({
         hasFooter={false}
         hasDropdown={false}
         isButtonDisabled={isSavingResult}
-        ref={targetRef}
       >
         <Subtitle>
           Раунд {currentAnswerTitle}{" "}
