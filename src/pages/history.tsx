@@ -1,4 +1,5 @@
 import { memo } from "react";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import {
   type GetServerSidePropsContext,
@@ -7,18 +8,31 @@ import {
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
 
-import { HistoryGames } from "@/components/HistoryGames";
-
 import { useGameHistory } from "@/hooks/useGameHistory";
-
-import { PageLayout } from "@/layouts/PageLayout";
 
 import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 
+import { Spinner } from "@/ui/Spinner";
 import { Subtitle } from "@/ui/Subtitle";
 import { Title } from "@/ui/Title";
+
+const DynamicPageLayout = dynamic(
+  () => import("../layouts/PageLayout").then((module) => module.PageLayout),
+  {
+    loading: () => <Spinner size="large" />,
+    ssr: false,
+  },
+);
+
+const DynamicHistoryGames = dynamic(
+  () =>
+    import("../components/HistoryGames").then((module) => module.HistoryGames),
+  {
+    ssr: true,
+  },
+);
 
 const HistoryPage = memo(function HistoryPage({
   user,
@@ -31,16 +45,20 @@ const HistoryPage = memo(function HistoryPage({
       <Head>
         <title>История игр</title>
       </Head>
-      <PageLayout user={user}>
+      <DynamicPageLayout user={user}>
         <Title>История игр</Title>
         {!history || history.length === 0 ? (
           <Subtitle>
             История пуста, самое время наполнить её чем-то интересным!
           </Subtitle>
         ) : (
-          <HistoryGames host={host} history={history} onDelete={onDelete} />
+          <DynamicHistoryGames
+            host={host}
+            history={history}
+            onDelete={onDelete}
+          />
         )}
-      </PageLayout>
+      </DynamicPageLayout>
     </>
   );
 });
