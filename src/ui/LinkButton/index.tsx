@@ -32,7 +32,7 @@ export const LinkButton = memo(function LinkButton({
       isStyled={false}
       isHover={false}
       className={clsx(
-        "btn",
+        "btn uppercase",
         ButtonSizeClasses[size],
         ButtonStyleClasses[style],
         disabled && "btn-disabled",
