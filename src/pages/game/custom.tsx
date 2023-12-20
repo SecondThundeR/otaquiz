@@ -3,19 +3,33 @@ import {
   type GetServerSidePropsContext,
   type InferGetServerSidePropsType,
 } from "next";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 
 import { useGameCreate } from "@/hooks/useGameCreate";
 
-import { PageLayout } from "@/layouts/PageLayout";
-
 import { getServerAuthSession } from "@/server/auth";
 
 import { Alert } from "@/ui/Alert";
+import { Spinner } from "@/ui/Spinner";
 import { Subtitle } from "@/ui/Subtitle";
 import { Title } from "@/ui/Title";
 
-import { CustomGameForm } from "@/form/CustomGameForm";
+const DynamicPageLayout = dynamic(
+  () => import("../../layouts/PageLayout").then((module) => module.PageLayout),
+  {
+    ssr: false,
+  },
+);
+
+const DynamicCustomGameForm = dynamic(
+  () =>
+    import("../../form/CustomGameForm").then((module) => module.CustomGameForm),
+  {
+    loading: () => <Spinner size="large" />,
+    ssr: false,
+  },
+);
 
 const CustomGame = memo(function CustomGame({
   user,
@@ -27,12 +41,15 @@ const CustomGame = memo(function CustomGame({
       <Head>
         <title>Создать кастомную игру</title>
       </Head>
-      <PageLayout user={user}>
+      <DynamicPageLayout user={user}>
         <Title>Настраиваемая игра</Title>
         <Subtitle>
           Настрой необходимые фильтры по которым ты хочешь играть
         </Subtitle>
-        <CustomGameForm isCreating={isCreating} onGameCreate={onGameCreate} />
+        <DynamicCustomGameForm
+          isCreating={isCreating}
+          onGameCreate={onGameCreate}
+        />
         {isError && (
           <Alert type="error">
             <strong>Не удалось создать игру!</strong>
@@ -44,7 +61,7 @@ const CustomGame = memo(function CustomGame({
             Github, если ошибка повторяется при любых настройках
           </Alert>
         )}
-      </PageLayout>
+      </DynamicPageLayout>
     </>
   );
 });

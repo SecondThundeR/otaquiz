@@ -3,17 +3,14 @@ import {
   type GetServerSidePropsContext,
   type InferGetServerSidePropsType,
 } from "next";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
 
-import { ResultAnswers } from "@/components/ResultAnswers";
-import { ResultHeader } from "@/components/ResultHeader";
 import { URLCopyButton } from "@/components/URLCopyButton";
 
 import { PAGE_LINK } from "@/constants/pageHeadData";
-
-import { PageLayout } from "@/layouts/PageLayout";
 
 import { DBAnimeArraySchema } from "@/schemas/db/animes";
 import { DBAnswerArraySchema } from "@/schemas/db/answers";
@@ -23,11 +20,42 @@ import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 
 import { Divider } from "@/ui/Divider";
+import { Spinner } from "@/ui/Spinner";
 import { Title } from "@/ui/Title";
 
 import { getCorrectAnswersAmount } from "@/utils/game/getCorrectAnswersAmount";
 import { getOGImageLink } from "@/utils/pages/getOGImageLink";
 import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
+
+const DynamicPageLayout = dynamic(
+  () =>
+    import("../../../layouts/PageLayout").then((module) => module.PageLayout),
+  {
+    ssr: false,
+  },
+);
+
+const DynamicResultHeader = dynamic(
+  () =>
+    import("../../../components/ResultHeader").then(
+      (module) => module.ResultHeader,
+    ),
+  {
+    loading: () => <Spinner size="large" />,
+    ssr: false,
+  },
+);
+
+const DynamicResultAnswers = dynamic(
+  () =>
+    import("../../../components/ResultAnswers").then(
+      (module) => module.ResultAnswers,
+    ),
+  {
+    loading: () => <Spinner size="large" />,
+    ssr: false,
+  },
+);
 
 const ResultsPage = memo(function ResultsPage({
   user,
@@ -62,9 +90,9 @@ const ResultsPage = memo(function ResultsPage({
         <meta property="twitter:description" content={descriptionText} />
         <meta property="twitter:image" content={ogImageLink} />
       </Head>
-      <PageLayout user={user}>
+      <DynamicPageLayout user={user}>
         <Title>Результат игры</Title>
-        <ResultHeader
+        <DynamicResultHeader
           name={userName}
           amount={amount}
           correctAnswers={correctAnswersAmount}
@@ -74,8 +102,8 @@ const ResultsPage = memo(function ResultsPage({
         </URLCopyButton>
         <Divider />
         <Title>Детали ответов</Title>
-        <ResultAnswers answers={answers} animes={animes} />
-      </PageLayout>
+        <DynamicResultAnswers answers={answers} animes={animes} />
+      </DynamicPageLayout>
     </>
   );
 });

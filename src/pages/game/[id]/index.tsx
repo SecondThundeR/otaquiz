@@ -3,17 +3,13 @@ import {
   type GetServerSidePropsContext,
   type InferGetServerSidePropsType,
 } from "next";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useScrollIntoView } from "@mantine/hooks";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
 
-import { QuestionButtons } from "@/components/QuestionButtons";
-import { QuestionScreenshots } from "@/components/QuestionScreenshots";
-
 import { useGameController } from "@/hooks/useGameController";
-
-import { PageLayout } from "@/layouts/PageLayout";
 
 import { DBAnimeArraySchema } from "@/schemas/db/animes";
 import { DBAnswerArraySchema, type DBAnswerAnime } from "@/schemas/db/answers";
@@ -22,6 +18,7 @@ import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 
+import { Spinner } from "@/ui/Spinner";
 import { Subtitle } from "@/ui/Subtitle";
 
 import { asyncTimeout } from "@/utils/general/asyncTimeout";
@@ -29,6 +26,36 @@ import { isGameExpired } from "@/utils/server/isGameExpired";
 import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
 
 const ANSWER_TIMEOUT_MS = 2000;
+
+const DynamicPageLayout = dynamic(
+  () =>
+    import("../../../layouts/PageLayout").then((module) => module.PageLayout),
+  {
+    ssr: false,
+  },
+);
+
+const DynamicQuestionScreenshots = dynamic(
+  () =>
+    import("../../../components/QuestionScreenshots").then(
+      (module) => module.QuestionScreenshots,
+    ),
+  {
+    loading: () => <Spinner size="large" />,
+    ssr: false,
+  },
+);
+
+const DynamicQuestionButtons = dynamic(
+  () =>
+    import("../../../components/QuestionButtons").then(
+      (module) => module.QuestionButtons,
+    ),
+  {
+    loading: () => <Spinner size="large" />,
+    ssr: false,
+  },
+);
 
 const GamePage = memo(function GamePage({
   gameData: {
@@ -103,7 +130,7 @@ const GamePage = memo(function GamePage({
       <Head>
         <title>{`Игра | Раунд ${currentAnswerTitle}`}</title>
       </Head>
-      <PageLayout
+      <DynamicPageLayout
         user={user}
         title="Завершить игру"
         onClick={onGameExit}
@@ -116,14 +143,14 @@ const GamePage = memo(function GamePage({
           Раунд {currentAnswerTitle}{" "}
           {isSavingResult && "| Идет сохранение ответов"}
         </Subtitle>
-        <QuestionScreenshots screenshots={currentAnimeScreenshots} />
-        <QuestionButtons
+        <DynamicQuestionScreenshots screenshots={currentAnimeScreenshots} />
+        <DynamicQuestionButtons
           buttons={currentButtons}
           isDisabled={isButtonsDisabled}
           correctButtonID={isShowingResult && correctButtonID}
           onAnswerClick={onAnswerClick}
         />
-      </PageLayout>
+      </DynamicPageLayout>
     </>
   );
 });

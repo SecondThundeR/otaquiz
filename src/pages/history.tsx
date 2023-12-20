@@ -14,14 +14,12 @@ import { appRouter } from "@/server/api/root";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 
-import { Spinner } from "@/ui/Spinner";
 import { Subtitle } from "@/ui/Subtitle";
 import { Title } from "@/ui/Title";
 
 const DynamicPageLayout = dynamic(
   () => import("../layouts/PageLayout").then((module) => module.PageLayout),
   {
-    loading: () => <Spinner size="large" />,
     ssr: false,
   },
 );
