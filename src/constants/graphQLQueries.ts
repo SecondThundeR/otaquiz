@@ -1,5 +1,7 @@
+// TODO: change to `AnimeStatusString`,
+// when fix will be implemented
 export const gameQuery = `
-  query GameAnimes($limit: Int, $kind: AnimeKindString, $status: StatusString, $season: SeasonString, $score: Int, $duration: DurationString, $rating: RatingString, $censored: Boolean, $excludeIds: String) {
+  query GameAnimes($limit: Int, $kind: AnimeKindString, $status: MangaStatusString, $season: SeasonString, $score: Int, $duration: DurationString, $rating: RatingString, $censored: Boolean, $excludeIds: String) {
     animes(
       limit: $limit
       order: random
