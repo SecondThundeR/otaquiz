@@ -2,41 +2,15 @@ import { type inferProcedureInput } from "@trpc/server";
 import { describe, expect, it } from "vitest";
 
 import { appRouter, type AppRouter } from "@/server/api/root";
-import { createInnerTRPCContext } from "@/server/api/trpc";
+import { createCallerFactory, createInnerTRPCContext } from "@/server/api/trpc";
 
-const emptySession = { session: null };
-
-const exampleSession = {
-  session: {
-    user: {
-      id: "123",
-      name: "Test",
-    },
-    expires: "1",
-  },
-};
-
-const animeIds = "53050";
-
-const decoysResult = [
-  {
-    id: "1",
-    name: "Аниме 1",
-  },
-  {
-    id: "2",
-    name: "Аниме 2",
-  },
-  {
-    id: "3",
-    name: "Аниме 3",
-  },
-];
+import { animeIds, decoysResult } from "../__mocks__/animes";
+import { emptySession, exampleSession } from "../__mocks__/session";
 
 describe("Anime Router Test (getAnswerDecoys route)", () => {
   it("unauthed user should be able to get anime decoys", async () => {
     const ctx = createInnerTRPCContext(emptySession);
-    const caller = appRouter.createCaller(ctx);
+    const caller = createCallerFactory(appRouter)(ctx);
 
     const input: inferProcedureInput<AppRouter["anime"]["getAnswerDecoys"]> = {
       animeIds,
@@ -49,7 +23,7 @@ describe("Anime Router Test (getAnswerDecoys route)", () => {
 
   it("authed user should be able to get anime decoys", async () => {
     const ctx = createInnerTRPCContext(exampleSession);
-    const caller = appRouter.createCaller(ctx);
+    const caller = createCallerFactory(appRouter)(ctx);
 
     const input: inferProcedureInput<AppRouter["anime"]["getAnswerDecoys"]> = {
       animeIds,
@@ -62,7 +36,7 @@ describe("Anime Router Test (getAnswerDecoys route)", () => {
 
   it("should fail on empty input", async () => {
     const ctx = createInnerTRPCContext(exampleSession);
-    const caller = appRouter.createCaller(ctx);
+    const caller = createCallerFactory(appRouter)(ctx);
 
     const example = caller.anime.getAnswerDecoys(undefined as never);
 
@@ -71,7 +45,7 @@ describe("Anime Router Test (getAnswerDecoys route)", () => {
 
   it("should fail on empty string", async () => {
     const ctx = createInnerTRPCContext(exampleSession);
-    const caller = appRouter.createCaller(ctx);
+    const caller = createCallerFactory(appRouter)(ctx);
 
     const input: inferProcedureInput<AppRouter["anime"]["getAnswerDecoys"]> = {
       animeIds: "",
@@ -86,7 +60,7 @@ describe("Anime Router Test (getAnswerDecoys route)", () => {
 describe("Anime Router Test (getAnimeScreenshots route)", () => {
   it("unauthed user should be able to get anime screenshots", async () => {
     const ctx = createInnerTRPCContext(emptySession);
-    const caller = appRouter.createCaller(ctx);
+    const caller = createCallerFactory(appRouter)(ctx);
 
     const input: inferProcedureInput<
       AppRouter["anime"]["getAnimeScreenshots"]
@@ -104,7 +78,7 @@ describe("Anime Router Test (getAnimeScreenshots route)", () => {
 
   it("authed user should be able to get anime screenshots", async () => {
     const ctx = createInnerTRPCContext(exampleSession);
-    const caller = appRouter.createCaller(ctx);
+    const caller = createCallerFactory(appRouter)(ctx);
 
     const input: inferProcedureInput<
       AppRouter["anime"]["getAnimeScreenshots"]
@@ -122,7 +96,7 @@ describe("Anime Router Test (getAnimeScreenshots route)", () => {
 
   it("should return different array on slice amount parameter", async () => {
     const ctx = createInnerTRPCContext(exampleSession);
-    const caller = appRouter.createCaller(ctx);
+    const caller = createCallerFactory(appRouter)(ctx);
 
     const input: inferProcedureInput<
       AppRouter["anime"]["getAnimeScreenshots"]
@@ -141,7 +115,7 @@ describe("Anime Router Test (getAnimeScreenshots route)", () => {
 
   it("should fail on empty input", async () => {
     const ctx = createInnerTRPCContext(exampleSession);
-    const caller = appRouter.createCaller(ctx);
+    const caller = createCallerFactory(appRouter)(ctx);
 
     const example = caller.anime.getAnimeScreenshots(undefined as never);
 
@@ -150,7 +124,7 @@ describe("Anime Router Test (getAnimeScreenshots route)", () => {
 
   it("should fail on empty string", async () => {
     const ctx = createInnerTRPCContext(exampleSession);
-    const caller = appRouter.createCaller(ctx);
+    const caller = createCallerFactory(appRouter)(ctx);
 
     const input: inferProcedureInput<
       AppRouter["anime"]["getAnimeScreenshots"]

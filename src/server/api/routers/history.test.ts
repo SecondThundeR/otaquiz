@@ -1,10 +1,11 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import prisma from "@/server/__mocks__/db";
 import { appRouter } from "@/server/api/root";
-import { createInnerTRPCContext } from "@/server/api/trpc";
+import { createCallerFactory, createInnerTRPCContext } from "@/server/api/trpc";
 
-import { gameDataMock } from "./game.test";
+import { prisma as prismaMock } from "@/mocks/prisma";
+
+import { gameDataMock } from "../__mocks__/gameData";
 
 vi.mock("../../db");
 
@@ -27,7 +28,7 @@ describe("History Router Test (getGameHistory route)", () => {
 
   it("unauthed user should not be able to get game history", async () => {
     const ctx = createInnerTRPCContext(emptySession);
-    const caller = appRouter.createCaller(ctx);
+    const caller = createCallerFactory(appRouter)(ctx);
 
     const example = caller.history.getGameHistory(undefined);
 
@@ -35,10 +36,13 @@ describe("History Router Test (getGameHistory route)", () => {
   });
 
   it("authed user should be able to get game history", async () => {
-    prisma.game.findMany.mockResolvedValueOnce([gameDataMock]);
+    prismaMock.game.findMany.mockResolvedValueOnce([gameDataMock]);
 
     const ctx = createInnerTRPCContext(exampleSession);
-    const caller = appRouter.createCaller({ ...ctx, prisma: prisma });
+    const caller = createCallerFactory(appRouter)({
+      ...ctx,
+      prisma: prismaMock,
+    });
 
     const example = await caller.history.getGameHistory(undefined);
 
