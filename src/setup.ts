@@ -1,5 +1,4 @@
-import { afterEach } from "node:test";
-import { afterAll, beforeAll } from "vitest";
+import { afterAll, afterEach, beforeAll } from "vitest";
 
 import { server } from "@/mocks/server";
 
