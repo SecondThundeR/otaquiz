@@ -32,9 +32,9 @@ export function useGameController({
   const [answers, setAnswers] = useState(currentAnswers);
   const [isUpdatedBeforeUnload, setIsUpdatedBeforeUnload] = useState(false);
 
-  const { mutateAsync: updateAsync, isLoading: isUpdating } =
+  const { mutateAsync: updateAsync, isPending: isUpdating } =
     api.game.updateGameAnswers.useMutation();
-  const { mutateAsync: deleteAsync, isLoading: isDeleting } =
+  const { mutateAsync: deleteAsync, isPending: isDeleting } =
     api.game.deleteGame.useMutation();
 
   const onBeforeUnload = useCallback(async () => {
