@@ -33,6 +33,7 @@ jobs:
         run: pnpx prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        if: github.event_name != 'pull_request'
 
       - name: Build application
         run: pnpm build
