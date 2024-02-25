@@ -21,7 +21,7 @@ dependencies:
     specifier: ^5.10.2
     version: 5.10.2(prisma@5.10.2)
   '@t3-oss/env-nextjs':
-    specifier: ^0.8.0
+    specifier: 0.8.0
     version: 0.8.0(typescript@5.3.3)(zod@3.22.4)
   '@tanstack/react-query':
     specifier: ^5.24.1
