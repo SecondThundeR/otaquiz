@@ -220,12 +220,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
         amount,
         currentAnimeIndex,
         isShowingResult,
-        animes: parsedAnimes.map((anime) => {
-          return {
-            id: anime.id,
-            name: anime.name,
-          };
-        }),
+        animes: parsedAnimes.map(({ id, name }) => ({ id, name })),
         animeIds,
         currentAnswers: parsedAnswers,
       },
