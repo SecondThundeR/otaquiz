@@ -21,31 +21,33 @@ const exampleSession = {
   },
 };
 
-describe("History Router Test (getGameHistory route)", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it("unauthed user should not be able to get game history", async () => {
-    const ctx = createInnerTRPCContext(emptySession);
-    const caller = createCallerFactory(appRouter)(ctx);
-
-    const example = caller.history.getGameHistory(undefined);
-
-    await expect(example).rejects.toThrow();
-  });
-
-  it("authed user should be able to get game history", async () => {
-    prismaMock.game.findMany.mockResolvedValueOnce([gameDataMock]);
-
-    const ctx = createInnerTRPCContext(exampleSession);
-    const caller = createCallerFactory(appRouter)({
-      ...ctx,
-      prisma: prismaMock,
+describe("History Router", () => {
+  describe("getGameHistory", () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
     });
 
-    const example = await caller.history.getGameHistory(undefined);
+    it("should not be able to get game history for unauthed user", async () => {
+      const ctx = createInnerTRPCContext(emptySession);
+      const caller = createCallerFactory(appRouter)(ctx);
 
-    expect(example).toMatchObject([gameDataMock]);
+      const example = caller.history.getGameHistory(undefined);
+
+      await expect(example).rejects.toThrow();
+    });
+
+    it("should be able to get game history for authed user", async () => {
+      prismaMock.game.findMany.mockResolvedValueOnce([gameDataMock]);
+
+      const ctx = createInnerTRPCContext(exampleSession);
+      const caller = createCallerFactory(appRouter)({
+        ...ctx,
+        prisma: prismaMock,
+      });
+
+      const example = await caller.history.getGameHistory(undefined);
+
+      expect(example).toMatchObject([gameDataMock]);
+    });
   });
 });
