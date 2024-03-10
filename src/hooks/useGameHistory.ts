@@ -23,7 +23,10 @@ export function useGameHistory() {
   });
 
   const onDelete = useCallback(
-    async (gameId: string) => await deleteGame({ gameId }),
+    async (gameId: string) => {
+      await deleteGame({ gameId });
+      return;
+    },
     [deleteGame],
   );
 

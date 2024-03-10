@@ -13,5 +13,5 @@ export function getOGImageLink(
   link.searchParams.set("correct", String(correct));
   link.searchParams.set("amount", String(amount));
 
-  return link;
+  return link.toString();
 }
