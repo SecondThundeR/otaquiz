@@ -1,4 +1,7 @@
-import { type OAuthConfig, type OAuthUserConfig } from "next-auth/providers";
+import {
+  type OAuthConfig,
+  type OAuthUserConfig,
+} from "next-auth/providers/oauth";
 
 export interface ShikimoriUserInfo {
   id: number;
