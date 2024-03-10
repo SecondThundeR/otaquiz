@@ -7,8 +7,11 @@ export function getOGImageLink(
 ) {
   if (!host || !id || !name) return undefined;
 
-  const link = `https://${host}/api/results-image`;
-  const params = `?id=${id}&name=${name}&correct=${correct}&amount=${amount}`;
+  const link = new URL(`https://${host}/api/results-image`);
+  link.searchParams.set("id", id);
+  link.searchParams.set("name", name);
+  link.searchParams.set("correct", String(correct));
+  link.searchParams.set("amount", String(amount));
 
-  return `${link}${params}`;
+  return link;
 }

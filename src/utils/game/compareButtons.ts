@@ -6,11 +6,9 @@ export function compareButtons(
 ) {
   return (
     oldButtons.length === newButtons.length &&
-    oldButtons.every((oldButton, index) => {
+    oldButtons.every(({ id, name }, index) => {
       const newButton = newButtons[index];
-      return (
-        oldButton.id === newButton?.id && oldButton.name === newButton?.name
-      );
+      return id === newButton?.id && name === newButton?.name;
     })
   );
 }
