@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 import { CardsGrid } from "@/ui/CardsGrid";
 import { HistoryCard } from "@/ui/HistoryCard";
@@ -16,19 +16,23 @@ export const HistoryGames = memo(function HistoryGames({
   history,
   onDelete,
 }: HistoryGamesProps) {
-  return (
-    <CardsGrid>
-      {history.map((game) => {
+  const gamesContent = useMemo(
+    () =>
+      history.map((game) => {
         const { id } = game;
+        const onDeleteHandler = () => onDelete(id);
+
         return (
           <HistoryCard
             key={id}
             game={game}
             host={host}
-            onDelete={() => onDelete(id)}
+            onDelete={onDeleteHandler}
           />
         );
-      })}
-    </CardsGrid>
+      }),
+    [history, host, onDelete],
   );
+
+  return <CardsGrid>{gamesContent}</CardsGrid>;
 });

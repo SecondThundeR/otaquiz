@@ -4,10 +4,10 @@ import { useConfirmDelete } from "@/hooks/useConfirmDelete";
 
 import { Button } from "@/ui/Button";
 
-const buttonClicksText = {
+const buttonClicksText: Record<number, string> = {
   0: "Удалить",
   1: "Нажмите еще раз, чтобы удалить",
-} as Record<number, string>;
+};
 
 interface DeleteButtonProps {
   onDelete: () => void;

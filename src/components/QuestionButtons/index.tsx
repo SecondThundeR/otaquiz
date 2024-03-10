@@ -1,4 +1,5 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import clsx from "clsx";
 
 import { type DBAnswerAnime } from "@/schemas/db/answers";
 
@@ -31,11 +32,14 @@ export const QuestionButtons = memo(function QuestionButtons({
   const showSelected = correctButtonID !== false;
   const isPointerDisabled = showSelected && correctButtonID !== null;
 
-  const getButtonStyle = (buttonID: string) => {
-    if (!correctButtonID) return "primary";
-    if (correctButtonID === buttonID) return "success";
-    return "error";
-  };
+  const getButtonStyle = useCallback(
+    (buttonID: string) => {
+      if (!correctButtonID) return "primary";
+      if (correctButtonID === buttonID) return "success";
+      return "error";
+    },
+    [correctButtonID],
+  );
 
   const onClick = useCallback(
     (anime: DBAnswerAnime) => {
@@ -46,32 +50,46 @@ export const QuestionButtons = memo(function QuestionButtons({
   );
 
   useEffect(() => {
-    if (!compareButtons(currentButtons, buttons)) {
-      setShuffledButtons(shuffleValues(buttons));
-      setCurrentButtons(buttons);
-    }
+    if (compareButtons(currentButtons, buttons)) return;
+
+    setShuffledButtons(shuffleValues(buttons));
+    setCurrentButtons(buttons);
   }, [buttons, currentButtons]);
 
-  return (
-    <ButtonsGrid>
-      {shuffledButtons.map((anime) => {
+  const buttonsContent = useMemo(
+    () =>
+      shuffledButtons.map((anime) => {
         const { id, name } = anime;
         const isButtonSelected = id === selectedButtonID;
         const isSuffixAdded = showSelected && isButtonSelected;
         const buttonStyle = getButtonStyle(id);
+        const onClickHandler = () => onClick(anime);
 
         return (
           <Button
             key={id}
             style={buttonStyle}
-            onClick={() => onClick(anime)}
-            className={isPointerDisabled ? "pointer-events-none" : undefined}
+            onClick={onClickHandler}
+            className={clsx({
+              "pointer-events-none": isPointerDisabled,
+            })}
             disabled={isDisabled}
           >
-            {isSuffixAdded && "Выбрано:"} {name}
+            {isSuffixAdded && "Выбрано: "}
+            {name}
           </Button>
         );
-      })}
-    </ButtonsGrid>
+      }),
+    [
+      getButtonStyle,
+      isDisabled,
+      isPointerDisabled,
+      onClick,
+      selectedButtonID,
+      showSelected,
+      shuffledButtons,
+    ],
   );
+
+  return <ButtonsGrid>{buttonsContent}</ButtonsGrid>;
 });

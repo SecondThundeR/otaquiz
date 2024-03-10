@@ -5,12 +5,12 @@ import { PAGE_TITLE } from "@/constants/pageHeadData";
 
 import { LinkButton } from "@/ui/LinkButton";
 
-export interface NavbarTitleProps {
-  title?: string;
-  isHome?: boolean;
-  isButtonDisabled?: boolean;
-  onClick?: () => void;
-}
+export type NavbarTitleProps = Partial<{
+  title: string;
+  isHome: boolean;
+  isButtonDisabled: boolean;
+  onClick: () => void;
+}>;
 
 export const NavbarTitle = memo(function NavbarTitle({
   title,
@@ -18,11 +18,12 @@ export const NavbarTitle = memo(function NavbarTitle({
   isButtonDisabled = false,
   onClick,
 }: NavbarTitleProps) {
-  const [isOnClickRunning, setIsOnClickRunning] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const onLinkClick = () => {
     if (onClick === undefined) return;
-    setIsOnClickRunning(true);
+
+    setIsRedirecting(true);
     onClick();
   };
 
@@ -31,7 +32,7 @@ export const NavbarTitle = memo(function NavbarTitle({
       style="ghost"
       to="/"
       className="text-xl normal-case"
-      disabled={isButtonDisabled || isOnClickRunning}
+      disabled={isButtonDisabled || isRedirecting}
       onClick={onLinkClick}
     >
       {isHome ? (

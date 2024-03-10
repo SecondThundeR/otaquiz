@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 import { type DBAnimeArray } from "@/schemas/db/animes";
 import { type DBAnswerArray } from "@/schemas/db/answers";
@@ -15,9 +15,9 @@ export const ResultAnswers = memo(function ResultAnswers({
   answers,
   animes,
 }: ResultAnswersProps) {
-  return (
-    <CardsGrid>
-      {answers?.map((answer, i) => {
+  const answersContent = useMemo(
+    () =>
+      answers?.map((answer, i) => {
         const correctAnimeID = answer.correct?.id ?? answer.picked.id;
         const currentScreenshotURL = animes.find(
           (anime) => anime.id === correctAnimeID,
@@ -31,7 +31,9 @@ export const ResultAnswers = memo(function ResultAnswers({
             screenshotURL={currentScreenshotURL}
           />
         );
-      })}
-    </CardsGrid>
+      }),
+    [animes, answers],
   );
+
+  return <CardsGrid>{answersContent}</CardsGrid>;
 });

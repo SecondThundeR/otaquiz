@@ -22,10 +22,11 @@ const MemoizedNavbar = memo(function Navbar({
   hasDropdown,
   ...titleProps
 }: NavbarProps) {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isRedirectingToLogin, setIsRedirectingToLogin] = useState(false);
 
   const onSignIn = async () => {
-    setIsLogin(true);
+    setIsRedirectingToLogin(true);
+
     await signIn("shikimori");
   };
 
@@ -36,12 +37,16 @@ const MemoizedNavbar = memo(function Navbar({
       </div>
       <div className="navbar-end gap-4">
         <NavbarIconLink icon={MarkGithubIcon} href={GITHUB_REPO_LINK} />
-        {user !== null ? (
-          <NavbarProfile hasDropdown={hasDropdown} {...user} />
-        ) : (
-          <Button style="primary" onClick={onSignIn} disabled={isLogin}>
-            {isLogin ? <Spinner /> : "Вход в аккаунт"}
+        {user === null ? (
+          <Button
+            style="primary"
+            onClick={onSignIn}
+            disabled={isRedirectingToLogin}
+          >
+            {isRedirectingToLogin ? <Spinner /> : "Вход в аккаунт"}
           </Button>
+        ) : (
+          <NavbarProfile hasDropdown={hasDropdown} {...user} />
         )}
       </div>
     </div>
