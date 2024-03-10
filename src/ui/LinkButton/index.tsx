@@ -1,4 +1,4 @@
-import { memo, type PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 import clsx from "clsx";
 
 import {
@@ -19,7 +19,7 @@ type LinkButtonProps = Omit<
     disabled?: boolean;
   }>;
 
-export const LinkButton = memo(function LinkButton({
+export function LinkButton({
   children,
   size = "md",
   style = "primary",
@@ -44,4 +44,4 @@ export const LinkButton = memo(function LinkButton({
       {children}
     </Link>
   );
-});
+}

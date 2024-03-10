@@ -1,4 +1,4 @@
-import { memo, type PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 
 import { Link } from "../Link";
 
@@ -8,7 +8,7 @@ type DropdownButtonProps = PropsWithChildren<{
   onClick?: () => void;
 }>;
 
-export const DropdownButton = memo(function DropdownButton({
+export function DropdownButton({
   children,
   href,
   to,
@@ -33,4 +33,4 @@ export const DropdownButton = memo(function DropdownButton({
       </Link>
     </li>
   );
-});
+}

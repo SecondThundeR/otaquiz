@@ -1,4 +1,4 @@
-import { memo, type ButtonHTMLAttributes, type PropsWithChildren } from "react";
+import { type ButtonHTMLAttributes, type PropsWithChildren } from "react";
 import clsx from "clsx";
 
 export type ButtonSizeVariants =
@@ -66,7 +66,7 @@ type ButtonProps = Pick<
     style?: ButtonStyleVariants | null;
   }>;
 
-export const Button = memo(function Button({
+export function Button({
   children,
   size = "md",
   style = "primary",
@@ -86,4 +86,4 @@ export const Button = memo(function Button({
       {children}
     </button>
   );
-});
+}

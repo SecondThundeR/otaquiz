@@ -1,4 +1,4 @@
-import { memo, type PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 
 import { useLinkCopy } from "@/hooks/useLinkCopy";
 
@@ -10,7 +10,7 @@ type URLCopyButtonProps = PropsWithChildren<{
   path?: string;
 }>;
 
-export const URLCopyButton = memo(function URLCopyButton({
+export const URLCopyButton = function URLCopyButton({
   host,
   path,
   children,
@@ -25,4 +25,4 @@ export const URLCopyButton = memo(function URLCopyButton({
       {error && <Alert type="error">{error.message}</Alert>}
     </div>
   );
-});
+};

@@ -1,4 +1,4 @@
-import { memo, type PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 import { AlertIcon, CircleSlashIcon, InfoIcon } from "@primer/octicons-react";
 import clsx from "clsx";
 
@@ -22,11 +22,7 @@ type AlertProps = PropsWithChildren<{
   fullWidth?: boolean;
 }>;
 
-export const Alert = memo(function Alert({
-  type,
-  fullWidth = false,
-  children,
-}: AlertProps) {
+export function Alert({ type, fullWidth = false, children }: AlertProps) {
   const { class: alertClass, icon: Icon } = AlertProperties[type];
 
   return (
@@ -44,4 +40,4 @@ export const Alert = memo(function Alert({
       <span>{children}</span>
     </div>
   );
-});
+}

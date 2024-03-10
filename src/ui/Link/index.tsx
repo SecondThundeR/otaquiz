@@ -1,4 +1,4 @@
-import { memo, type AnchorHTMLAttributes, type PropsWithChildren } from "react";
+import { type AnchorHTMLAttributes, type PropsWithChildren } from "react";
 import { default as NextLink } from "next/link";
 import clsx from "clsx";
 
@@ -34,7 +34,7 @@ export type LinkProps = Pick<
     style?: LinkStyleVariants;
   }>;
 
-export const Link = memo(function Link({
+export function Link({
   children,
   className,
   href,
@@ -78,4 +78,4 @@ export const Link = memo(function Link({
       {children}
     </a>
   );
-});
+}
