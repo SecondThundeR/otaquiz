@@ -86,6 +86,7 @@ jobs:
         run: pnpx prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
         if: |
           github.event_name != 'pull_request' && github.ref != 'refs/heads/develop'
 
