@@ -1,4 +1,4 @@
-import { memo, type PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 import clsx from "clsx";
 
 type FormCheckboxContainerProps = PropsWithChildren<{
@@ -6,7 +6,7 @@ type FormCheckboxContainerProps = PropsWithChildren<{
   className?: string;
 }>;
 
-export const FormCheckboxContainer = memo(function FormCheckboxContainer({
+export function FormCheckboxContainer({
   label,
   className,
   children,
@@ -19,4 +19,4 @@ export const FormCheckboxContainer = memo(function FormCheckboxContainer({
       {children}
     </div>
   );
-});
+}

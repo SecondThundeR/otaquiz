@@ -1,18 +1,15 @@
-export type ObjectType = Record<
-  string,
-  {
-    label: string;
-    checked: boolean;
-    excluded: boolean;
-  }
->;
+interface ObjectValues {
+  label: string;
+  checked: boolean;
+  excluded: boolean;
+}
+
+export type ObjectType = Record<string, ObjectValues>;
 
 export function convertObjectValues(obj: ObjectType) {
   return Object.entries(obj)
-    .map((value) => {
-      const [name, params] = value;
-      if (!params.checked) return null;
-      return `${params.excluded ? "!" : ""}${name}`;
-    })
+    .map(([name, { checked, excluded }]) =>
+      !checked ? null : `${excluded ? "!" : ""}${name}`,
+    )
     .filter((status) => status !== null);
 }

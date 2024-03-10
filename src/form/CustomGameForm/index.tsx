@@ -35,7 +35,7 @@ export const CustomGameForm = memo(function CustomGameForm({
 
     transformValues: (values) => {
       const limit = Number(values.limit);
-      const score = values.score === "" ? null : Number(values.score);
+      const score = !values.score ? null : Number(values.score);
       const kind = convertObjectValues(values.kind);
       const status = convertObjectValues(values.status);
       const season = convertObjectValues(values.season);
@@ -56,17 +56,14 @@ export const CustomGameForm = memo(function CustomGameForm({
     },
   });
 
-  const isWarningTriggered =
-    form.values.rating.rx.checked && !form.values.rating.rx.excluded;
+  const { rx } = form.values.rating;
+  const isWarningTriggered = rx.checked && !rx.excluded;
 
   const getCheckboxes = useCallback(
     (obj: ObjectType, objName: string) =>
       Object.entries(obj)
-        .sort((a, b) => Number(b[0]) - Number(a[0]))
-        .map((entry) => {
-          const [name, values] = entry;
-          const { label, checked, excluded } = values;
-
+        .sort(([value1], [value2]) => Number(value2) - Number(value1))
+        .map(([name, { label, checked, excluded }]) => {
           const setIsExcluded = () =>
             form.setFieldValue(`${objName}.${name}.excluded`, !excluded);
 
@@ -162,13 +159,13 @@ export const CustomGameForm = memo(function CustomGameForm({
         </Alert>
       )}
       <Button type="submit" disabled={isCreating}>
-        {isCreating ? (
+        {!isCreating ? (
+          "Начать игру"
+        ) : (
           <>
             <Spinner />
             Создание игры
           </>
-        ) : (
-          "Начать игру"
         )}
       </Button>
     </FormContainer>
