@@ -23,7 +23,7 @@ export const gameQuery = `
       }
     }
   }
-` as const;
+`;
 
 export const screenshotsQuery = `
   query AnimeScreenshots($ids: String) {
@@ -35,7 +35,7 @@ export const screenshotsQuery = `
       }
     }
   }
-` as const;
+`;
 
 export const decoyQuery = `
   query DecoyAnimes($excludeIds: String) {
@@ -44,4 +44,4 @@ export const decoyQuery = `
       russian
     }
   }
-` as const;
+`;
