@@ -1,10 +1,9 @@
 import { memo } from "react";
+import { DateTime } from "luxon";
 
 import { DeleteButton } from "@/components/DeleteButton";
 import { Screenshot } from "@/components/Screenshot";
 import { URLCopyButton } from "@/components/URLCopyButton";
-
-import { useFormattedDate } from "@/hooks/useFormattedDate";
 
 import { type DBAnimeArray } from "@/schemas/db/animes";
 import { type DBAnswerArray } from "@/schemas/db/answers";
@@ -28,11 +27,10 @@ export const HistoryCard = memo(function HistoryCard({
   game,
   onDelete,
 }: HistoryCardProps) {
-  const formattedDate = useFormattedDate(
-    game.createdAt,
+  const { id, amount, answers, animes, createdAt } = game;
+  const formattedDate = DateTime.fromJSDate(createdAt).toFormat(
     "Игра от dd.MM.yyyy в HH:mm",
   );
-  const { id, amount, answers, animes } = game;
   const resultsPath = `/game/${id}/results`;
   const screenshotUrl = (animes as DBAnimeArray)[0]?.screenshotUrl;
   const correctAnswers = getCorrectAnswersAmount(

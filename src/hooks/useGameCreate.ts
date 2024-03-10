@@ -17,7 +17,7 @@ export function useGameCreate() {
       try {
         setIsCreating(true);
         const gameId = await mutateAsync({ options });
-        return router.push(`/game/${gameId}`);
+        await router.push(`/game/${gameId}`);
       } catch (error: unknown) {
         console.error((error as TRPCError).message);
         setIsCreating(false);

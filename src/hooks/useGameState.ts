@@ -47,9 +47,11 @@ export function useGameState({
   const currentAnimeScreenshots = screenshots?.find(
     (data) => data.id === currentAnime.id,
   )?.screenshots;
-  const currentButtons = getButtonAnswers(currentAnime, currentIndex);
+
   const isButtonsDisabled = isUpdating || isDeleting || isUpdatingAnswer;
   const isSavingResult = isUpdating || (isUpdatingAnswer && isFinished);
+
+  const currentButtons = getButtonAnswers(currentAnime, currentIndex);
 
   const onAnswerClick = useCallback(
     async (anime: DBAnswerAnime) => {

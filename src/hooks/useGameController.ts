@@ -39,8 +39,10 @@ export function useGameController({
 
   const onBeforeUnload = useCallback(async () => {
     if (isUpdatedBeforeUnload || answers.length === 0) return;
+
     setIsUpdatedBeforeUnload(true);
     const isFinished = answers.length === animeIds.split(",").length;
+
     await updateAsync({
       gameId,
       answers,
@@ -75,6 +77,7 @@ export function useGameController({
           picked: anime,
         },
       ];
+
       if (isFinished) {
         await updateAsync({
           gameId,
@@ -83,6 +86,7 @@ export function useGameController({
         });
         return await router.push(`${router.asPath}/results`);
       }
+
       setAnswers(newAnswers);
     },
     [answers, updateAsync, gameId, router],
