@@ -2,6 +2,8 @@
 
 > Otaku + quiz = Otaquiz
 
+![Screenshot 2024-05-17 at 15 08 06](https://github.com/SecondThundeR/otaquiz/assets/36604233/07de8c21-bc3f-4e00-9755-127fa6babcf1)
+
 Some random anime quiz web application. Built with T3 Stack, powered by Shikimori API
 
 [Deployment link](https://otaquiz.ru/) | [Development roadmap](https://github.com/users/SecondThundeR/projects/7)
