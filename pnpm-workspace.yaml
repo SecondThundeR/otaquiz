@@ -1,0 +1,3 @@
+onlyBuiltDependencies:
+  - '@prisma/client'
+  - '@vercel/speed-insights'
