@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import { memo, type InputHTMLAttributes } from "react";
+import clsx from "clsx";
 
 interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -14,7 +14,9 @@ export const FormInput = memo(function FormInput({
   return (
     <div className="form-control w-full">
       <label htmlFor={id} className="label w-full">
-        <span className="label-text text-black dark:text-white w-full py-2 px-1">{label}</span>
+        <span className="label-text w-full px-1 py-2 text-black dark:text-white">
+          {label}
+        </span>
       </label>
       <input id={id} {...props} className={clsx("w-full", className)} />
     </div>

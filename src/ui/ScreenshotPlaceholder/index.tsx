@@ -18,7 +18,7 @@ export const ScreenshotPlaceholder = memo(function ScreenshotPlaceholder({
     <div
       className={clsx(
         className,
-        "flex items-center justify-center bg-base-300",
+        "bg-base-300 flex items-center justify-center",
         {
           hidden: !isLoading,
           "sm:w-full": fullWidth,

@@ -4,7 +4,7 @@ export const PageContainer = forwardRef<HTMLDivElement, PropsWithChildren>(
   function PageContainer({ children }, ref) {
     return (
       <main
-        className="flex min-h-screen flex-col justify-center bg-base-100"
+        className="bg-base-100 flex min-h-screen flex-col justify-center"
         ref={ref}
       >
         {children}

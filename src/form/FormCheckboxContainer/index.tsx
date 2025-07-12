@@ -14,7 +14,9 @@ export function FormCheckboxContainer({
   return (
     <div className={clsx("form-control w-full", className)}>
       <label className="label w-full">
-        <span className="label-text text-black dark:text-white w-full py-2 px-1">{label}</span>
+        <span className="label-text w-full px-1 py-2 text-black dark:text-white">
+          {label}
+        </span>
       </label>
       {children}
     </div>

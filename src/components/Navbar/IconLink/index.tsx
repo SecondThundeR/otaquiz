@@ -14,7 +14,7 @@ export const NavbarIconLink = memo(function NavbarIconLink({
 }: NavbarIconLinkProps) {
   return (
     <Link isStyled={false} isHover={false} href={href} target="_blank">
-      <Icon className="h-6 w-6 hover:fill-primary" />
+      <Icon className="hover:fill-primary h-6 w-6" />
     </Link>
   );
 });
