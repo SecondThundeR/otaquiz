@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const AnimeScreenshotSchema = z.object({
   id: z.string(),
-  originalUrl: z.string().url(),
+  originalUrl: z.url(),
 });
 
 const AnimeScreenshotsDataSchema = z.object({

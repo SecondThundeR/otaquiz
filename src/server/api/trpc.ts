@@ -10,7 +10,7 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { type Session } from "next-auth";
 import superjson from "superjson";
-import { ZodError } from "zod";
+import { treeifyError, ZodError } from "zod";
 
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
@@ -77,7 +77,7 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
       data: {
         ...shape.data,
         zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
+          error.cause instanceof ZodError ? treeifyError(error.cause) : null,
       },
     };
   },

@@ -98,7 +98,7 @@ export const gameRouter = createTRPCRouter({
     }),
 
   getGameInfo: publicProcedure
-    .input(z.object({ gameId: z.string().cuid() }))
+    .input(z.object({ gameId: z.cuid() }))
     .query(async ({ ctx: { prisma }, input: { gameId } }) => {
       try {
         const gameInfo = await prisma.game.findUniqueOrThrow({
@@ -137,7 +137,7 @@ export const gameRouter = createTRPCRouter({
   updateGameAnswers: protectedProcedure
     .input(
       z.object({
-        gameId: z.string().cuid(),
+        gameId: z.cuid(),
         answers: DBAnswerArraySchema,
         isFinished: z.boolean().default(false),
       }),
@@ -162,7 +162,7 @@ export const gameRouter = createTRPCRouter({
     ),
 
   deleteGame: protectedProcedure
-    .input(z.object({ gameId: z.string().cuid() }))
+    .input(z.object({ gameId: z.cuid() }))
     .mutation(async ({ ctx: { prisma }, input: { gameId } }) => {
       try {
         const game = await prisma.game.delete({

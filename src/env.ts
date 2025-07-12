@@ -3,8 +3,8 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    POSTGRES_PRISMA_URL: z.string().url(),
-    POSTGRES_URL_NON_POOLING: z.string().url(),
+    POSTGRES_PRISMA_URL: z.url(),
+    POSTGRES_URL_NON_POOLING: z.url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
     NEXTAUTH_SECRET:
       process.env.NODE_ENV === "production"
@@ -12,7 +12,7 @@ export const env = createEnv({
         : z.string().min(1).optional(),
     NEXTAUTH_URL: z.preprocess(
       (str) => process.env.VERCEL_URL ?? str,
-      process.env.VERCEL ? z.string().min(1) : z.string().url(),
+      process.env.VERCEL ? z.string().min(1) : z.url(),
     ),
     CRON_SECRET: z.string().min(1),
     SHIKIMORI_CLIENT_ID: z.string().min(1),

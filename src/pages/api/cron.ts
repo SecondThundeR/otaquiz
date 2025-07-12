@@ -4,7 +4,7 @@ import { TEN_MINUTES } from "@/constants/time";
 
 import { prisma } from "@/server/db";
 
-import { env } from "@/env.js";
+import { env } from "@/env";
 
 export default async function handler(
   request: NextApiRequest,

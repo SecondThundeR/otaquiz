@@ -16,7 +16,9 @@ const AnimeDataGenresSchema = z.object({
   ),
 });
 
-const AnimeDataWithGenresSchema = AnimeDataSchema.merge(AnimeDataGenresSchema);
+const AnimeDataWithGenresSchema = AnimeDataSchema.extend(
+  AnimeDataGenresSchema.shape,
+);
 
 export const AnimesSchema = z.object({
   data: z.object({
