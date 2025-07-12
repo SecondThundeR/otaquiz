@@ -13,7 +13,7 @@ export const Checkbox = memo(function Checkbox({
   ...inputProps
 }: CheckboxProps) {
   return (
-    <div className="form-control">
+    <div className="form-control px-1 py-2">
       <label className="label cursor-pointer gap-4">
         <span className="label-text text-lg">{label}</span>
         <input

@@ -6,6 +6,7 @@ export type ButtonSizeVariants =
   | "sm"
   | "md"
   | "lg"
+  | "xl"
   | "wide"
   | "square"
   | "block"
@@ -33,6 +34,7 @@ export const ButtonSizeClasses: Record<ButtonSizeVariants, string> = {
   md: "btn-md",
   sm: "btn-sm",
   lg: "btn-lg",
+  xl: "btn-xl",
   wide: "btn-wide",
   square: "btn-square",
   block: "btn-block",

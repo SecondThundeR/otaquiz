@@ -78,6 +78,7 @@ export const CustomGameForm = memo(function CustomGameForm({
 
           return (
             <FormIncludeExcludeCheckbox
+              id={objName}
               key={name}
               label={label}
               isChecked={checked}
@@ -102,6 +103,7 @@ export const CustomGameForm = memo(function CustomGameForm({
       }}
     >
       <FormInput
+        id="limit"
         type="number"
         pattern="[0-9]*"
         min={1}
@@ -112,6 +114,7 @@ export const CustomGameForm = memo(function CustomGameForm({
         {...form.getInputProps("limit", { type: "input" })}
       />
       <FormInput
+        id="score"
         type="number"
         pattern="[0-9]*"
         min={1}

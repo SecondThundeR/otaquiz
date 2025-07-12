@@ -8,7 +8,7 @@ import {
 
 export default function Document() {
   return (
-    <Html lang="ru">
+    <Html lang="ru" data-theme="night">
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content={PAGE_DESCRIPTION} />

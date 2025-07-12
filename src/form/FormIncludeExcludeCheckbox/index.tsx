@@ -28,7 +28,7 @@ export const FormIncludeExcludeCheckbox = memo(
     }, [isExcluded]);
 
     return (
-      <label className="label cursor-pointer justify-between gap-4">
+      <label className="label cursor-pointer justify-between gap-4 w-full">
         <div className="flex items-center gap-4">
           <input
             ref={inputRef}
@@ -36,7 +36,7 @@ export const FormIncludeExcludeCheckbox = memo(
             className="checkbox"
             {...props}
           />
-          <span className="label-text">{label}</span>
+          <span className="label-text text-black dark:text-white">{label}</span>
         </div>
         <Button
           style="ghost"
