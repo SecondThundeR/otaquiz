@@ -31,6 +31,7 @@ export const CustomGameForm = memo(function CustomGameForm({
   onGameCreate,
 }: Omit<ReturnType<typeof useGameCreate>, "isError">) {
   const form = useForm({
+    mode: "uncontrolled",
     initialValues: initialFormValues,
 
     transformValues: (values) => {
