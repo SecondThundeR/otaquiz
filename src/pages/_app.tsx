@@ -8,8 +8,9 @@ import { SessionProvider } from "next-auth/react";
 
 import "@/styles/globals.css";
 
-import { api } from "@/utils/trpc/api";
 import { useEffect } from "react";
+
+import { api } from "@/utils/trpc/api";
 
 const font = JetBrains_Mono({
   display: "swap",
@@ -23,17 +24,20 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   useEffect(() => {
     const setTheme = () => {
-      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      document.documentElement.setAttribute('data-theme', isDark ? 'night' : 'light');
+      const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.setAttribute(
+        "data-theme",
+        isDark ? "night" : "light",
+      );
     };
 
     setTheme();
 
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', setTheme);
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    mediaQuery.addEventListener("change", setTheme);
 
     return () => {
-      mediaQuery.removeEventListener('change', setTheme);
+      mediaQuery.removeEventListener("change", setTheme);
     };
   }, []);
 
