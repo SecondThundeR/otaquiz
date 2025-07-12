@@ -66,5 +66,10 @@
   "ct3aMetadata": {
     "initVersion": "7.14.0"
   },
+  "pnpm": {
+    "overrides": {
+      "cross-spawn": "^7.0.5"
+    }
+  },
   "packageManager": "pnpm@10.13.1"
 }
