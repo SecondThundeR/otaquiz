@@ -53,6 +53,7 @@ export const authOptions: NextAuthOptions = {
     ShikimoriProvider({
       clientId: env.SHIKIMORI_CLIENT_ID,
       clientSecret: env.SHIKIMORI_CLIENT_SECRET,
+      checks: ["none"],
     }),
   ],
 };
