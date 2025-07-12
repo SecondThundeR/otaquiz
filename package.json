@@ -69,7 +69,8 @@
   "pnpm": {
     "overrides": {
       "cross-spawn": "^7.0.5",
-      "@babel/runtime": "^7.26.10"
+      "@babel/runtime": "^7.26.10",
+      "micromatch": "^4.0.8"
     }
   },
   "packageManager": "pnpm@10.13.1"
