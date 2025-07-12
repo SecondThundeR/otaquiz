@@ -14,7 +14,7 @@ export const FormInput = memo(function FormInput({
   return (
     <div className="form-control w-full">
       <label htmlFor={id} className="label w-full">
-        <span className="label-text w-full px-1 py-2 text-black dark:text-white">
+        <span className="label-text w-full px-1 py-2 text-base-content">
           {label}
         </span>
       </label>

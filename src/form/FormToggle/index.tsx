@@ -11,7 +11,7 @@ export const FormToggle = memo(function FormToggle({
   return (
     <div className="form-control w-full">
       <label className="label w-full cursor-pointer justify-between">
-        <span className="label-text w-full px-1 py-2 text-black dark:text-white">
+        <span className="label-text w-full px-1 py-2 text-base-content">
           {label}
         </span>
         <input type="checkbox" className="toggle toggle-primary" {...props} />

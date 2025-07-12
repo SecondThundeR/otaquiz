@@ -36,7 +36,7 @@ export const FormIncludeExcludeCheckbox = memo(
             className="checkbox"
             {...props}
           />
-          <span className="label-text text-black dark:text-white">{label}</span>
+          <span className="label-text text-base-content">{label}</span>
         </div>
         <Button
           style="ghost"
