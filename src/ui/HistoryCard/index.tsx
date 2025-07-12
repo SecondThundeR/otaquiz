@@ -10,11 +10,12 @@ import { type DBAnswerArray } from "@/schemas/db/answers";
 import { getCorrectAnswersAmount } from "@/utils/game/getCorrectAnswersAmount";
 import { type RouterOutputs } from "@/utils/trpc/api";
 
+import dayjs from "@/dayjs";
+
 import { ButtonsGrid } from "../ButtonsGrid";
 import { CardContainer } from "../CardContainer";
 import { GuessedAmount } from "../GuessedAmount";
 import { Link } from "../Link";
-import dayjs from "@/dayjs";
 
 interface HistoryCardProps {
   host: string | null;
@@ -28,7 +29,7 @@ export const HistoryCard = memo(function HistoryCard({
   onDelete,
 }: HistoryCardProps) {
   const { id, amount, answers, animes, createdAt } = game;
-  const formattedDate = `Игра от ${dayjs(createdAt).format("DD.MM.YYYY в HH:mm")}`
+  const formattedDate = `Игра от ${dayjs(createdAt).format("DD.MM.YYYY в HH:mm")}`;
   const resultsPath = `/game/${id}/results`;
   const screenshotUrl = (animes as DBAnimeArray)[0]?.screenshotUrl;
   const correctAnswers = getCorrectAnswersAmount(

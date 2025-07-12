@@ -1,4 +1,5 @@
 import "../dayjs";
+
 import { type AppType } from "next/app";
 import { JetBrains_Mono } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
