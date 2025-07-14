@@ -1,5 +1,6 @@
 import { type PropsWithChildren } from "react";
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 import {
   ButtonSizeClasses,
@@ -31,13 +32,13 @@ export function LinkButton({
     <Link
       isStyled={false}
       isHover={false}
-      className={clsx(
+      className={twMerge(clsx(
         "btn uppercase",
         ButtonSizeClasses[size],
         ButtonStyleClasses[style],
         disabled && "btn-disabled",
         className,
-      )}
+      ))}
       role="button"
       {...linkProps}
     >
