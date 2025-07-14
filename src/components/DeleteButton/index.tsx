@@ -6,7 +6,7 @@ import { Button } from "@/ui/Button";
 
 const buttonClicksText: Record<number, string> = {
   0: "Удалить",
-  1: "Нажмите еще раз, чтобы удалить",
+  1: "Нажмите еще раз",
 };
 
 interface DeleteButtonProps {
