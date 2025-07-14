@@ -144,11 +144,11 @@ export const CustomGameForm = memo(function CustomGameForm({
         </FormCheckboxContainer>
       </div>
       <FormToggle
-        label="Активировать цензуру для аниме"
+        label="Активировать цензуру"
         {...form.getInputProps("censored", { type: "checkbox" })}
       />
       <FormToggle
-        label="Показывать результат во время игры"
+        label="Результат во время игры"
         disabled={isCreating}
         {...form.getInputProps("isShowingResult", { type: "checkbox" })}
       />

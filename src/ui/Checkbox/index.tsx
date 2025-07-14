@@ -15,7 +15,7 @@ export const Checkbox = memo(function Checkbox({
   return (
     <div className="form-control px-1 py-2">
       <label className="label cursor-pointer gap-4">
-        <span className="label-text text-base-content text-lg">{label}</span>
+        <span className="label-text text-base-content sm:text-lg">{label}</span>
         <input
           type="checkbox"
           className="checkbox-primary checkbox"
