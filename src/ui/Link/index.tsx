@@ -1,6 +1,7 @@
 import { type AnchorHTMLAttributes, type PropsWithChildren } from "react";
 import { default as NextLink } from "next/link";
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 type LinkStyleVariants =
   | "neutral"
@@ -48,13 +49,15 @@ export function Link({
     return (
       <NextLink
         href={to}
-        className={clsx(
-          {
-            link: isStyled,
-            "link-hover": isHover,
-          },
-          style && LinkStyleClasses[style],
-          className,
+        className={twMerge(
+          clsx(
+            {
+              link: isStyled,
+              "link-hover": isHover,
+            },
+            style && LinkStyleClasses[style],
+            className,
+          ),
         )}
         {...linkProps}
       >
@@ -64,13 +67,15 @@ export function Link({
 
   return (
     <a
-      className={clsx(
-        {
-          link: isStyled,
-          "link-hover": isHover,
-        },
-        style && LinkStyleClasses[style],
-        className,
+      className={twMerge(
+        clsx(
+          {
+            link: isStyled,
+            "link-hover": isHover,
+          },
+          style && LinkStyleClasses[style],
+          className,
+        ),
       )}
       href={href}
       {...linkProps}

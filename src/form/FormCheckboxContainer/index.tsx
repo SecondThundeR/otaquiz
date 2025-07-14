@@ -1,5 +1,6 @@
 import { type PropsWithChildren } from "react";
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 type FormCheckboxContainerProps = PropsWithChildren<{
   label: string;
@@ -12,7 +13,7 @@ export function FormCheckboxContainer({
   children,
 }: FormCheckboxContainerProps) {
   return (
-    <div className={clsx("form-control w-full", className)}>
+    <div className={twMerge(clsx("form-control w-full", className))}>
       <label className="label w-full">
         <span className="label-text text-base-content w-full px-1 py-2">
           {label}

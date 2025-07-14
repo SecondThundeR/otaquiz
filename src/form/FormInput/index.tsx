@@ -1,5 +1,6 @@
 import { memo, type InputHTMLAttributes } from "react";
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -18,7 +19,11 @@ export const FormInput = memo(function FormInput({
           {label}
         </span>
       </label>
-      <input id={id} {...props} className={clsx("w-full", className)} />
+      <input
+        id={id}
+        {...props}
+        className={twMerge(clsx("w-full", className))}
+      />
     </div>
   );
 });

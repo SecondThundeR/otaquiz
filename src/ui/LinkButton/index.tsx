@@ -32,13 +32,15 @@ export function LinkButton({
     <Link
       isStyled={false}
       isHover={false}
-      className={twMerge(clsx(
-        "btn uppercase",
-        ButtonSizeClasses[size],
-        ButtonStyleClasses[style],
-        disabled && "btn-disabled",
-        className,
-      ))}
+      className={twMerge(
+        clsx(
+          "btn uppercase",
+          ButtonSizeClasses[size],
+          ButtonStyleClasses[style],
+          disabled && "btn-disabled",
+          className,
+        ),
+      )}
       role="button"
       {...linkProps}
     >

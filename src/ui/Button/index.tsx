@@ -1,5 +1,6 @@
 import { type ButtonHTMLAttributes, type PropsWithChildren } from "react";
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export type ButtonSizeVariants =
   | "xs"
@@ -77,11 +78,13 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={clsx(
-        "btn h-full py-2 uppercase transition-colors duration-300",
-        size && ButtonSizeClasses[size],
-        style && ButtonStyleClasses[style],
-        className,
+      className={twMerge(
+        clsx(
+          "btn h-full py-2 uppercase transition-colors duration-300",
+          size && ButtonSizeClasses[size],
+          style && ButtonStyleClasses[style],
+          className,
+        ),
       )}
       {...buttonProps}
     >
