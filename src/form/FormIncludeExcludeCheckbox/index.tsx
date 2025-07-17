@@ -34,7 +34,7 @@ export const FormIncludeExcludeCheckbox = memo(function FormIncludeExcludeCheckb
       <Button
         style="ghost"
         size="sm"
-        className={clsx("text-primary normal-case", {
+        className={clsx("text-base text-primary normal-case", {
           invisible: !isChecked,
           visible: isChecked,
         })}
