@@ -1,10 +1,6 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { GetServerSidePropsContext } from "next";
-import {
-  type DefaultSession,
-  getServerSession,
-  type NextAuthOptions,
-} from "next-auth";
+import { type DefaultSession, getServerSession, type NextAuthOptions } from "next-auth";
 import { env } from "@/env";
 import ShikimoriProvider from "@/providers/shikimori";
 import { prisma } from "@/server/db";
