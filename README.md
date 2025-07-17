@@ -2,7 +2,7 @@
 
 > Otaku + quiz = Otaquiz
 
-![Screenshot 2024-05-17 at 15 08 06](https://github.com/SecondThundeR/otaquiz/assets/36604233/07de8c21-bc3f-4e00-9755-127fa6babcf1)
+<img width="1792" height="1131" alt="image" src="https://github.com/user-attachments/assets/6d49d78e-0624-4f36-a0a7-5f09efa5e89e" />
 
 Some random anime quiz web application. Built with T3 Stack, powered by Shikimori API
 
@@ -14,7 +14,7 @@ This is an anime quiz game, which queries random animes, shows screenshots and g
 
 > ~More game modes are on the way~
 >
-> **Note**: Project is currently postponed indefinitely
+> **Note**: Project is currently in maintenance mode. New features will be developed starting in winter 2025
 
 ## Getting started
 
