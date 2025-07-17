@@ -20,8 +20,9 @@ import { FormToggle } from "../FormToggle";
 
 export const CustomGameForm = memo(function CustomGameForm({
   isCreating,
+  isError,
   onGameCreate,
-}: Omit<ReturnType<typeof useGameCreate>, "isError">) {
+}: ReturnType<typeof useGameCreate>) {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: initialFormValues,
@@ -152,6 +153,16 @@ export const CustomGameForm = memo(function CustomGameForm({
           Данная категория может содержать изображения, не предназначенные для лиц младше 18 лет
           <br />
           Продолжайте на свой страх и риск
+        </Alert>
+      )}
+      {isError && (
+        <Alert type="error" fullWidth>
+          <strong>Не удалось создать игру!</strong>
+          <br />
+          Скорее всего не удалось найти достаточное количество аниме с текущими настройками
+          <br />
+          Попробуй еще раз с другими настройками или напиши разработчику на Github, если ошибка
+          повторяется при любых настройках
         </Alert>
       )}
       <Button type="submit" disabled={isCreating}>
