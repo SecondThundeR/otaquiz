@@ -28,7 +28,7 @@ export function Alert({ type, fullWidth = false, children }: AlertProps) {
   return (
     <div
       className={clsx(
-        "alert",
+        "alert text-base",
         {
           "sm:max-w-lg": !fullWidth,
           "w-full": fullWidth,
