@@ -11,6 +11,7 @@ export const UserAvatar = memo(function UserAvatar({ image, name }: UserAvatarPr
 
   return (
     <button
+      tabIndex={0}
       type="button"
       className={clsx("avatar btn btn-circle btn-ghost", {
         placeholder: !image,
