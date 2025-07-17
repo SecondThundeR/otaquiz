@@ -10,7 +10,8 @@ export const UserAvatar = memo(function UserAvatar({ image, name }: UserAvatarPr
   const userNameAlt = `Аватар аккаунта ${name ?? "Аноним"}`;
 
   return (
-    <span
+    <button
+      type="button"
       className={clsx("avatar btn btn-circle btn-ghost", {
         placeholder: !image,
       })}
@@ -26,6 +27,6 @@ export const UserAvatar = memo(function UserAvatar({ image, name }: UserAvatarPr
           <span className="text-xl">{userName}</span>
         )}
       </div>
-    </span>
+    </button>
   );
 });
