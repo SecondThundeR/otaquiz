@@ -101,6 +101,7 @@ export const CustomGameForm = memo(function CustomGameForm({
         max={50}
         className="input input-bordered"
         label="Количество аниме"
+        placeholder="Введите количество аниме"
         disabled={isCreating}
         {...form.getInputProps("limit", { type: "input" })}
       />
