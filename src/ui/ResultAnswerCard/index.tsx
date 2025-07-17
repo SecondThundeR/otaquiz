@@ -4,7 +4,7 @@ import { Screenshot } from "@/components/Screenshot";
 
 import { SHIKIMORI_ANIMES_URL } from "@/constants/links";
 
-import { type DBAnswer } from "@/schemas/db/answers";
+import type { DBAnswer } from "@/schemas/db/answers";
 
 import { CardContainer } from "../CardContainer";
 import { Link } from "../Link";
@@ -32,9 +32,7 @@ export const ResultAnswerCard = memo(function ResultAnswerCard({
   screenshotURL,
 }: ResultAnswerCardProps) {
   const isCorrectPicked = !answer.correct;
-  const titleResult = isCorrectPicked
-    ? TITLE_VARIANTS.correct
-    : TITLE_VARIANTS.incorrect;
+  const titleResult = isCorrectPicked ? TITLE_VARIANTS.correct : TITLE_VARIANTS.incorrect;
 
   return (
     <CardContainer>

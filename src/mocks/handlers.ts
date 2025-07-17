@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { HttpResponse, http } from "msw";
 
 import { SHIKIMORI_GRAPHQL_API_URL } from "@/constants/links";
 

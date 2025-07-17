@@ -1,16 +1,9 @@
-import { type GetServerSidePropsContext } from "next";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import {
-  getServerSession,
-  type DefaultSession,
-  type NextAuthOptions,
-} from "next-auth";
-
-import ShikimoriProvider from "@/providers/shikimori";
-
-import { prisma } from "@/server/db";
-
+import type { GetServerSidePropsContext } from "next";
+import { type DefaultSession, getServerSession, type NextAuthOptions } from "next-auth";
 import { env } from "@/env";
+import ShikimoriProvider from "@/providers/shikimori";
+import { prisma } from "@/server/db";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`

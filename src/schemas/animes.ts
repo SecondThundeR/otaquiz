@@ -16,9 +16,7 @@ const AnimeDataGenresSchema = z.object({
   ),
 });
 
-const AnimeDataWithGenresSchema = AnimeDataSchema.extend(
-  AnimeDataGenresSchema.shape,
-);
+const AnimeDataWithGenresSchema = AnimeDataSchema.extend(AnimeDataGenresSchema.shape);
 
 export const AnimesSchema = z.object({
   data: z.object({
@@ -36,9 +34,8 @@ export type FilteredAnime = z.infer<typeof AnimeDataWithGenresSchema> & {
   russian: string;
 };
 
-export type FilteredAnimeNonScreenshot = Omit<
-  z.infer<typeof AnimeDataSchema>,
-  "screenshots"
-> & { russian: string };
+export type FilteredAnimeNonScreenshot = Omit<z.infer<typeof AnimeDataSchema>, "screenshots"> & {
+  russian: string;
+};
 
 export type Animes = z.infer<typeof AnimeDataSchema>[];

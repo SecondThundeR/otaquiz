@@ -1,9 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-
+import { prisma as prismaMock } from "@/mocks/prisma";
 import { appRouter } from "@/server/api/root";
 import { createCallerFactory, createInnerTRPCContext } from "@/server/api/trpc";
-
-import { prisma as prismaMock } from "@/mocks/prisma";
 
 import { gameDataMock } from "../__mocks__/gameData";
 

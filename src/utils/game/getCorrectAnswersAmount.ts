@@ -1,10 +1,11 @@
-import { type DBAnswerArray } from "@/schemas/db/answers";
+import type { DBAnswerArray } from "@/schemas/db/answers";
 
-export function getCorrectAnswersAmount(
-  amount: number,
-  answers: DBAnswerArray,
-) {
+export function getCorrectAnswersAmount(amount: number, answers: DBAnswerArray) {
   return (
-    amount - answers.reduce((acc, prev) => (acc += Number(!!prev.correct)), 0)
+    amount -
+    answers.reduce((acc, prev) => {
+      acc += Number(!!prev.correct);
+      return acc;
+    }, 0)
   );
 }

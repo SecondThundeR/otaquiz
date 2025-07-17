@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
 import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
 
-import { type DBAnswerAnime, type DBAnswerArray } from "@/schemas/db/answers";
+import type { DBAnswerAnime, DBAnswerArray } from "@/schemas/db/answers";
 
 import { api } from "@/utils/trpc/api";
 
@@ -16,15 +16,11 @@ interface UseGameControllerProps {
 
 interface OnAnswerClickOptions {
   anime: DBAnswerAnime;
-  currentAnime: DBAnswerAnime;
+  currentAnime: DBAnswerAnime | undefined;
   isFinished: boolean;
 }
 
-export function useGameController({
-  gameId,
-  animeIds,
-  currentAnswers,
-}: UseGameControllerProps) {
+export function useGameController({ gameId, animeIds, currentAnswers }: UseGameControllerProps) {
   const router = useRouter();
   const {
     data: { screenshots, decoys },
@@ -34,8 +30,7 @@ export function useGameController({
 
   const { mutateAsync: updateAsync, isPending: isUpdating } =
     api.game.updateGameAnswers.useMutation();
-  const { mutateAsync: deleteAsync, isPending: isDeleting } =
-    api.game.deleteGame.useMutation();
+  const { mutateAsync: deleteAsync, isPending: isDeleting } = api.game.deleteGame.useMutation();
 
   const onBeforeUnload = useCallback(async () => {
     if (isUpdatedBeforeUnload || answers.length === 0) return;
@@ -57,11 +52,12 @@ export function useGameController({
   }, [deleteAsync, gameId]);
 
   const getButtonAnswers = useCallback(
-    (anime: DBAnswerAnime, currentIndex: number) => {
-      return [
-        anime,
-        ...(decoys?.slice(currentIndex * 3, (currentIndex + 1) * 3) ?? []),
-      ];
+    (anime: DBAnswerAnime | undefined, currentIndex: number) => {
+      if (!anime) {
+        throw new Error("Passed anime is undefined, can't get button answers for this");
+      }
+
+      return [anime, ...(decoys?.slice(currentIndex * 3, (currentIndex + 1) * 3) ?? [])];
     },
     [decoys],
   );
@@ -73,7 +69,7 @@ export function useGameController({
       const newAnswers = [
         ...answers,
         {
-          correct: anime.id !== currentAnime.id ? currentAnime : null,
+          correct: anime.id !== currentAnime?.id ? (currentAnime ?? null) : null,
           picked: anime,
         },
       ];

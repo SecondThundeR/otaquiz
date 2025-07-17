@@ -1,4 +1,4 @@
-import { type DBAnswerAnime } from "@/schemas/db/answers";
+import type { DBAnswerAnime } from "@/schemas/db/answers";
 
 export function compareButtons(
   oldButtons: Readonly<DBAnswerAnime[]>,

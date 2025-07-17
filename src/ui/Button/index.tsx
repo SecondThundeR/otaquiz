@@ -1,5 +1,5 @@
-import { type ButtonHTMLAttributes, type PropsWithChildren } from "react";
 import clsx from "clsx";
+import type { ButtonHTMLAttributes, PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
 
 export type ButtonSizeVariants =

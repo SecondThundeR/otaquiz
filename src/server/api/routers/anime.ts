@@ -2,13 +2,9 @@ import { z } from "zod";
 
 import { decoyQuery, screenshotsQuery } from "@/constants/graphQLQueries";
 import { SHIKIMORI_GRAPHQL_API_URL } from "@/constants/links";
-
-import {
-  AnimesNonScreenshotSchema,
-  type FilteredAnimeNonScreenshot,
-} from "@/schemas/animes";
 import { AnimeScreenshotsSchema } from "@/schemas/animeScreenshots";
-import { type DBAnswerAnime } from "@/schemas/db/answers";
+import { AnimesNonScreenshotSchema, type FilteredAnimeNonScreenshot } from "@/schemas/animes";
+import type { DBAnswerAnime } from "@/schemas/db/answers";
 
 import { shuffleValues } from "@/utils/array/shuffleValues";
 import { getGraphQLFetchOptions } from "@/utils/query/getGraphQLFetchOptions";
@@ -34,9 +30,8 @@ export const animeRouter = createTRPCRouter({
         );
         checkForFailedRes(res);
 
-        const parsedAnimes = (
-          await AnimeScreenshotsSchema.parseAsync(await res.json())
-        ).data.animes;
+        const parsedAnimes = (await AnimeScreenshotsSchema.parseAsync(await res.json())).data
+          .animes;
         checkForEmptyAnimes(parsedAnimes);
 
         const shuffledScreenshots = parsedAnimes.map((anime) => {
@@ -70,15 +65,12 @@ export const animeRouter = createTRPCRouter({
           );
           checkForFailedRes(res);
 
-          const parsedAnimes = (
-            await AnimesNonScreenshotSchema.parseAsync(await res.json())
-          ).data.animes;
+          const parsedAnimes = (await AnimesNonScreenshotSchema.parseAsync(await res.json())).data
+            .animes;
           checkForEmptyAnimes(parsedAnimes);
 
           const filteredAnimes = parsedAnimes
-            .filter(
-              (anime): anime is FilteredAnimeNonScreenshot => !!anime.russian,
-            )
+            .filter((anime): anime is FilteredAnimeNonScreenshot => !!anime.russian)
             .map((anime) => {
               const { id, russian } = anime;
               return { id, name: russian };

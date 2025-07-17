@@ -1,7 +1,7 @@
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 
-import { type DBAnswerAnime } from "@/schemas/db/answers";
+import type { DBAnswerAnime } from "@/schemas/db/answers";
 
 import { Button } from "@/ui/Button";
 import { ButtonsGrid } from "@/ui/ButtonsGrid";
@@ -23,8 +23,7 @@ export const QuestionButtons = memo(function QuestionButtons({
   onAnswerClick,
 }: QuestionButtonsProps) {
   const [selectedButtonID, setSelectedButtonID] = useState<string | null>(null);
-  const [currentButtons, setCurrentButtons] =
-    useState<DBAnswerAnime[]>(buttons);
+  const [currentButtons, setCurrentButtons] = useState<DBAnswerAnime[]>(buttons);
   const [shuffledButtons, setShuffledButtons] = useState<DBAnswerAnime[]>(() =>
     shuffleValues(buttons),
   );

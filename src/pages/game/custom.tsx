@@ -1,10 +1,7 @@
-import { memo } from "react";
-import {
-  type GetServerSidePropsContext,
-  type InferGetServerSidePropsType,
-} from "next";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import { memo } from "react";
 
 import { useGameCreate } from "@/hooks/useGameCreate";
 
@@ -23,8 +20,7 @@ const DynamicPageLayout = dynamic(
 );
 
 const DynamicCustomGameForm = dynamic(
-  () =>
-    import("../../form/CustomGameForm").then((module) => module.CustomGameForm),
+  () => import("../../form/CustomGameForm").then((module) => module.CustomGameForm),
   {
     loading: () => <Spinner size="large" />,
     ssr: false,
@@ -43,22 +39,16 @@ const CustomGame = memo(function CustomGame({
       </Head>
       <DynamicPageLayout user={user}>
         <Title>Настраиваемая игра</Title>
-        <Subtitle>
-          Настрой необходимые фильтры по которым ты хочешь играть
-        </Subtitle>
-        <DynamicCustomGameForm
-          isCreating={isCreating}
-          onGameCreate={onGameCreate}
-        />
+        <Subtitle>Настрой необходимые фильтры по которым ты хочешь играть</Subtitle>
+        <DynamicCustomGameForm isCreating={isCreating} onGameCreate={onGameCreate} />
         {isError && (
           <Alert type="error">
             <strong>Не удалось создать игру!</strong>
             <br />
-            Скорее всего не удалось найти достаточное количество аниме с
-            текущими настройками
+            Скорее всего не удалось найти достаточное количество аниме с текущими настройками
             <br />
-            Попробуй еще раз с другими настройками или напиши разработчику на
-            Github, если ошибка повторяется при любых настройках
+            Попробуй еще раз с другими настройками или напиши разработчику на Github, если ошибка
+            повторяется при любых настройках
           </Alert>
         )}
       </DynamicPageLayout>

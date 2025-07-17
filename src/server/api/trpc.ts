@@ -7,8 +7,8 @@
  * need to use are documented accordingly near the end.
  */
 import { initTRPC, TRPCError } from "@trpc/server";
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { type Session } from "next-auth";
+import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
+import type { Session } from "next-auth";
 import superjson from "superjson";
 import { treeifyError, ZodError } from "zod";
 
@@ -76,8 +76,7 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
       ...shape,
       data: {
         ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? treeifyError(error.cause) : null,
+        zodError: error.cause instanceof ZodError ? treeifyError(error.cause) : null,
       },
     };
   },

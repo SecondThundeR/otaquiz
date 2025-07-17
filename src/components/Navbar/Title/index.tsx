@@ -1,5 +1,5 @@
-import { memo, useState } from "react";
 import { ArrowLeftIcon } from "@primer/octicons-react";
+import { memo, useState } from "react";
 
 import { PAGE_TITLE } from "@/constants/pageHeadData";
 

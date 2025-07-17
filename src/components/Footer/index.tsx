@@ -1,4 +1,4 @@
-import { type PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 import { FooterSeparator } from "./Separator";
 import { FooterText } from "./Text";

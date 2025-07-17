@@ -20,8 +20,7 @@ export function processError(error: unknown) {
 
   throw new TRPCError({
     code: "INTERNAL_SERVER_ERROR",
-    message:
-      "Oops... something happened on our side, we are already working on it!",
+    message: "Oops... something happened on our side, we are already working on it!",
     cause: error,
   });
 }

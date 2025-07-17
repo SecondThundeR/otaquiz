@@ -3,7 +3,7 @@ import { memo, useMemo } from "react";
 import { CardsGrid } from "@/ui/CardsGrid";
 import { HistoryCard } from "@/ui/HistoryCard";
 
-import { type RouterOutputs } from "@/utils/trpc/api";
+import type { RouterOutputs } from "@/utils/trpc/api";
 
 interface HistoryGamesProps {
   host: string | null;
@@ -22,14 +22,7 @@ export const HistoryGames = memo(function HistoryGames({
         const { id } = game;
         const onDeleteHandler = () => onDelete(id);
 
-        return (
-          <HistoryCard
-            key={id}
-            game={game}
-            host={host}
-            onDelete={onDeleteHandler}
-          />
-        );
+        return <HistoryCard key={id} game={game} host={host} onDelete={onDeleteHandler} />;
       }),
     [history, host, onDelete],
   );

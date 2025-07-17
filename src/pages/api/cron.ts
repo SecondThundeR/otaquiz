@@ -1,15 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { TEN_MINUTES } from "@/constants/time";
-
+import { env } from "@/env";
 import { prisma } from "@/server/db";
 
-import { env } from "@/env";
-
-export default async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse,
-) {
+export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   const token = request.headers.authorization?.split(" ")[1];
 
   if (!token || token !== env.CRON_SECRET) {

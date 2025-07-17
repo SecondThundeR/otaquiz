@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
-import { type NextRequest } from "next/server";
 import { ImageResponse } from "@vercel/og";
+import Image from "next/image";
+import type { NextRequest } from "next/server";
 
 export const runtime = "edge";
 
@@ -19,70 +19,67 @@ export default function handler(request: NextRequest) {
       });
 
     return new ImageResponse(
-      (
-        <div
+      <div
+        style={{
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          padding: "16px",
+          backgroundImage: "linear-gradient(to bottom, #dbf4ff, #fff1f1)",
+          color: "black",
+          gap: "16px",
+        }}
+      >
+        <h1
           style={{
-            height: "100%",
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-            padding: "16px",
-            backgroundImage: "linear-gradient(to bottom, #dbf4ff, #fff1f1)",
-            color: "black",
-            gap: "16px",
+            fontSize: "132px",
+            fontWeight: "bold",
+            opacity: 0.5,
+            marginTop: 0,
           }}
         >
+          Результат игры
+        </h1>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          <Image
+            width="144"
+            height="144"
+            src={`https://desu.shikimori.one/system/users/x160/${profileID}.png`}
+            style={{
+              borderRadius: 128,
+              border: "8px solid #570df8",
+            }}
+            alt=""
+          />
           <h1
             style={{
-              fontSize: "132px",
+              color: "#570df8",
               fontWeight: "bold",
-              opacity: 0.5,
-              marginTop: 0,
+              fontSize: "52px",
+              marginBottom: 0,
             }}
           >
-            Результат игры
+            {profileName}
           </h1>
-          <div
+          <h1
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "100%",
+              fontSize: "42px",
             }}
           >
-            <img
-              width="144"
-              height="144"
-              src={`https://desu.shikimori.one/system/users/x160/${profileID}.png`}
-              style={{
-                borderRadius: 128,
-                border: "8px solid #570df8",
-              }}
-              alt=""
-            />
-            <h1
-              style={{
-                color: "#570df8",
-                fontWeight: "bold",
-                fontSize: "52px",
-                marginBottom: 0,
-              }}
-            >
-              {profileName}
-            </h1>
-            <h1
-              style={{
-                fontSize: "42px",
-              }}
-            >
-              отгадал(а) правильно {`${correctAnswers} из ${totalAmount}`}{" "}
-              вопросов
-            </h1>
-          </div>
+            отгадал(а) правильно {`${correctAnswers} из ${totalAmount}`} вопросов
+          </h1>
         </div>
-      ),
+      </div>,
       {
         width: 1200,
         height: 630,

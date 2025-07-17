@@ -1,4 +1,4 @@
-import { type Animes } from "@/schemas/animes";
+import type { Animes } from "@/schemas/animes";
 
 export function getSelectedIDs(animes: Animes) {
   if (animes.length === 0) return null;

@@ -1,7 +1,4 @@
-import {
-  type OAuthConfig,
-  type OAuthUserConfig,
-} from "next-auth/providers/oauth";
+import type { OAuthConfig, OAuthUserConfig } from "next-auth/providers/oauth";
 
 export interface ShikimoriUserInfo {
   id: number;
@@ -26,9 +23,7 @@ export interface ShikimoriUserInfo {
   locale: string | null;
 }
 
-export interface ShikimoriUser
-  extends ShikimoriUserInfo,
-    Record<string, unknown> {
+export interface ShikimoriUser extends ShikimoriUserInfo, Record<string, unknown> {
   last_online: string;
   location: string | null;
   banned: boolean;

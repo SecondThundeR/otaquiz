@@ -1,19 +1,16 @@
-import { type PropsWithChildren } from "react";
 import clsx from "clsx";
+import type { PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
 
 import {
   ButtonSizeClasses,
-  ButtonStyleClasses,
   type ButtonSizeVariants,
+  ButtonStyleClasses,
   type ButtonStyleVariants,
 } from "../Button";
 import { Link, type LinkProps } from "../Link";
 
-type LinkButtonProps = Omit<
-  LinkProps,
-  "role" | "isStyled" | "isHover" | "style"
-> &
+type LinkButtonProps = Omit<LinkProps, "role" | "isStyled" | "isHover" | "style"> &
   PropsWithChildren<{
     size?: ButtonSizeVariants;
     style?: ButtonStyleVariants;
@@ -41,7 +38,6 @@ export function LinkButton({
           className,
         ),
       )}
-      role="button"
       {...linkProps}
     >
       {children}

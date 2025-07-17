@@ -1,23 +1,15 @@
-import {
-  memo,
-  useCallback,
-  type ChangeEvent,
-  type ChangeEventHandler,
-} from "react";
 import { useForm } from "@mantine/form";
+import { type ChangeEvent, type ChangeEventHandler, memo, useCallback } from "react";
 
 import { initialFormValues } from "@/constants/initialFormValues";
 
-import { type useGameCreate } from "@/hooks/useGameCreate";
+import type { useGameCreate } from "@/hooks/useGameCreate";
 
 import { Alert } from "@/ui/Alert";
 import { Button } from "@/ui/Button";
 import { Spinner } from "@/ui/Spinner";
 
-import {
-  convertObjectValues,
-  type ObjectType,
-} from "@/utils/form/convertObjectValues";
+import { convertObjectValues, type ObjectType } from "@/utils/form/convertObjectValues";
 import { getTransformedValues } from "@/utils/form/getTransformedValues";
 
 import { FormCheckboxContainer } from "../FormCheckboxContainer";
@@ -65,16 +57,14 @@ export const CustomGameForm = memo(function CustomGameForm({
       Object.entries(obj)
         .sort(([value1], [value2]) => Number(value2) - Number(value1))
         .map(([name, { label, checked, excluded }]) => {
-          const setIsExcluded = () =>
-            form.setFieldValue(`${objName}.${name}.excluded`, !excluded);
+          const setIsExcluded = () => form.setFieldValue(`${objName}.${name}.excluded`, !excluded);
 
           const customOnChange = (event: ChangeEvent<HTMLInputElement>) => {
             (
               form.getInputProps(`${objName}.${name}.checked`)
                 .onChange as ChangeEventHandler<HTMLInputElement>
             )(event);
-            if (excluded)
-              form.setFieldValue(`${objName}.${name}.excluded`, false);
+            if (excluded) form.setFieldValue(`${objName}.${name}.excluded`, false);
           };
 
           return (
@@ -156,8 +146,7 @@ export const CustomGameForm = memo(function CustomGameForm({
         <Alert type="warning" fullWidth>
           <strong>Будьте осторожны!</strong>
           <br />
-          Данная категория может содержать изображения, не предназначенные для
-          лиц младше 18 лет
+          Данная категория может содержать изображения, не предназначенные для лиц младше 18 лет
           <br />
           Продолжайте на свой страх и риск
         </Alert>

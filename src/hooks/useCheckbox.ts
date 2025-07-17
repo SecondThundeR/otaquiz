@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { type ChangeEvent, useState } from "react";
 
 export function useCheckbox() {
   const [checked, isChecked] = useState(false);

@@ -13,9 +13,7 @@ interface DeleteButtonProps {
   onDelete: () => void;
 }
 
-export const DeleteButton = memo(function DeleteButton({
-  onDelete,
-}: DeleteButtonProps) {
+export const DeleteButton = memo(function DeleteButton({ onDelete }: DeleteButtonProps) {
   const { buttonClicks, onClick } = useConfirmDelete(onDelete);
 
   return (

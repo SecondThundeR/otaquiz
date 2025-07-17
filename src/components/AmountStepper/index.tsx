@@ -1,7 +1,7 @@
-import { memo } from "react";
 import { HorizontalRuleIcon, PlusIcon } from "@primer/octicons-react";
+import { memo } from "react";
 
-import { type useAmount } from "@/hooks/useAmount";
+import type { useAmount } from "@/hooks/useAmount";
 
 import { Button } from "@/ui/Button";
 

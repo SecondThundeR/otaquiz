@@ -1,7 +1,7 @@
-import { memo, useState } from "react";
 import { MarkGithubIcon } from "@primer/octicons-react";
-import { type Session } from "next-auth";
+import type { Session } from "next-auth";
 import { signIn } from "next-auth/react";
+import { memo, useState } from "react";
 
 import { GITHUB_REPO_LINK } from "@/constants/links";
 
@@ -17,11 +17,7 @@ export interface NavbarProps extends NavbarTitleProps {
   hasDropdown?: boolean;
 }
 
-const MemoizedNavbar = memo(function Navbar({
-  user,
-  hasDropdown,
-  ...titleProps
-}: NavbarProps) {
+const MemoizedNavbar = memo(function Navbar({ user, hasDropdown, ...titleProps }: NavbarProps) {
   const [isRedirectingToLogin, setIsRedirectingToLogin] = useState(false);
 
   const onSignIn = async () => {
@@ -31,18 +27,14 @@ const MemoizedNavbar = memo(function Navbar({
   };
 
   return (
-    <div className="navbar bg-base-100 sticky top-0 z-50 gap-4 px-4">
+    <div className="navbar sticky top-0 z-50 gap-4 bg-base-100 px-4">
       <div className="navbar-start">
         <NavbarTitle {...titleProps} />
       </div>
       <div className="navbar-end gap-4">
         <NavbarIconLink icon={MarkGithubIcon} href={GITHUB_REPO_LINK} />
         {user === null ? (
-          <Button
-            style="primary"
-            onClick={onSignIn}
-            disabled={isRedirectingToLogin}
-          >
+          <Button style="primary" onClick={onSignIn} disabled={isRedirectingToLogin}>
             {isRedirectingToLogin ? <Spinner /> : "Вход в аккаунт"}
           </Button>
         ) : (

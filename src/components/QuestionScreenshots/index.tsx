@@ -2,7 +2,7 @@ import { memo, useMemo } from "react";
 
 import { Screenshot } from "@/components/Screenshot";
 
-import { type AnimeScreenshots } from "@/schemas/animeScreenshots";
+import type { AnimeScreenshots } from "@/schemas/animeScreenshots";
 
 interface QuestionScreenshotsProps {
   screenshots?: AnimeScreenshots;
@@ -14,11 +14,7 @@ export const QuestionScreenshots = memo(function QuestionScreenshots({
   const screenshotsContent = useMemo(
     () =>
       screenshots?.map((screenshot) => (
-        <Screenshot
-          key={screenshot.id}
-          src={screenshot.originalUrl}
-          fullWidth
-        />
+        <Screenshot key={screenshot.id} src={screenshot.originalUrl} fullWidth />
       )),
     [screenshots],
   );

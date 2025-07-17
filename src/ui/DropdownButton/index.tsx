@@ -1,4 +1,4 @@
-import { type PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 import { Link } from "../Link";
 
@@ -8,12 +8,7 @@ type DropdownButtonProps = PropsWithChildren<{
   onClick?: () => void;
 }>;
 
-export function DropdownButton({
-  children,
-  href,
-  to,
-  onClick,
-}: DropdownButtonProps) {
+export function DropdownButton({ children, href, to, onClick }: DropdownButtonProps) {
   const isButton = !href;
   const linkRole = isButton ? "button" : undefined;
   const linkTarget = !isButton ? "_blank" : undefined;

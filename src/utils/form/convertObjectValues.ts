@@ -8,8 +8,6 @@ export type ObjectType = Record<string, ObjectValues>;
 
 export function convertObjectValues(obj: ObjectType) {
   return Object.entries(obj)
-    .map(([name, { checked, excluded }]) =>
-      !checked ? null : `${excluded ? "!" : ""}${name}`,
-    )
+    .map(([name, { checked, excluded }]) => (!checked ? null : `${excluded ? "!" : ""}${name}`))
     .filter((status) => status !== null);
 }

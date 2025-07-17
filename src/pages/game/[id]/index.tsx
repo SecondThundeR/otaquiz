@@ -1,11 +1,8 @@
-import { memo } from "react";
-import {
-  type GetServerSidePropsContext,
-  type InferGetServerSidePropsType,
-} from "next";
+import { createServerSideHelpers } from "@trpc/react-query/server";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { createServerSideHelpers } from "@trpc/react-query/server";
+import { memo } from "react";
 import superjson from "superjson";
 
 import { useGameController } from "@/hooks/useGameController";
@@ -25,8 +22,7 @@ import { isGameExpired } from "@/utils/server/isGameExpired";
 import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
 
 const DynamicPageLayout = dynamic(
-  () =>
-    import("../../../layouts/PageLayout").then((module) => module.PageLayout),
+  () => import("../../../layouts/PageLayout").then((module) => module.PageLayout),
   {
     ssr: false,
   },
@@ -34,9 +30,7 @@ const DynamicPageLayout = dynamic(
 
 const DynamicQuestionScreenshots = dynamic(
   () =>
-    import("../../../components/QuestionScreenshots").then(
-      (module) => module.QuestionScreenshots,
-    ),
+    import("../../../components/QuestionScreenshots").then((module) => module.QuestionScreenshots),
   {
     loading: () => <Spinner size="large" />,
     ssr: false,
@@ -44,10 +38,7 @@ const DynamicQuestionScreenshots = dynamic(
 );
 
 const DynamicQuestionButtons = dynamic(
-  () =>
-    import("../../../components/QuestionButtons").then(
-      (module) => module.QuestionButtons,
-    ),
+  () => import("../../../components/QuestionButtons").then((module) => module.QuestionButtons),
   {
     loading: () => <Spinner size="large" />,
     ssr: false,
@@ -110,8 +101,7 @@ const GamePage = memo(function GamePage({
         isButtonDisabled={isSavingResult}
       >
         <Subtitle>
-          Раунд {currentAnswerTitle}{" "}
-          {isSavingResult && "| Идет сохранение ответов"}
+          Раунд {currentAnswerTitle} {isSavingResult && "| Идет сохранение ответов"}
         </Subtitle>
         <DynamicQuestionScreenshots screenshots={currentAnimeScreenshots} />
         <DynamicQuestionButtons
@@ -200,12 +190,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  const { id, amount, animes, answers, currentAnimeIndex, isShowingResult } =
-    gameData;
+  const { id, amount, animes, answers, currentAnimeIndex, isShowingResult } = gameData;
   const parsedAnimes = await DBAnimeArraySchema.parseAsync(animes);
-  const parsedAnswers = answers
-    ? await DBAnswerArraySchema.parseAsync(answers)
-    : [];
+  const parsedAnswers = answers ? await DBAnswerArraySchema.parseAsync(answers) : [];
   const animeIds = parsedAnimes.map((anime) => anime.id).join(",");
 
   await helpers.anime.getAnimeScreenshots.prefetch({ animeIds });

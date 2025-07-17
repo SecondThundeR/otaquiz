@@ -1,10 +1,6 @@
 import { Head, Html, Main, NextScript } from "next/document";
 
-import {
-  PAGE_DESCRIPTION,
-  PAGE_LINK,
-  PAGE_TITLE,
-} from "@/constants/pageHeadData";
+import { PAGE_DESCRIPTION, PAGE_LINK, PAGE_TITLE } from "@/constants/pageHeadData";
 
 export default function Document() {
   return (

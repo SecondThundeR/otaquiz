@@ -1,11 +1,8 @@
-import { memo } from "react";
-import {
-  type GetServerSidePropsContext,
-  type InferGetServerSidePropsType,
-} from "next";
+import { createServerSideHelpers } from "@trpc/react-query/server";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { createServerSideHelpers } from "@trpc/react-query/server";
+import { memo } from "react";
 import superjson from "superjson";
 
 import { URLCopyButton } from "@/components/URLCopyButton";
@@ -28,18 +25,14 @@ import { getOGImageLink } from "@/utils/pages/getOGImageLink";
 import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
 
 const DynamicPageLayout = dynamic(
-  () =>
-    import("../../../layouts/PageLayout").then((module) => module.PageLayout),
+  () => import("../../../layouts/PageLayout").then((module) => module.PageLayout),
   {
     ssr: false,
   },
 );
 
 const DynamicResultHeader = dynamic(
-  () =>
-    import("../../../components/ResultHeader").then(
-      (module) => module.ResultHeader,
-    ),
+  () => import("../../../components/ResultHeader").then((module) => module.ResultHeader),
   {
     loading: () => <Spinner size="large" />,
     ssr: false,
@@ -47,10 +40,7 @@ const DynamicResultHeader = dynamic(
 );
 
 const DynamicResultAnswers = dynamic(
-  () =>
-    import("../../../components/ResultAnswers").then(
-      (module) => module.ResultAnswers,
-    ),
+  () => import("../../../components/ResultAnswers").then((module) => module.ResultAnswers),
   {
     loading: () => <Spinner size="large" />,
     ssr: false,
@@ -67,13 +57,7 @@ const ResultsPage = memo(function ResultsPage({
   const titleText = `Результат игры ${playerTitleName}`;
   const correctAnswersAmount = getCorrectAnswersAmount(amount, answers);
   const descriptionText = `Правильно отгадано ${correctAnswersAmount} из ${amount} вопросов`;
-  const ogImageLink = getOGImageLink(
-    host,
-    id,
-    userName,
-    correctAnswersAmount,
-    amount,
-  );
+  const ogImageLink = getOGImageLink(host, id, userName, correctAnswersAmount, amount);
 
   return (
     <>
@@ -97,9 +81,7 @@ const ResultsPage = memo(function ResultsPage({
           amount={amount}
           correctAnswers={correctAnswersAmount}
         />
-        <URLCopyButton host={host}>
-          Скопировать ссылку на результат
-        </URLCopyButton>
+        <URLCopyButton host={host}>Скопировать ссылку на результат</URLCopyButton>
         <Divider />
         <Title>Детали ответов</Title>
         <DynamicResultAnswers answers={answers} animes={animes} />

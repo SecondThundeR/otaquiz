@@ -5,7 +5,6 @@ export function checkForEmptyAnimes<T>(array: T[]) {
 
   throw new TRPCError({
     code: "BAD_REQUEST",
-    message:
-      "Can't fetch necessary amount of required data with provided options. Try again!",
+    message: "Can't fetch necessary amount of required data with provided options. Try again!",
   });
 }

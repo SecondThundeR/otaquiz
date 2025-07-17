@@ -1,4 +1,4 @@
-import { type PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 import { useLinkCopy } from "@/hooks/useLinkCopy";
 
@@ -10,11 +10,7 @@ type URLCopyButtonProps = PropsWithChildren<{
   path?: string;
 }>;
 
-export const URLCopyButton = function URLCopyButton({
-  host,
-  path,
-  children,
-}: URLCopyButtonProps) {
+export const URLCopyButton = function URLCopyButton({ host, path, children }: URLCopyButtonProps) {
   const { onCopyLink, isCopied, error } = useLinkCopy(host, path);
 
   return (

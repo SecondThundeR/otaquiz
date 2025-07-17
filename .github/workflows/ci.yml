@@ -44,7 +44,7 @@ jobs:
       - name: Run linter
         run: |
           pnpm lint
-          pnpm format:check
+          pnpm check
         env:
           SKIP_ENV_VALIDATION: true
 

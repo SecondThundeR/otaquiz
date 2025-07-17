@@ -1,20 +1,16 @@
-import { memo } from "react";
-import Image from "next/image";
 import clsx from "clsx";
-import { type Session } from "next-auth";
+import Image from "next/image";
+import type { Session } from "next-auth";
+import { memo } from "react";
 
 type UserAvatarProps = Pick<Session["user"], "image" | "name">;
 
-export const UserAvatar = memo(function UserAvatar({
-  image,
-  name,
-}: UserAvatarProps) {
+export const UserAvatar = memo(function UserAvatar({ image, name }: UserAvatarProps) {
   const userName = name?.at(0) ?? "?";
   const userNameAlt = `Аватар аккаунта ${name ?? "Аноним"}`;
 
   return (
-    <label
-      tabIndex={0}
+    <span
       className={clsx("avatar btn btn-circle btn-ghost", {
         placeholder: !image,
       })}
@@ -30,6 +26,6 @@ export const UserAvatar = memo(function UserAvatar({
           <span className="text-xl">{userName}</span>
         )}
       </div>
-    </label>
+    </span>
   );
 });

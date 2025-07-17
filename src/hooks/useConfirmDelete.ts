@@ -20,10 +20,7 @@ export function useConfirmDelete(handler: ConfirmDeleteHandler) {
       return;
     }
 
-    const resetTimer = setTimeout(
-      () => setButtonClicks(0),
-      CLICKS_TIMEOUT_SECONDS * 1000,
-    );
+    const resetTimer = setTimeout(() => setButtonClicks(0), CLICKS_TIMEOUT_SECONDS * 1000);
 
     return () => clearTimeout(resetTimer);
   }, [buttonClicks, handler, isThresholdPassed]);

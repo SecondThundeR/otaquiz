@@ -1,9 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-
+import { prisma as prismaMock } from "@/mocks/prisma";
 import { appRouter } from "@/server/api/root";
 import { createCallerFactory, createInnerTRPCContext } from "@/server/api/trpc";
-
-import { prisma as prismaMock } from "@/mocks/prisma";
 
 import { accountDataMock } from "../__mocks__/accountData";
 import { createGameDataMock, gameDataMock } from "../__mocks__/gameData";
@@ -114,9 +112,7 @@ describe("Game Router", () => {
     });
 
     it("should be able to get game info for unauthed user", async () => {
-      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(
-        createGameDataMock,
-      );
+      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(createGameDataMock);
       // @ts-expect-error This findUnique returns accounts data
       prismaMock.user.findUnique.mockResolvedValueOnce(userAccountMock);
 
@@ -138,9 +134,7 @@ describe("Game Router", () => {
     });
 
     it("should be able to get game info for authed user", async () => {
-      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(
-        createGameDataMock,
-      );
+      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(createGameDataMock);
       // @ts-expect-error This findUnique returns accounts data
       prismaMock.user.findUnique.mockResolvedValueOnce(userAccountMock);
 

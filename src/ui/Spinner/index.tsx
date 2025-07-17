@@ -1,5 +1,5 @@
-import { memo } from "react";
 import clsx from "clsx";
+import { memo } from "react";
 
 type SpinnerSizeVariants = "extraSmall" | "small" | "medium" | "large";
 
@@ -14,12 +14,6 @@ interface SpinnerProps {
   size?: SpinnerSizeVariants;
 }
 
-export const Spinner = memo(function Spinner({
-  size = "medium",
-}: SpinnerProps) {
-  return (
-    <span
-      className={clsx("loading loading-spinner", SpinnerSizeClasses[size])}
-    ></span>
-  );
+export const Spinner = memo(function Spinner({ size = "medium" }: SpinnerProps) {
+  return <span className={clsx("loading loading-spinner", SpinnerSizeClasses[size])}></span>;
 });

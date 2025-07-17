@@ -3,18 +3,10 @@ import { z } from "zod";
 import { gameQuery } from "@/constants/graphQLQueries";
 import { SHIKIMORI_GRAPHQL_API_URL } from "@/constants/links";
 
-import {
-  AnimesSchema,
-  type Animes,
-  type FilteredAnime,
-} from "@/schemas/animes";
+import { type Animes, AnimesSchema, type FilteredAnime } from "@/schemas/animes";
 import { DBAnswerArraySchema } from "@/schemas/db/answers";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
 
 import { getRandomElement } from "@/utils/array/getRandomElement";
 import { getGraphQLFetchOptions } from "@/utils/query/getGraphQLFetchOptions";
@@ -56,24 +48,19 @@ export const gameRouter = createTRPCRouter({
           );
           checkForFailedRes(res);
 
-          const parsedAnimes = (await AnimesSchema.parseAsync(await res.json()))
-            .data.animes;
+          const parsedAnimes = (await AnimesSchema.parseAsync(await res.json())).data.animes;
           checkForEmptyAnimes(parsedAnimes);
 
           const filteredAnimes = parsedAnimes.filter(
             (data): data is FilteredAnime =>
-              data.screenshots.length > 0 &&
-              data.genres.length > 0 &&
-              !!data.russian,
+              data.screenshots.length > 0 && data.genres.length > 0 && !!data.russian,
           );
-          selectedAnimes.push(
-            ...filteredAnimes.slice(0, amount - selectedAnimes.length),
-          );
+          selectedAnimes.push(...filteredAnimes.slice(0, amount - selectedAnimes.length));
         } while (selectedAnimes.length < amount);
 
         const gameAnimes = selectedAnimes.map((anime) => {
           const { id, russian, screenshots } = anime;
-          const randomScreenshot = getRandomElement(screenshots)!.originalUrl;
+          const randomScreenshot = getRandomElement(screenshots)?.originalUrl;
 
           return {
             id,
@@ -142,24 +129,22 @@ export const gameRouter = createTRPCRouter({
         isFinished: z.boolean().default(false),
       }),
     )
-    .mutation(
-      async ({ ctx: { prisma }, input: { gameId, answers, isFinished } }) => {
-        try {
-          return await prisma.game.update({
-            where: {
-              id: gameId,
-            },
-            data: {
-              answers,
-              currentAnimeIndex: answers.length,
-              isFinished: isFinished,
-            },
-          });
-        } catch (error: unknown) {
-          processError(error);
-        }
-      },
-    ),
+    .mutation(async ({ ctx: { prisma }, input: { gameId, answers, isFinished } }) => {
+      try {
+        return await prisma.game.update({
+          where: {
+            id: gameId,
+          },
+          data: {
+            answers,
+            currentAnimeIndex: answers.length,
+            isFinished: isFinished,
+          },
+        });
+      } catch (error: unknown) {
+        processError(error);
+      }
+    }),
 
   deleteGame: protectedProcedure
     .input(z.object({ gameId: z.cuid() }))

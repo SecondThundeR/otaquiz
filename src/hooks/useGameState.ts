@@ -2,11 +2,11 @@ import { useCallback, useState } from "react";
 
 import { ANSWER_TIMEOUT_MS } from "@/constants/time";
 
-import { type DBAnswerAnime } from "@/schemas/db/answers";
+import type { DBAnswerAnime } from "@/schemas/db/answers";
 
 import { asyncTimeout } from "@/utils/general/asyncTimeout";
 
-import { type useGameController } from "./useGameController";
+import type { useGameController } from "./useGameController";
 import { useScrollTop } from "./useScrollTop";
 
 type UseGameStateOptions = ReturnType<typeof useGameController>["data"] &
@@ -41,11 +41,11 @@ export function useGameState({
   const scrollTop = useScrollTop();
 
   const maxIndex = animes.length - 1;
-  const currentAnime = animes[currentIndex]!;
+  const currentAnime = animes[currentIndex];
   const isFinished = currentIndex === maxIndex;
   const currentAnswerTitle = `${currentIndex + 1} из ${amount}`;
   const currentAnimeScreenshots = screenshots?.find(
-    (data) => data.id === currentAnime.id,
+    (data) => data.id === currentAnime?.id,
   )?.screenshots;
 
   const isButtonsDisabled = isUpdating || isDeleting || isUpdatingAnswer;
@@ -56,7 +56,7 @@ export function useGameState({
   const onAnswerClick = useCallback(
     async (anime: DBAnswerAnime) => {
       if (isShowingResult) {
-        setCorrectButtonID(currentAnime.id);
+        setCorrectButtonID(currentAnime?.id ?? null);
         await asyncTimeout(answerTimeout);
         setCorrectButtonID(null);
       }

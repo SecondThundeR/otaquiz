@@ -1,7 +1,7 @@
-import { type inferProcedureInput } from "@trpc/server";
+import type { inferProcedureInput } from "@trpc/server";
 import { describe, expect, it } from "vitest";
 
-import { appRouter, type AppRouter } from "@/server/api/root";
+import { type AppRouter, appRouter } from "@/server/api/root";
 import { createCallerFactory, createInnerTRPCContext } from "@/server/api/trpc";
 
 import { animeIds, decoysResult } from "../__mocks__/animes";
@@ -13,10 +13,9 @@ describe("Anime Router", () => {
       const ctx = createInnerTRPCContext(emptySession);
       const caller = createCallerFactory(appRouter)(ctx);
 
-      const input: inferProcedureInput<AppRouter["anime"]["getAnswerDecoys"]> =
-        {
-          animeIds,
-        };
+      const input: inferProcedureInput<AppRouter["anime"]["getAnswerDecoys"]> = {
+        animeIds,
+      };
 
       const example = await caller.anime.getAnswerDecoys(input);
 
@@ -27,10 +26,9 @@ describe("Anime Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)(ctx);
 
-      const input: inferProcedureInput<AppRouter["anime"]["getAnswerDecoys"]> =
-        {
-          animeIds,
-        };
+      const input: inferProcedureInput<AppRouter["anime"]["getAnswerDecoys"]> = {
+        animeIds,
+      };
 
       const example = await caller.anime.getAnswerDecoys(input);
 
@@ -50,10 +48,9 @@ describe("Anime Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)(ctx);
 
-      const input: inferProcedureInput<AppRouter["anime"]["getAnswerDecoys"]> =
-        {
-          animeIds: "",
-        };
+      const input: inferProcedureInput<AppRouter["anime"]["getAnswerDecoys"]> = {
+        animeIds: "",
+      };
 
       const example = caller.anime.getAnswerDecoys(input);
 
@@ -66,55 +63,46 @@ describe("Anime Router", () => {
       const ctx = createInnerTRPCContext(emptySession);
       const caller = createCallerFactory(appRouter)(ctx);
 
-      const input: inferProcedureInput<
-        AppRouter["anime"]["getAnimeScreenshots"]
-      > = {
+      const input: inferProcedureInput<AppRouter["anime"]["getAnimeScreenshots"]> = {
         animeIds,
       };
 
-      const animeScreenshots = (await caller.anime.getAnimeScreenshots(
-        input,
-      ))![0]!;
+      const animeScreenshots = await caller.anime.getAnimeScreenshots(input);
+      const firstScreenshot = animeScreenshots?.at(0);
 
-      expect(animeScreenshots.id).toBe(animeIds);
-      expect(animeScreenshots.screenshots.length).toBe(6);
+      expect(firstScreenshot?.id).toBe(animeIds);
+      expect(firstScreenshot?.screenshots.length).toBe(6);
     });
 
     it("should be able to get anime screenshots for authed user", async () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)(ctx);
 
-      const input: inferProcedureInput<
-        AppRouter["anime"]["getAnimeScreenshots"]
-      > = {
+      const input: inferProcedureInput<AppRouter["anime"]["getAnimeScreenshots"]> = {
         animeIds,
       };
 
-      const animeScreenshots = (await caller.anime.getAnimeScreenshots(
-        input,
-      ))![0]!;
+      const animeScreenshots = await caller.anime.getAnimeScreenshots(input);
+      const firstScreenshot = animeScreenshots?.at(0);
 
-      expect(animeScreenshots.id).toBe(animeIds);
-      expect(animeScreenshots.screenshots.length).toBe(6);
+      expect(firstScreenshot?.id).toBe(animeIds);
+      expect(firstScreenshot?.screenshots.length).toBe(6);
     });
 
     it("should return different array on slice amount parameter", async () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)(ctx);
 
-      const input: inferProcedureInput<
-        AppRouter["anime"]["getAnimeScreenshots"]
-      > = {
+      const input: inferProcedureInput<AppRouter["anime"]["getAnimeScreenshots"]> = {
         animeIds,
         sliceAmount: 1,
       };
 
-      const animeScreenshots = (await caller.anime.getAnimeScreenshots(
-        input,
-      ))![0]!;
+      const animeScreenshots = await caller.anime.getAnimeScreenshots(input);
+      const firstScreenshot = animeScreenshots?.at(0);
 
-      expect(animeScreenshots.id).toBe(animeIds);
-      expect(animeScreenshots.screenshots.length).toBe(1);
+      expect(firstScreenshot?.id).toBe(animeIds);
+      expect(firstScreenshot?.screenshots.length).toBe(1);
     });
 
     it("should fail on empty input", async () => {
@@ -130,9 +118,7 @@ describe("Anime Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)(ctx);
 
-      const input: inferProcedureInput<
-        AppRouter["anime"]["getAnimeScreenshots"]
-      > = {
+      const input: inferProcedureInput<AppRouter["anime"]["getAnimeScreenshots"]> = {
         animeIds: "",
       };
 

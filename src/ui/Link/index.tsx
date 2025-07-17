@@ -1,6 +1,6 @@
-import { type AnchorHTMLAttributes, type PropsWithChildren } from "react";
-import { default as NextLink } from "next/link";
 import clsx from "clsx";
+import { default as NextLink } from "next/link";
+import type { AnchorHTMLAttributes, PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
 
 type LinkStyleVariants =
