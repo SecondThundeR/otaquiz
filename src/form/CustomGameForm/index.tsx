@@ -69,7 +69,7 @@ export const CustomGameForm = memo(function CustomGameForm({
 
           return (
             <FormIncludeExcludeCheckbox
-              id={objName}
+              id={`${objName}.${name}.checked`}
               key={name}
               label={label}
               isChecked={checked}
@@ -134,10 +134,12 @@ export const CustomGameForm = memo(function CustomGameForm({
         </FormCheckboxContainer>
       </div>
       <FormToggle
+        id="censored"
         label="Активировать цензуру"
         {...form.getInputProps("censored", { type: "checkbox" })}
       />
       <FormToggle
+        id="isShowingResult"
         label="Результат во время игры"
         disabled={isCreating}
         {...form.getInputProps("isShowingResult", { type: "checkbox" })}

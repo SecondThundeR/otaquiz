@@ -67,6 +67,7 @@ const HomePage = memo(function HomePage({
             />
             <div className="flex flex-col gap-2">
               <Checkbox
+                id="isShowingResult"
                 label="Показывать результат во время игры"
                 checked={isShowingResult}
                 disabled={isCreating}

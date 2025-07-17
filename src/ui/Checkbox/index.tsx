@@ -1,7 +1,7 @@
 import { type InputHTMLAttributes, memo } from "react";
 
 interface CheckboxProps
-  extends Pick<InputHTMLAttributes<HTMLInputElement>, "checked" | "onChange" | "disabled"> {
+  extends Pick<InputHTMLAttributes<HTMLInputElement>, "id" | "checked" | "onChange" | "disabled"> {
   label: string;
 }
 

@@ -9,12 +9,9 @@ type FormCheckboxContainerProps = PropsWithChildren<{
 
 export function FormCheckboxContainer({ label, className, children }: FormCheckboxContainerProps) {
   return (
-    <div className={twMerge(clsx("form-control w-full", className))}>
-      {/** biome-ignore lint/a11y/noLabelWithoutControl: This is currently not needed */}
-      <label className="label w-full">
-        <span className="label-text w-full px-1 py-2 text-base-content">{label}</span>
-      </label>
+    <fieldset className={twMerge(clsx("fieldset w-full text-base", className))}>
+      <legend className="fieldset-legend w-full px-1 py-2">{label}</legend>
       {children}
-    </div>
+    </fieldset>
   );
 }
