@@ -34,7 +34,7 @@ export const Screenshot = memo(function Screenshot({ src, fullWidth = false }: S
           hidden: isLoading,
         })}
         alt=""
-        onLoadingComplete={onLoad}
+        onLoad={onLoad}
       />
     </>
   );
