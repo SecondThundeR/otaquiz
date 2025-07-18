@@ -21,7 +21,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(emptySession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const example = caller.game.createGame({
@@ -37,7 +37,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const example = await caller.game.createGame({
@@ -51,7 +51,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const exampleUndefinedInput = caller.game.createGame(undefined as never);
@@ -69,7 +69,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const exampleMin = caller.game.createGame({
@@ -89,7 +89,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const exampleMin = caller.game.createGame({
@@ -112,14 +112,16 @@ describe("Game Router", () => {
     });
 
     it("should be able to get game info for unauthed user", async () => {
-      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(createGameDataMock);
+      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(
+        createGameDataMock
+      );
       // @ts-expect-error This findUnique returns accounts data
       prismaMock.user.findUnique.mockResolvedValueOnce(userAccountMock);
 
       const ctx = createInnerTRPCContext(emptySession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const example = await caller.game.getGameInfo({
@@ -134,14 +136,16 @@ describe("Game Router", () => {
     });
 
     it("should be able to get game info for authed user", async () => {
-      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(createGameDataMock);
+      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(
+        createGameDataMock
+      );
       // @ts-expect-error This findUnique returns accounts data
       prismaMock.user.findUnique.mockResolvedValueOnce(userAccountMock);
 
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const example = await caller.game.getGameInfo({
@@ -181,7 +185,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const exampleWrongID = caller.game.getGameInfo({
@@ -201,7 +205,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(emptySession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const example = caller.game.updateGameAnswers({
@@ -219,7 +223,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const example = await caller.game.updateGameAnswers({
@@ -235,7 +239,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const example = caller.game.updateGameAnswers(undefined as never);
@@ -247,7 +251,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const exampleEmptyID = caller.game.updateGameAnswers({
@@ -275,7 +279,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(emptySession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const example = caller.game.deleteGame({
@@ -292,7 +296,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const example = await caller.game.deleteGame({
@@ -308,7 +312,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const example = caller.game.deleteGame(undefined as never);
@@ -322,7 +326,7 @@ describe("Game Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const exampleEmpty = caller.game.deleteGame({ gameId: "" });

@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  next-auth@5.0.0-beta.29:
+    hash: 99c9ceea7b9d0d4b7d0f57f65d4b3c39e96329dc4432f40dc41090c552e2146f
+    path: patches/next-auth@5.0.0-beta.29.patch
+
 importers:
 
   .:
@@ -58,7 +63,7 @@ importers:
         version: 15.4.2(babel-plugin-react-compiler@19.1.0-rc.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next-auth:
         specifier: 5.0.0-beta.29
-        version: 5.0.0-beta.29(next@15.4.2(babel-plugin-react-compiler@19.1.0-rc.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+        version: 5.0.0-beta.29(patch_hash=99c9ceea7b9d0d4b7d0f57f65d4b3c39e96329dc4432f40dc41090c552e2146f)(next@15.4.2(babel-plugin-react-compiler@19.1.0-rc.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -2572,7 +2577,7 @@ snapshots:
 
   nanoid@3.3.11: {}
 
-  next-auth@5.0.0-beta.29(next@15.4.2(babel-plugin-react-compiler@19.1.0-rc.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
+  next-auth@5.0.0-beta.29(patch_hash=99c9ceea7b9d0d4b7d0f57f65d4b3c39e96329dc4432f40dc41090c552e2146f)(next@15.4.2(babel-plugin-react-compiler@19.1.0-rc.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
     dependencies:
       '@auth/core': 0.40.0
       next: 15.4.2(babel-plugin-react-compiler@19.1.0-rc.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)

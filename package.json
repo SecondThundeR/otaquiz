@@ -13,8 +13,8 @@
     "check:write": "biome check --write .",
     "start": "next start",
     "test": "pnpm test:unit",
-    "test:unit": "vitest run --reporter verbose",
-    "test:unit:watch": "vitest",
+    "test:unit": "SKIP_ENV_VALIDATION=true vitest run --reporter verbose",
+    "test:unit:watch": "SKIP_ENV_VALIDATION=true vitest",
     "ts:check": "tsc --noEmit"
   },
   "dependencies": {
@@ -72,7 +72,10 @@
       "msw",
       "prisma",
       "sharp"
-    ]
+    ],
+    "patchedDependencies": {
+      "next-auth@5.0.0-beta.29": "patches/next-auth@5.0.0-beta.29.patch"
+    }
   },
   "packageManager": "pnpm@10.13.1"
 }

@@ -40,7 +40,7 @@ describe("History Router", () => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        prisma: prismaMock,
+        db: prismaMock,
       });
 
       const example = await caller.history.getGameHistory(undefined);
