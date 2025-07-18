@@ -1,12 +1,8 @@
-import { fileURLToPath } from "node:url";
-import { createJiti } from "jiti";
+import type { NextConfig } from "next";
 
-const jiti = createJiti(fileURLToPath(import.meta.url));
+import "./src/env";
 
-await jiti.import("./src/env");
-
-/** @type {import("next").NextConfig} */
-const config = {
+const config: NextConfig = {
   reactStrictMode: true,
   i18n: {
     locales: ["ru"],

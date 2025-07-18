@@ -48,7 +48,6 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "daisyui": "^5.0.46",
-    "jiti": "^2.4.2",
     "msw": "^2.10.4",
     "postcss": "^8.5.6",
     "prisma": "^6.12.0",
