@@ -73,7 +73,14 @@
       "brace-expansion": "^2.0.2"
     },
     "onlyBuiltDependencies": [
-      "@vercel/speed-insights"
+      "@vercel/speed-insights",
+      "@prisma/client",
+      "@prisma/engines",
+      "@tailwindcss/oxide",
+      "esbuild",
+      "msw",
+      "prisma",
+      "sharp"
     ]
   },
   "packageManager": "pnpm@10.13.1"
