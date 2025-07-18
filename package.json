@@ -30,6 +30,7 @@
     "@trpc/react-query": "next",
     "@trpc/server": "next",
     "@vercel/speed-insights": "^1.2.0",
+    "babel-plugin-react-compiler": "19.1.0-rc.2",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "next": "^15.4.1",

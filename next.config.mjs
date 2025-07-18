@@ -12,6 +12,9 @@ const config = {
     locales: ["ru"],
     defaultLocale: "ru",
   },
+  experimental: {
+    reactCompiler: true,
+  },
   images: {
     unoptimized: true,
     remotePatterns: [
