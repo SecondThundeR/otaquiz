@@ -12,9 +12,6 @@ on:
 jobs:
   typecheck:
     runs-on: ubuntu-latest
-    env:
-      PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING: 1
-
     steps:
       - uses: actions/checkout@v4
 
@@ -32,9 +29,6 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-    env:
-      PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING: 1
-
     steps:
       - uses: actions/checkout@v4
 
@@ -55,9 +49,6 @@ jobs:
 
   tests:
     runs-on: ubuntu-latest
-    env:
-      PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING: 1
-
     steps:
       - uses: actions/checkout@v4
 
@@ -77,9 +68,6 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    env:
-      PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING: 1
-
     steps:
       - uses: actions/checkout@v4
 
