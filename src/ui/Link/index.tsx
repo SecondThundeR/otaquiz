@@ -26,13 +26,14 @@ const LinkStyleClasses: Record<LinkStyleVariants, string> = {
 
 export type LinkProps = Pick<
   AnchorHTMLAttributes<HTMLAnchorElement>,
-  "href" | "role" | "target" | "onClick" | "className"
+  "href" | "role" | "target" | "className"
 > &
   PropsWithChildren<{
     to?: string;
     isStyled?: boolean;
     isHover?: boolean;
     style?: LinkStyleVariants;
+    onClick?: () => void;
   }>;
 
 export function Link({
@@ -43,7 +44,7 @@ export function Link({
   isStyled = true,
   isHover = true,
   style,
-  ...linkProps
+  ...rest
 }: LinkProps) {
   if (to)
     return (
@@ -59,14 +60,36 @@ export function Link({
             className,
           ),
         )}
-        {...linkProps}
+        {...rest}
       >
         {children}
       </NextLink>
     );
 
+  if (href) {
+    return (
+      <a
+        className={twMerge(
+          clsx(
+            {
+              link: isStyled,
+              "link-hover": isHover,
+            },
+            style && LinkStyleClasses[style],
+            className,
+          ),
+        )}
+        href={href}
+        {...rest}
+      >
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <a
+    <button
+      type="button"
       className={twMerge(
         clsx(
           {
@@ -77,10 +100,9 @@ export function Link({
           className,
         ),
       )}
-      href={href}
-      {...linkProps}
+      {...rest}
     >
       {children}
-    </a>
+    </button>
   );
 }
