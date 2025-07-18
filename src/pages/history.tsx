@@ -7,8 +7,8 @@ import superjson from "superjson";
 import { useGameHistory } from "@/hooks/useGameHistory";
 
 import { appRouter } from "@/server/api/root";
-import { getServerAuthSession } from "@/server/auth";
-import { prisma } from "@/server/db";
+import { auth } from "@/server/auth";
+import { db } from "@/server/db";
 
 import { Subtitle } from "@/ui/Subtitle";
 import { Title } from "@/ui/Title";
@@ -48,7 +48,7 @@ const HistoryPage = ({ user, host }: InferGetServerSidePropsType<typeof getServe
 };
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const session = await getServerAuthSession(ctx);
+  const session = await auth(ctx);
   if (!session) {
     return {
       redirect: {
@@ -60,7 +60,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   const helpers = createServerSideHelpers({
     router: appRouter,
-    ctx: { session, prisma },
+    ctx: { session, db },
     transformer: superjson,
   });
 

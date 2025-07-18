@@ -1,7 +1,7 @@
-import { animeRouter } from "@/server/api/routers/anime";
-import { gameRouter } from "@/server/api/routers/game";
-import { historyRouter } from "@/server/api/routers/history";
-import { createTRPCRouter } from "@/server/api/trpc";
+import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
+import { animeRouter } from "./routers/anime";
+import { gameRouter } from "./routers/game";
+import { historyRouter } from "./routers/history";
 
 export const appRouter = createTRPCRouter({
   game: gameRouter,
@@ -10,3 +10,5 @@ export const appRouter = createTRPCRouter({
 });
 
 export type AppRouter = typeof appRouter;
+
+export const createCaller = createCallerFactory(appRouter);

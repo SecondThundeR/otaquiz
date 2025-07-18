@@ -32,7 +32,7 @@ export const gameRouter = createTRPCRouter({
         }),
       }),
     )
-    .mutation(async ({ ctx: { prisma, session }, input: { options } }) => {
+    .mutation(async ({ ctx: { db, session }, input: { options } }) => {
       const { limit: amount, isShowingResult } = options;
       const selectedAnimes: Animes = [];
 
@@ -69,7 +69,7 @@ export const gameRouter = createTRPCRouter({
           };
         });
 
-        const gameData = await prisma.game.create({
+        const gameData = await db.game.create({
           data: {
             amount,
             animes: gameAnimes,
@@ -86,15 +86,15 @@ export const gameRouter = createTRPCRouter({
 
   getGameInfo: publicProcedure
     .input(z.object({ gameId: z.cuid() }))
-    .query(async ({ ctx: { prisma }, input: { gameId } }) => {
+    .query(async ({ ctx: { db }, input: { gameId } }) => {
       try {
-        const gameInfo = await prisma.game.findUniqueOrThrow({
+        const gameInfo = await db.game.findUniqueOrThrow({
           where: {
             id: gameId,
           },
         });
 
-        const userShikimoriInfo = await prisma.user.findUnique({
+        const userShikimoriInfo = await db.user.findUnique({
           where: {
             id: gameInfo?.userId,
           },
@@ -129,9 +129,9 @@ export const gameRouter = createTRPCRouter({
         isFinished: z.boolean().default(false),
       }),
     )
-    .mutation(async ({ ctx: { prisma }, input: { gameId, answers, isFinished } }) => {
+    .mutation(async ({ ctx: { db }, input: { gameId, answers, isFinished } }) => {
       try {
-        return await prisma.game.update({
+        return await db.game.update({
           where: {
             id: gameId,
           },
@@ -148,9 +148,9 @@ export const gameRouter = createTRPCRouter({
 
   deleteGame: protectedProcedure
     .input(z.object({ gameId: z.cuid() }))
-    .mutation(async ({ ctx: { prisma }, input: { gameId } }) => {
+    .mutation(async ({ ctx: { db }, input: { gameId } }) => {
       try {
-        const game = await prisma.game.delete({
+        const game = await db.game.delete({
           where: {
             id: gameId,
           },

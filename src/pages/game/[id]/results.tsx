@@ -12,8 +12,8 @@ import { DBAnimeArraySchema } from "@/schemas/db/animes";
 import { DBAnswerArraySchema } from "@/schemas/db/answers";
 
 import { appRouter } from "@/server/api/root";
-import { getServerAuthSession } from "@/server/auth";
-import { prisma } from "@/server/db";
+import { auth } from "@/server/auth";
+import { db } from "@/server/db";
 
 import { Divider } from "@/ui/Divider";
 import { Spinner } from "@/ui/Spinner";
@@ -100,10 +100,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  const session = await getServerAuthSession(ctx);
+  const session = await auth(ctx);
   const helpers = createServerSideHelpers({
     router: appRouter,
-    ctx: { session, prisma },
+    ctx: { session, db },
     transformer: superjson,
   });
 

@@ -11,8 +11,8 @@ import { DBAnimeArraySchema } from "@/schemas/db/animes";
 import { DBAnswerArraySchema } from "@/schemas/db/answers";
 
 import { appRouter } from "@/server/api/root";
-import { getServerAuthSession } from "@/server/auth";
-import { prisma } from "@/server/db";
+import { auth } from "@/server/auth";
+import { db } from "@/server/db";
 
 import { Spinner } from "@/ui/Spinner";
 import { Subtitle } from "@/ui/Subtitle";
@@ -126,7 +126,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   }
 
   // TODO: Currently there is no support for anonymous games. Will be implemented later
-  const session = await getServerAuthSession(ctx);
+  const session = await auth(ctx);
   if (!session) {
     return {
       redirect: {
@@ -138,7 +138,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   const helpers = createServerSideHelpers({
     router: appRouter,
-    ctx: { session, prisma },
+    ctx: { session, db },
     transformer: superjson,
   });
 
@@ -157,7 +157,16 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  if (gameData?.userId !== session.user.id) {
+  if (!gameData) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  if (gameData.userId !== session.user.id) {
     return {
       redirect: {
         destination: "/",
@@ -175,7 +184,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
 
   if (isGameExpired(gameData.updatedAt)) {
-    await prisma.game.delete({
+    await db.game.delete({
       where: {
         id: gameData.id,
       },

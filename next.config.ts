@@ -4,10 +4,6 @@ import "./src/env";
 
 const config: NextConfig = {
   reactStrictMode: true,
-  i18n: {
-    locales: ["ru"],
-    defaultLocale: "ru",
-  },
   experimental: {
     reactCompiler: true,
   },
@@ -28,6 +24,7 @@ const config: NextConfig = {
       },
     ],
   },
+  transpilePackages: ["next-auth"],
 };
 
 export default config;

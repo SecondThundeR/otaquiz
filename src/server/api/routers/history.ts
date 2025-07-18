@@ -3,9 +3,9 @@ import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { processError } from "@/utils/trpc/processError";
 
 export const historyRouter = createTRPCRouter({
-  getGameHistory: protectedProcedure.query(async ({ ctx: { prisma, session } }) => {
+  getGameHistory: protectedProcedure.query(async ({ ctx: { db, session } }) => {
     try {
-      return await prisma.game.findMany({
+      return await db.game.findMany({
         where: {
           userId: session.user.id,
           isFinished: true,

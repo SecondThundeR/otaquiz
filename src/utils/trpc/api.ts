@@ -14,7 +14,6 @@ const getBaseUrl = () => {
 export const api = createTRPCNext<AppRouter>({
   config() {
     return {
-      transformer: superjson,
       links: [
         loggerLink({
           enabled: (opts) =>
@@ -22,12 +21,14 @@ export const api = createTRPCNext<AppRouter>({
             (opts.direction === "down" && opts.result instanceof Error),
         }),
         httpBatchLink({
+          transformer: superjson,
           url: `${getBaseUrl()}/api/trpc`,
         }),
       ],
     };
   },
   ssr: false,
+  transformer: superjson,
 });
 
 export type RouterInputs = inferRouterInputs<AppRouter>;

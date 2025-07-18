@@ -4,7 +4,7 @@ import Head from "next/head";
 
 import { useGameCreate } from "@/hooks/useGameCreate";
 
-import { getServerAuthSession } from "@/server/auth";
+import { auth } from "@/server/auth";
 
 import { Spinner } from "@/ui/Spinner";
 import { Subtitle } from "@/ui/Subtitle";
@@ -47,7 +47,7 @@ const CustomGame = ({ user }: InferGetServerSidePropsType<typeof getServerSidePr
 };
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const session = await getServerAuthSession(ctx);
+  const session = await auth(ctx);
   if (!session)
     return {
       redirect: {

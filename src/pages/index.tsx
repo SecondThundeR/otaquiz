@@ -11,7 +11,7 @@ import { useGameCreate } from "@/hooks/useGameCreate";
 
 import { PageLayout } from "@/layouts/PageLayout";
 
-import { getServerAuthSession } from "@/server/auth";
+import { auth } from "@/server/auth";
 
 import { Alert } from "@/ui/Alert";
 import { Button } from "@/ui/Button";
@@ -100,7 +100,7 @@ const HomePage = ({ user }: InferGetServerSidePropsType<typeof getServerSideProp
 };
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const session = await getServerAuthSession(ctx);
+  const session = await auth(ctx);
 
   return {
     props: {

@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { TEN_MINUTES } from "@/constants/time";
 import { env } from "@/env";
-import { prisma } from "@/server/db";
+import { db } from "@/server/db";
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   const token = request.headers.authorization?.split(" ")[1];
@@ -13,7 +13,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
   }
 
   try {
-    await prisma.game.deleteMany({
+    await db.game.deleteMany({
       where: {
         isFinished: {
           equals: false,
