@@ -58,7 +58,7 @@
     "vitest-mock-extended": "^3.1.0"
   },
   "engines": {
-    "node": ">=22.x"
+    "node": "^22.0.0"
   },
   "ct3aMetadata": {
     "initVersion": "7.14.0"
