@@ -23,6 +23,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+        env:
+          PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING: 1
 
       - name: Run typecheck
         run: pnpm ts:check
@@ -40,6 +42,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+        env:
+          PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING: 1
 
       - name: Run linter
         run: |
@@ -60,6 +64,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+        env:
+          PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING: 1
 
       - name: Run all tests
         run: pnpm test
@@ -80,6 +86,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+        env:
+          PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING: 1
 
       - name: Deploy migrations to database
         run: pnpx prisma migrate deploy
