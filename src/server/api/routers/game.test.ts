@@ -112,9 +112,7 @@ describe("Game Router", () => {
     });
 
     it("should be able to get game info for unauthed user", async () => {
-      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(
-        createGameDataMock
-      );
+      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(createGameDataMock);
       // @ts-expect-error This findUnique returns accounts data
       prismaMock.user.findUnique.mockResolvedValueOnce(userAccountMock);
 
@@ -136,9 +134,7 @@ describe("Game Router", () => {
     });
 
     it("should be able to get game info for authed user", async () => {
-      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(
-        createGameDataMock
-      );
+      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(createGameDataMock);
       // @ts-expect-error This findUnique returns accounts data
       prismaMock.user.findUnique.mockResolvedValueOnce(userAccountMock);
 
