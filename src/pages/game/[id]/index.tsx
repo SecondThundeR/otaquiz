@@ -2,7 +2,6 @@ import { createServerSideHelpers } from "@trpc/react-query/server";
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { memo } from "react";
 import superjson from "superjson";
 
 import { useGameController } from "@/hooks/useGameController";
@@ -45,7 +44,7 @@ const DynamicQuestionButtons = dynamic(
   },
 );
 
-const GamePage = memo(function GamePage({
+const GamePage = ({
   gameData: {
     gameId,
     animes,
@@ -56,7 +55,7 @@ const GamePage = memo(function GamePage({
     currentAnimeIndex,
   },
   user,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const {
     data: { screenshots, isDeleting, isUpdating },
     handlers: { onGameExit, getButtonAnswers, updateAnswers },
@@ -113,7 +112,7 @@ const GamePage = memo(function GamePage({
       </DynamicPageLayout>
     </>
   );
-});
+};
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const gameId = ctx.query.id;

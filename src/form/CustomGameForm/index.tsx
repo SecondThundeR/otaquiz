@@ -1,5 +1,5 @@
 import { useForm } from "@mantine/form";
-import { type ChangeEvent, type ChangeEventHandler, memo, useCallback } from "react";
+import type { ChangeEvent, ChangeEventHandler } from "react";
 
 import { initialFormValues } from "@/constants/initialFormValues";
 
@@ -18,11 +18,11 @@ import { FormIncludeExcludeCheckbox } from "../FormIncludeExcludeCheckbox";
 import { FormInput } from "../FormInput";
 import { FormToggle } from "../FormToggle";
 
-export const CustomGameForm = memo(function CustomGameForm({
+export const CustomGameForm = ({
   isCreating,
   isError,
   onGameCreate,
-}: ReturnType<typeof useGameCreate>) {
+}: ReturnType<typeof useGameCreate>) => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: initialFormValues,
@@ -53,39 +53,36 @@ export const CustomGameForm = memo(function CustomGameForm({
   const { rx } = form.values.rating;
   const isWarningTriggered = rx.checked && !rx.excluded;
 
-  const getCheckboxes = useCallback(
-    (obj: ObjectType, objName: string) =>
-      Object.entries(obj)
-        .sort(([value1], [value2]) => Number(value2) - Number(value1))
-        .map(([name, { label, checked, excluded }]) => {
-          const setIsExcluded = () => form.setFieldValue(`${objName}.${name}.excluded`, !excluded);
+  const getCheckboxes = (obj: ObjectType, objName: string) =>
+    Object.entries(obj)
+      .sort(([value1], [value2]) => Number(value2) - Number(value1))
+      .map(([name, { label, checked, excluded }]) => {
+        const setIsExcluded = () => form.setFieldValue(`${objName}.${name}.excluded`, !excluded);
 
-          const customOnChange = (event: ChangeEvent<HTMLInputElement>) => {
-            (
-              form.getInputProps(`${objName}.${name}.checked`)
-                .onChange as ChangeEventHandler<HTMLInputElement>
-            )(event);
-            if (excluded) form.setFieldValue(`${objName}.${name}.excluded`, false);
-          };
+        const customOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+          (
+            form.getInputProps(`${objName}.${name}.checked`)
+              .onChange as ChangeEventHandler<HTMLInputElement>
+          )(event);
+          if (excluded) form.setFieldValue(`${objName}.${name}.excluded`, false);
+        };
 
-          return (
-            <FormIncludeExcludeCheckbox
-              id={`${objName}.${name}.checked`}
-              key={name}
-              label={label}
-              isChecked={checked}
-              isExcluded={excluded}
-              setIsExcluded={setIsExcluded}
-              {...form.getInputProps(`${objName}.${name}.checked`, {
-                type: "checkbox",
-              })}
-              onChange={customOnChange}
-              disabled={isCreating}
-            />
-          );
-        }),
-    [form, isCreating],
-  );
+        return (
+          <FormIncludeExcludeCheckbox
+            id={`${objName}.${name}.checked`}
+            key={name}
+            label={label}
+            isChecked={checked}
+            isExcluded={excluded}
+            setIsExcluded={setIsExcluded}
+            {...form.getInputProps(`${objName}.${name}.checked`, {
+              type: "checkbox",
+            })}
+            onChange={customOnChange}
+            disabled={isCreating}
+          />
+        );
+      });
 
   return (
     <FormContainer
@@ -177,4 +174,4 @@ export const CustomGameForm = memo(function CustomGameForm({
       </Button>
     </FormContainer>
   );
-});
+};

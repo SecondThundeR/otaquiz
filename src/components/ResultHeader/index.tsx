@@ -1,5 +1,4 @@
 import type { Session } from "next-auth";
-import { memo } from "react";
 
 import { GuessedAmount } from "@/ui/GuessedAmount";
 import { Subtitle } from "@/ui/Subtitle";
@@ -11,11 +10,7 @@ type ResultHeaderProps = Pick<Session["user"], "name"> & {
   amount: number;
 };
 
-export const ResultHeader = memo(function ResultHeader({
-  name,
-  correctAnswers,
-  amount,
-}: ResultHeaderProps) {
+export const ResultHeader = ({ name, correctAnswers, amount }: ResultHeaderProps) => {
   return (
     <div className="flex items-center gap-2">
       <Subtitle>
@@ -24,4 +19,4 @@ export const ResultHeader = memo(function ResultHeader({
       </Subtitle>
     </div>
   );
-});
+};

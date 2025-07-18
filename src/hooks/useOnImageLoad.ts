@@ -1,9 +1,9 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 export function useOnImageLoad() {
   const [isLoading, setIsLoading] = useState(true);
 
-  const onLoad = useCallback(() => setIsLoading(false), []);
+  const onLoad = () => setIsLoading(false);
 
   return [isLoading, onLoad] as const;
 }

@@ -1,5 +1,4 @@
 import { HorizontalRuleIcon, PlusIcon } from "@primer/octicons-react";
-import { memo } from "react";
 
 import type { useAmount } from "@/hooks/useAmount";
 
@@ -9,12 +8,12 @@ interface AmountStepperProps extends ReturnType<typeof useAmount> {
   isDisabled?: boolean;
 }
 
-export const AmountStepper = memo(function AmountStepper({
+export const AmountStepper = ({
   amount,
   increment,
   decrement,
   isDisabled = false,
-}: AmountStepperProps) {
+}: AmountStepperProps) => {
   return (
     <div className="flex items-center gap-4">
       <Button
@@ -40,4 +39,4 @@ export const AmountStepper = memo(function AmountStepper({
       </Button>
     </div>
   );
-});
+};

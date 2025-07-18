@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-
 import { api } from "@/utils/trpc/api";
 
 export function useGameHistory() {
@@ -22,13 +20,10 @@ export function useGameHistory() {
     },
   });
 
-  const onDelete = useCallback(
-    async (gameId: string) => {
-      await deleteGame({ gameId });
-      return;
-    },
-    [deleteGame],
-  );
+  const onDelete = async (gameId: string) => {
+    await deleteGame({ gameId });
+    return;
+  };
 
   return { history, isEmpty, onDelete };
 }

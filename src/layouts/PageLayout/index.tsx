@@ -1,4 +1,4 @@
-import { forwardRef, type PropsWithChildren } from "react";
+import type { PropsWithChildren, RefObject } from "react";
 
 import { Footer } from "@/components/Footer";
 import { Navbar, type NavbarProps } from "@/components/Navbar";
@@ -11,13 +11,16 @@ import { PageContainer } from "@/ui/PageContainer";
 
 type PageLayoutProps = NavbarProps &
   PropsWithChildren<{
+    ref?: RefObject<HTMLDivElement | null>;
     hasFooter?: boolean;
   }>;
 
-export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(function PageLayout(
-  { children, hasFooter = true, ...navbarProps },
+export const PageLayout = ({
+  children,
+  hasFooter = true,
   ref,
-) {
+  ...navbarProps
+}: PageLayoutProps) => {
   return (
     <PageContainer ref={ref}>
       <Navbar {...navbarProps} />
@@ -41,4 +44,4 @@ export const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(function P
       )}
     </PageContainer>
   );
-});
+};

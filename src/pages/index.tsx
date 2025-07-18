@@ -1,6 +1,5 @@
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import { memo } from "react";
 
 import { AmountStepper } from "@/components/AmountStepper";
 
@@ -23,9 +22,7 @@ import { Spinner } from "@/ui/Spinner";
 import { Subtitle } from "@/ui/Subtitle";
 import { Title } from "@/ui/Title";
 
-const HomePage = memo(function HomePage({
-  user,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+const HomePage = ({ user }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { checked: isShowingResult, onChange } = useCheckbox();
   const { amount, increment, decrement } = useAmount({
     min: 5,
@@ -100,7 +97,7 @@ const HomePage = memo(function HomePage({
       </PageLayout>
     </>
   );
-});
+};
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await getServerAuthSession(ctx);

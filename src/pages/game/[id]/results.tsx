@@ -2,7 +2,6 @@ import { createServerSideHelpers } from "@trpc/react-query/server";
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { memo } from "react";
 import superjson from "superjson";
 
 import { URLCopyButton } from "@/components/URLCopyButton";
@@ -47,12 +46,12 @@ const DynamicResultAnswers = dynamic(
   },
 );
 
-const ResultsPage = memo(function ResultsPage({
+const ResultsPage = ({
   user,
   playerData: { userName, id },
   gameData: { amount, animes, answers },
   host,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const playerTitleName = userName ?? "анонима";
   const titleText = `Результат игры ${playerTitleName}`;
   const correctAnswersAmount = getCorrectAnswersAmount(amount, answers);
@@ -88,7 +87,7 @@ const ResultsPage = memo(function ResultsPage({
       </DynamicPageLayout>
     </>
   );
-});
+};
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const gameId = ctx.query.id;

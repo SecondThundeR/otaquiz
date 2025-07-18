@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type ConfirmDeleteHandler = () => void;
 
@@ -10,7 +10,7 @@ export function useConfirmDelete(handler: ConfirmDeleteHandler) {
 
   const isThresholdPassed = CLICKS_THRESHOLD - buttonClicks === 0;
 
-  const onClick = useCallback(() => setButtonClicks((prev) => prev + 1), []);
+  const onClick = () => setButtonClicks((prev) => prev + 1);
 
   useEffect(() => {
     if (buttonClicks === 0) return;

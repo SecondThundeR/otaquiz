@@ -1,7 +1,7 @@
 import { MarkGithubIcon } from "@primer/octicons-react";
 import type { Session } from "next-auth";
 import { signIn } from "next-auth/react";
-import { memo, useState } from "react";
+import { useState } from "react";
 
 import { GITHUB_REPO_LINK } from "@/constants/links";
 
@@ -17,7 +17,7 @@ export interface NavbarProps extends NavbarTitleProps {
   hasDropdown?: boolean;
 }
 
-const MemoizedNavbar = memo(function Navbar({ user, hasDropdown, ...titleProps }: NavbarProps) {
+export const Navbar = ({ user, hasDropdown, ...titleProps }: NavbarProps) => {
   const [isRedirectingToLogin, setIsRedirectingToLogin] = useState(false);
 
   const onSignIn = async () => {
@@ -43,9 +43,4 @@ const MemoizedNavbar = memo(function Navbar({ user, hasDropdown, ...titleProps }
       </div>
     </div>
   );
-});
-
-export const Navbar = Object.assign(MemoizedNavbar, {
-  Profile: NavbarProfile,
-  Title: NavbarTitle,
-});
+};

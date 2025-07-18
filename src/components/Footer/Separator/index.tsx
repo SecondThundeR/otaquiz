@@ -1,5 +1,3 @@
-import { memo } from "react";
-
-export const FooterSeparator = memo(function FooterSeparator() {
+export const FooterSeparator = () => {
   return <span className="hidden sm:block">|</span>;
-});
+};

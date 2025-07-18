@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { memo } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Spinner } from "../Spinner";
@@ -10,11 +9,11 @@ interface ScreenshotPlaceholderProps {
   fullWidth?: boolean;
 }
 
-export const ScreenshotPlaceholder = memo(function ScreenshotPlaceholder({
+export const ScreenshotPlaceholder = ({
   className,
   isLoading,
   fullWidth = false,
-}: ScreenshotPlaceholderProps) {
+}: ScreenshotPlaceholderProps) => {
   return (
     <div
       className={twMerge(
@@ -27,4 +26,4 @@ export const ScreenshotPlaceholder = memo(function ScreenshotPlaceholder({
       <Spinner size="large" />
     </div>
   );
-});
+};

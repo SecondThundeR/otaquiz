@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 import type { DBAnswerAnime, DBAnswerArray } from "@/schemas/db/answers";
 
@@ -32,7 +32,7 @@ export function useGameController({ gameId, animeIds, currentAnswers }: UseGameC
     api.game.updateGameAnswers.useMutation();
   const { mutateAsync: deleteAsync, isPending: isDeleting } = api.game.deleteGame.useMutation();
 
-  const onBeforeUnload = useCallback(async () => {
+  const onBeforeUnload = async () => {
     if (isUpdatedBeforeUnload || answers.length === 0) return;
 
     setIsUpdatedBeforeUnload(true);
@@ -43,50 +43,44 @@ export function useGameController({ gameId, animeIds, currentAnswers }: UseGameC
       answers,
       isFinished,
     });
-  }, [animeIds, answers, gameId, isUpdatedBeforeUnload, updateAsync]);
+  };
 
   useBeforeUnload(onBeforeUnload);
 
-  const onGameExit = useCallback(async () => {
+  const onGameExit = async () => {
     await deleteAsync({ gameId });
-  }, [deleteAsync, gameId]);
+  };
 
-  const getButtonAnswers = useCallback(
-    (anime: DBAnswerAnime | undefined, currentIndex: number) => {
-      if (!anime) {
-        throw new Error("Passed anime is undefined, can't get button answers for this");
-      }
+  const getButtonAnswers = (anime: DBAnswerAnime | undefined, currentIndex: number) => {
+    if (!anime) {
+      throw new Error("Passed anime is undefined, can't get button answers for this");
+    }
 
-      return [anime, ...(decoys?.slice(currentIndex * 3, (currentIndex + 1) * 3) ?? [])];
-    },
-    [decoys],
-  );
+    return [anime, ...(decoys?.slice(currentIndex * 3, (currentIndex + 1) * 3) ?? [])];
+  };
 
-  const updateAnswers = useCallback(
-    async (options: OnAnswerClickOptions) => {
-      setIsUpdatedBeforeUnload(false);
-      const { anime, currentAnime, isFinished } = options;
-      const newAnswers = [
-        ...answers,
-        {
-          correct: anime.id !== currentAnime?.id ? (currentAnime ?? null) : null,
-          picked: anime,
-        },
-      ];
+  const updateAnswers = async (options: OnAnswerClickOptions) => {
+    setIsUpdatedBeforeUnload(false);
+    const { anime, currentAnime, isFinished } = options;
+    const newAnswers = [
+      ...answers,
+      {
+        correct: anime.id !== currentAnime?.id ? (currentAnime ?? null) : null,
+        picked: anime,
+      },
+    ];
 
-      if (isFinished) {
-        await updateAsync({
-          gameId,
-          answers: newAnswers,
-          isFinished,
-        });
-        return await router.push(`${router.asPath}/results`);
-      }
+    if (isFinished) {
+      await updateAsync({
+        gameId,
+        answers: newAnswers,
+        isFinished,
+      });
+      return await router.push(`${router.asPath}/results`);
+    }
 
-      setAnswers(newAnswers);
-    },
-    [answers, updateAsync, gameId, router],
-  );
+    setAnswers(newAnswers);
+  };
 
   return {
     data: { screenshots, isDeleting, isUpdating },

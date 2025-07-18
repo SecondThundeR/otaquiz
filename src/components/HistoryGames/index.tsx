@@ -1,5 +1,3 @@
-import { memo, useMemo } from "react";
-
 import { CardsGrid } from "@/ui/CardsGrid";
 import { HistoryCard } from "@/ui/HistoryCard";
 
@@ -11,21 +9,13 @@ interface HistoryGamesProps {
   onDelete: (gameId: string) => Promise<void>;
 }
 
-export const HistoryGames = memo(function HistoryGames({
-  host,
-  history,
-  onDelete,
-}: HistoryGamesProps) {
-  const gamesContent = useMemo(
-    () =>
-      history.map((game) => {
-        const { id } = game;
-        const onDeleteHandler = () => onDelete(id);
+export const HistoryGames = ({ host, history, onDelete }: HistoryGamesProps) => {
+  const gamesContent = history.map((game) => {
+    const { id } = game;
+    const onDeleteHandler = () => onDelete(id);
 
-        return <HistoryCard key={id} game={game} host={host} onDelete={onDeleteHandler} />;
-      }),
-    [history, host, onDelete],
-  );
+    return <HistoryCard key={id} game={game} host={host} onDelete={onDeleteHandler} />;
+  });
 
   return <CardsGrid>{gamesContent}</CardsGrid>;
-});
+};

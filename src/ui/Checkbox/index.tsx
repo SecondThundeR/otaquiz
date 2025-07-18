@@ -1,11 +1,11 @@
-import { type InputHTMLAttributes, memo } from "react";
+import type { InputHTMLAttributes } from "react";
 
 interface CheckboxProps
   extends Pick<InputHTMLAttributes<HTMLInputElement>, "id" | "checked" | "onChange" | "disabled"> {
   label: string;
 }
 
-export const Checkbox = memo(function Checkbox({ label, ...inputProps }: CheckboxProps) {
+export const Checkbox = ({ label, ...inputProps }: CheckboxProps) => {
   return (
     <div className="form-control px-1 py-2">
       <label className="label cursor-pointer gap-4">
@@ -14,4 +14,4 @@ export const Checkbox = memo(function Checkbox({ label, ...inputProps }: Checkbo
       </label>
     </div>
   );
-});
+};

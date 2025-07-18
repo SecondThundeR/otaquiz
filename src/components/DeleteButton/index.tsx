@@ -1,10 +1,8 @@
-import { memo } from "react";
-
 import { useConfirmDelete } from "@/hooks/useConfirmDelete";
 
 import { Button } from "@/ui/Button";
 
-const buttonClicksText: Record<number, string> = {
+const BUTTON_CLICKS_TEXT: Record<number, string> = {
   0: "Удалить",
   1: "Нажмите еще раз",
 };
@@ -13,12 +11,12 @@ interface DeleteButtonProps {
   onDelete: () => void;
 }
 
-export const DeleteButton = memo(function DeleteButton({ onDelete }: DeleteButtonProps) {
+export const DeleteButton = ({ onDelete }: DeleteButtonProps) => {
   const { buttonClicks, onClick } = useConfirmDelete(onDelete);
 
   return (
     <Button style="error" onClick={onClick}>
-      {buttonClicksText[buttonClicks]}
+      {BUTTON_CLICKS_TEXT[buttonClicks]}
     </Button>
   );
-});
+};

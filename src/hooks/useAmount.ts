@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 interface UseAmountOptions {
   min: number;
@@ -9,15 +9,9 @@ interface UseAmountOptions {
 export function useAmount({ min, max, step }: UseAmountOptions) {
   const [amount, setAmount] = useState(() => Math.min(min, max));
 
-  const increment = useCallback(
-    () => setAmount((prev) => (prev === max ? prev : prev + step)),
-    [max, step],
-  );
+  const increment = () => setAmount((prev) => (prev === max ? prev : prev + step));
 
-  const decrement = useCallback(
-    () => setAmount((prev) => (prev === min ? prev : prev - step)),
-    [min, step],
-  );
+  const decrement = () => setAmount((prev) => (prev === min ? prev : prev - step));
 
   return {
     amount,

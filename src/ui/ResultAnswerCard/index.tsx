@@ -1,5 +1,3 @@
-import { memo } from "react";
-
 import { Screenshot } from "@/components/Screenshot";
 
 import { SHIKIMORI_ANIMES_URL } from "@/constants/links";
@@ -26,11 +24,7 @@ interface ResultAnswerCardProps {
   screenshotURL?: string;
 }
 
-export const ResultAnswerCard = memo(function ResultAnswerCard({
-  answerIndex,
-  answer,
-  screenshotURL,
-}: ResultAnswerCardProps) {
+export const ResultAnswerCard = ({ answerIndex, answer, screenshotURL }: ResultAnswerCardProps) => {
   const isCorrectPicked = !answer.correct;
   const titleResult = isCorrectPicked ? TITLE_VARIANTS.correct : TITLE_VARIANTS.incorrect;
 
@@ -68,4 +62,4 @@ export const ResultAnswerCard = memo(function ResultAnswerCard({
       </div>
     </CardContainer>
   );
-});
+};

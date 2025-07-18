@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { type InputHTMLAttributes, memo, useEffect, useRef } from "react";
+import { type InputHTMLAttributes, useEffect, useRef } from "react";
 
 import { Button } from "@/ui/Button";
 
@@ -10,13 +10,13 @@ interface FormIncludeExcludeCheckboxProps extends InputHTMLAttributes<HTMLInputE
   setIsExcluded: () => void;
 }
 
-export const FormIncludeExcludeCheckbox = memo(function FormIncludeExcludeCheckbox({
+export const FormIncludeExcludeCheckbox = ({
   label,
   isChecked,
   isExcluded,
   setIsExcluded,
   ...props
-}: FormIncludeExcludeCheckboxProps) {
+}: FormIncludeExcludeCheckboxProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -45,4 +45,4 @@ export const FormIncludeExcludeCheckbox = memo(function FormIncludeExcludeCheckb
       </Button>
     </label>
   );
-});
+};

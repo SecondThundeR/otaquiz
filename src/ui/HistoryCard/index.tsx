@@ -1,5 +1,3 @@
-import { memo } from "react";
-
 import { DeleteButton } from "@/components/DeleteButton";
 import { Screenshot } from "@/components/Screenshot";
 import { URLCopyButton } from "@/components/URLCopyButton";
@@ -20,7 +18,7 @@ interface HistoryCardProps {
   onDelete: () => void;
 }
 
-export const HistoryCard = memo(function HistoryCard({ host, game, onDelete }: HistoryCardProps) {
+export const HistoryCard = ({ host, game, onDelete }: HistoryCardProps) => {
   const { id, amount, answers, animes, createdAt } = game;
   const formattedDate = `Игра от ${dayjs(createdAt).format("DD.MM.YYYY в HH:mm")}`;
   const resultsPath = `/game/${id}/results`;
@@ -49,4 +47,4 @@ export const HistoryCard = memo(function HistoryCard({ host, game, onDelete }: H
       </ButtonsGrid>
     </CardContainer>
   );
-});
+};

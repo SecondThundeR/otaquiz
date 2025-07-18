@@ -2,7 +2,6 @@ import { createServerSideHelpers } from "@trpc/react-query/server";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next/types";
-import { memo } from "react";
 import superjson from "superjson";
 
 import { useGameHistory } from "@/hooks/useGameHistory";
@@ -28,10 +27,7 @@ const DynamicHistoryGames = dynamic(
   },
 );
 
-const HistoryPage = memo(function HistoryPage({
-  user,
-  host,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+const HistoryPage = ({ user, host }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { history, onDelete } = useGameHistory();
 
   return (
@@ -49,7 +45,7 @@ const HistoryPage = memo(function HistoryPage({
       </DynamicPageLayout>
     </>
   );
-});
+};
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await getServerAuthSession(ctx);

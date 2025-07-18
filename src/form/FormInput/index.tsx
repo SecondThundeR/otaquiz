@@ -1,17 +1,12 @@
 import clsx from "clsx";
-import { type InputHTMLAttributes, memo } from "react";
+import type { InputHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
-export const FormInput = memo(function FormInput({
-  label,
-  className,
-  id,
-  ...props
-}: FormInputProps) {
+export const FormInput = ({ label, className, id, ...props }: FormInputProps) => {
   return (
     <div className="form-control w-full">
       <label htmlFor={id} className="label w-full">
@@ -20,4 +15,4 @@ export const FormInput = memo(function FormInput({
       <input id={id} {...props} className={twMerge(clsx("w-full text-base", className))} />
     </div>
   );
-});
+};

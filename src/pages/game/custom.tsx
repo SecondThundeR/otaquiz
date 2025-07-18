@@ -1,7 +1,6 @@
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { memo } from "react";
 
 import { useGameCreate } from "@/hooks/useGameCreate";
 
@@ -26,9 +25,7 @@ const DynamicCustomGameForm = dynamic(
   },
 );
 
-const CustomGame = memo(function CustomGame({
-  user,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+const CustomGame = ({ user }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { onGameCreate, isCreating, isError } = useGameCreate();
 
   return (
@@ -47,7 +44,7 @@ const CustomGame = memo(function CustomGame({
       </DynamicPageLayout>
     </>
   );
-});
+};
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await getServerAuthSession(ctx);

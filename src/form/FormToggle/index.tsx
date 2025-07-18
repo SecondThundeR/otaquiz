@@ -1,10 +1,10 @@
-import { type InputHTMLAttributes, memo } from "react";
+import type { InputHTMLAttributes } from "react";
 
 interface FormToggleProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
-export const FormToggle = memo(function FormToggle({ label, ...props }: FormToggleProps) {
+export const FormToggle = ({ label, ...props }: FormToggleProps) => {
   return (
     <div className="form-control w-full">
       <label className="label w-full cursor-pointer justify-between">
@@ -13,4 +13,4 @@ export const FormToggle = memo(function FormToggle({ label, ...props }: FormTogg
       </label>
     </div>
   );
-});
+};

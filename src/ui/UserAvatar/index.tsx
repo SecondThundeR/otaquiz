@@ -1,11 +1,10 @@
 import clsx from "clsx";
 import Image from "next/image";
 import type { Session } from "next-auth";
-import { memo } from "react";
 
 type UserAvatarProps = Pick<Session["user"], "image" | "name">;
 
-export const UserAvatar = memo(function UserAvatar({ image, name }: UserAvatarProps) {
+export const UserAvatar = ({ image, name }: UserAvatarProps) => {
   const userName = name?.at(0) ?? "?";
   const userNameAlt = `Аватар аккаунта ${name ?? "Аноним"}`;
 
@@ -30,4 +29,4 @@ export const UserAvatar = memo(function UserAvatar({ image, name }: UserAvatarPr
       </div>
     </button>
   );
-});
+};

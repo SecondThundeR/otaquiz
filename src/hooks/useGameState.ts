@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 import { ANSWER_TIMEOUT_MS } from "@/constants/time";
 
@@ -7,7 +7,6 @@ import type { DBAnswerAnime } from "@/schemas/db/answers";
 import { asyncTimeout } from "@/utils/general/asyncTimeout";
 
 import type { useGameController } from "./useGameController";
-import { useScrollTop } from "./useScrollTop";
 
 type UseGameStateOptions = ReturnType<typeof useGameController>["data"] &
   Omit<ReturnType<typeof useGameController>["handlers"], "onGameExit"> & {
@@ -38,7 +37,10 @@ export function useGameState({
   const [correctButtonID, setCorrectButtonID] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(currentAnimeIndex);
   const [isUpdatingAnswer, setIsUpdatingAnswer] = useState(false);
-  const scrollTop = useScrollTop();
+  const scrollTop = () => {
+    if (typeof window === "undefined") return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const maxIndex = animes.length - 1;
   const currentAnime = animes[currentIndex];
@@ -53,35 +55,24 @@ export function useGameState({
 
   const currentButtons = getButtonAnswers(currentAnime, currentIndex);
 
-  const onAnswerClick = useCallback(
-    async (anime: DBAnswerAnime) => {
-      if (isShowingResult) {
-        setCorrectButtonID(currentAnime?.id ?? null);
-        await asyncTimeout(answerTimeout);
-        setCorrectButtonID(null);
-      }
-      setIsUpdatingAnswer(true);
+  const onAnswerClick = async (anime: DBAnswerAnime) => {
+    if (isShowingResult) {
+      setCorrectButtonID(currentAnime?.id ?? null);
+      await asyncTimeout(answerTimeout);
+      setCorrectButtonID(null);
+    }
+    setIsUpdatingAnswer(true);
 
-      await updateAnswers({
-        anime,
-        currentAnime,
-        isFinished,
-      });
-
-      setCurrentIndex(currentIndex + 1);
-      setIsUpdatingAnswer(false);
-      scrollTop();
-    },
-    [
-      answerTimeout,
+    await updateAnswers({
+      anime,
       currentAnime,
-      currentIndex,
       isFinished,
-      isShowingResult,
-      scrollTop,
-      updateAnswers,
-    ],
-  );
+    });
+
+    setCurrentIndex(currentIndex + 1);
+    setIsUpdatingAnswer(false);
+    scrollTop();
+  };
 
   return {
     data: {

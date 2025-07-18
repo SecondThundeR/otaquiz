@@ -1,6 +1,6 @@
 import { ArrowLeftIcon } from "@primer/octicons-react";
 import { useSession } from "next-auth/react";
-import { memo, useState } from "react";
+import { useState } from "react";
 
 import { PAGE_TITLE } from "@/constants/pageHeadData";
 
@@ -13,12 +13,12 @@ export type NavbarTitleProps = Partial<{
   onClick: () => void;
 }>;
 
-export const NavbarTitle = memo(function NavbarTitle({
+export const NavbarTitle = ({
   title,
   isHome = false,
   isButtonDisabled = false,
   onClick,
-}: NavbarTitleProps) {
+}: NavbarTitleProps) => {
   const session = useSession();
   const [isRedirecting, setIsRedirecting] = useState(false);
 
@@ -49,4 +49,4 @@ export const NavbarTitle = memo(function NavbarTitle({
       )}
     </LinkButton>
   );
-});
+};
