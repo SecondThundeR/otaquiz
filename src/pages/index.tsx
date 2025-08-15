@@ -1,18 +1,13 @@
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-
+import { useId } from "react";
 import { AmountStepper } from "@/components/AmountStepper";
-
 import { PAGE_TITLE } from "@/constants/pageHeadData";
-
 import { useAmount } from "@/hooks/useAmount";
 import { useCheckbox } from "@/hooks/useCheckbox";
 import { useGameCreate } from "@/hooks/useGameCreate";
-
 import { PageLayout } from "@/layouts/PageLayout";
-
 import { auth } from "@/server/auth";
-
 import { Alert } from "@/ui/Alert";
 import { Button } from "@/ui/Button";
 import { Checkbox } from "@/ui/Checkbox";
@@ -23,6 +18,7 @@ import { Subtitle } from "@/ui/Subtitle";
 import { Title } from "@/ui/Title";
 
 const HomePage = ({ user }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const isShowingResultInputId = useId();
   const { checked: isShowingResult, onChange } = useCheckbox();
   const { amount, increment, decrement } = useAmount({
     min: 5,
@@ -64,7 +60,7 @@ const HomePage = ({ user }: InferGetServerSidePropsType<typeof getServerSideProp
             />
             <div className="flex flex-col gap-2">
               <Checkbox
-                id="isShowingResult"
+                id={isShowingResultInputId}
                 label="Показывать результат во время игры"
                 checked={isShowingResult}
                 disabled={isCreating}

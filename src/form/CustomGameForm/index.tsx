@@ -1,5 +1,5 @@
 import { useForm } from "@mantine/form";
-import type { ChangeEvent, ChangeEventHandler } from "react";
+import { type ChangeEvent, type ChangeEventHandler, useId } from "react";
 
 import { initialFormValues } from "@/constants/initialFormValues";
 
@@ -23,6 +23,10 @@ export const CustomGameForm = ({
   isError,
   onGameCreate,
 }: ReturnType<typeof useGameCreate>) => {
+  const limitInputId = useId();
+  const scoreInputId = useId();
+  const censoredInputId = useId();
+  const isShowingResultInputId = useId();
   const form = useForm({
     mode: "uncontrolled",
     initialValues: initialFormValues,
@@ -92,7 +96,7 @@ export const CustomGameForm = ({
       }}
     >
       <FormInput
-        id="limit"
+        id={limitInputId}
         type="number"
         pattern="[0-9]*"
         min={1}
@@ -104,7 +108,7 @@ export const CustomGameForm = ({
         {...form.getInputProps("limit", { type: "input" })}
       />
       <FormInput
-        id="score"
+        id={scoreInputId}
         type="number"
         pattern="[0-9]*"
         min={1}
@@ -133,12 +137,12 @@ export const CustomGameForm = ({
         </FormCheckboxContainer>
       </div>
       <FormToggle
-        id="censored"
+        id={censoredInputId}
         label="Активировать цензуру"
         {...form.getInputProps("censored", { type: "checkbox" })}
       />
       <FormToggle
-        id="isShowingResult"
+        id={isShowingResultInputId}
         label="Результат во время игры"
         disabled={isCreating}
         {...form.getInputProps("isShowingResult", { type: "checkbox" })}
