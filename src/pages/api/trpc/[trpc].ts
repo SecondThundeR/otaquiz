@@ -1,4 +1,8 @@
-import { createNextApiHandler } from "@trpc/server/adapters/next";
+import {
+  createNextApiHandler,
+  type NextApiRequest,
+  type NextApiResponse,
+} from "@trpc/server/adapters/next";
 
 import { env } from "@/env";
 import { appRouter } from "@/server/api/root";
@@ -13,4 +17,4 @@ export default createNextApiHandler({
           console.error(`❌ tRPC failed on ${path ?? "<no-path>"}: ${error.message}`);
         }
       : undefined,
-});
+}) as (req: NextApiRequest, res: NextApiResponse) => Response | Promise<Response>;
