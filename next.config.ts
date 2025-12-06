@@ -5,9 +5,7 @@ import "./src/env";
 const config: NextConfig = {
   reactStrictMode: true,
   transpilePackages: ["next-auth"],
-  experimental: {
-    reactCompiler: true,
-  },
+  reactCompiler: true,
   images: {
     unoptimized: true,
     remotePatterns: [
