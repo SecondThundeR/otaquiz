@@ -1,5 +1,4 @@
 @import "tailwindcss";
-/* biome-ignore lint/suspicious/noUnknownAtRules: For some reason, biome doesn't accept this at-rule */
 @plugin "daisyui" {
   /* biome-ignore lint/correctness/noUnknownProperty: This is correct way of customizing daisyui themes */
   themes:
