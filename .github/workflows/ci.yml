@@ -82,6 +82,7 @@ jobs:
         run: pnpm db:migrate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SKIP_ENV_VALIDATION: true
         if: |
           github.event_name != 'pull_request' && github.ref != 'refs/heads/develop'
 
