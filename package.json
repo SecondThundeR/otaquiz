@@ -1,6 +1,6 @@
 {
   "name": "otaquiz",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "type": "module",
   "private": true,
   "scripts": {
@@ -69,10 +69,13 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "@vercel/speed-insights",
+      "@prisma/client",
+      "@prisma/engines",
       "@tailwindcss/oxide",
+      "@vercel/speed-insights",
       "esbuild",
       "msw",
+      "prisma",
       "sharp"
     ]
   },
