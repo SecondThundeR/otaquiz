@@ -1,6 +1,15 @@
-import { Prisma } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
+import { DrizzleError } from "drizzle-orm";
 import { ZodError } from "zod";
+
+function isDatabaseError(error: unknown): error is { code: string } {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    typeof (error as Record<"code", unknown>).code === "string"
+  );
+}
 
 export function processError(error: unknown) {
   if (error instanceof ZodError) {
@@ -10,7 +19,7 @@ export function processError(error: unknown) {
       cause: error,
     });
   }
-  if (error instanceof Prisma.PrismaClientKnownRequestError)
+  if (error instanceof DrizzleError || isDatabaseError(error))
     throw new TRPCError({
       code: "INTERNAL_SERVER_ERROR",
       message: "Something happened while working with the database. Try again",

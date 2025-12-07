@@ -1,7 +1,7 @@
 import { createGameDataMock } from "./gameData";
 
 export const accountDataMock = {
-  id: "cll18wtlm000008la2tz7dhpl",
+  id: "a12b5f7b-6d63-4d84-a83d-6fb2439f7e6c",
   userId: createGameDataMock.userId,
   type: "oauth",
   provider: "shikimori",
@@ -14,4 +14,4 @@ export const accountDataMock = {
   scope: "user_rates comments topics",
   id_token: null,
   session_state: null,
-};
+} as const;

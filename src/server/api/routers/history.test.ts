@@ -1,11 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { prisma as prismaMock } from "@/mocks/prisma";
 import { appRouter } from "@/server/api/root";
 import { createCallerFactory, createInnerTRPCContext } from "@/server/api/trpc";
-
+import { games, users } from "@/server/db/schema";
+import { dbTest } from "~/tests/fixtures";
 import { gameDataMock } from "../__mocks__/gameData";
-
-vi.mock("../../db");
 
 const emptySession = { session: null };
 
@@ -34,18 +32,28 @@ describe("History Router", () => {
       await expect(example).rejects.toThrow();
     });
 
-    it("should be able to get game history for authed user", async () => {
-      prismaMock.game.findMany.mockResolvedValueOnce([gameDataMock]);
+    dbTest("should be able to get game history for authed user", async ({ db }) => {
+      await db.insert(users).values({
+        id: "123",
+      });
+
+      const [gameData] = await db.insert(games).values(gameDataMock).returning({
+        id: games.id,
+        amount: games.amount,
+        animes: games.animes,
+        answers: games.answers,
+        createdAt: games.createdAt,
+      });
 
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const example = await caller.history.getGameHistory(undefined);
 
-      expect(example).toMatchObject([gameDataMock]);
+      expect(example).toMatchObject([gameData]);
     });
   });
 });

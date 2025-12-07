@@ -24,7 +24,7 @@ To start working with sources, clone this repository and add necessary variables
 
 ```shell
 pnpm i
-pnpm prisma db push
+pnpm db:push
 ```
 
 To launch app, simply run `pnpm dev`

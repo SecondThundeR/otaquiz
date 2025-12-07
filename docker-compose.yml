@@ -2,11 +2,11 @@ version: "3.9"
 
 services:
   db:
-    image: postgres:15
+    image: postgres
     restart: always
     environment:
       POSTGRES_PASSWORD: ${PGPASSWORD}
     volumes:
-      - ./prisma/data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     ports:
       - 5432:5432

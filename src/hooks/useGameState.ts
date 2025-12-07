@@ -19,7 +19,7 @@ type UseGameStateOptions = ReturnType<typeof useGameController>["data"] &
 
 type SimpleAnimesData = {
   id: string;
-  name: string;
+  name: string | null;
 }[];
 
 export function useGameState({

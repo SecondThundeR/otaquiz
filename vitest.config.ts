@@ -8,6 +8,7 @@ export default defineConfig({
     exclude: [...configDefaults.exclude],
     alias: {
       "@/": fileURLToPath(new URL("./src/", import.meta.url)),
+      "~/tests/": fileURLToPath(new URL("./tests/", import.meta.url)),
     },
     server: {
       deps: {

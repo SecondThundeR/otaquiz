@@ -1,22 +1,19 @@
 import { createServerSideHelpers } from "@trpc/react-query/server";
+import { eq } from "drizzle-orm";
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import superjson from "superjson";
-
 import { useGameController } from "@/hooks/useGameController";
 import { useGameState } from "@/hooks/useGameState";
-
 import { DBAnimeArraySchema } from "@/schemas/db/animes";
 import { DBAnswerArraySchema } from "@/schemas/db/answers";
-
 import { appRouter } from "@/server/api/root";
 import { auth } from "@/server/auth";
 import { db } from "@/server/db";
-
+import { games } from "@/server/db/schema";
 import { Spinner } from "@/ui/Spinner";
 import { Subtitle } from "@/ui/Subtitle";
-
 import { isGameExpired } from "@/utils/server/isGameExpired";
 import { isInvalidQuery } from "@/utils/server/isInvalidQuery";
 
@@ -184,11 +181,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
 
   if (isGameExpired(gameData.updatedAt)) {
-    await db.game.delete({
-      where: {
-        id: gameData.id,
-      },
-    });
+    await db.delete(games).where(eq(games.id, gameData.id));
 
     return {
       redirect: {

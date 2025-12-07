@@ -25,7 +25,7 @@ jobs:
         run: pnpm install
 
       - name: Run typecheck
-        run: pnpm ts:check
+        run: pnpm typecheck
 
   lint:
     runs-on: ubuntu-latest
@@ -63,8 +63,6 @@ jobs:
 
       - name: Run all tests
         run: pnpm test
-        env:
-          SKIP_ENV_VALIDATION: true
 
   build:
     runs-on: ubuntu-latest
@@ -81,10 +79,9 @@ jobs:
         run: pnpm install
 
       - name: Deploy migrations to database
-        run: pnpx prisma migrate deploy
+        run: pnpm db:migrate
         env:
-          POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
-          POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         if: |
           github.event_name != 'pull_request' && github.ref != 'refs/heads/develop'
 

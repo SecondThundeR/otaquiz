@@ -1,13 +1,12 @@
+import { TRPCError } from "@trpc/server";
+import { and, eq } from "drizzle-orm";
 import { z } from "zod";
-
 import { gameQuery } from "@/constants/graphQLQueries";
 import { SHIKIMORI_GRAPHQL_API_URL } from "@/constants/links";
-
 import { type Animes, AnimesSchema, type FilteredAnime } from "@/schemas/animes";
 import { DBAnswerArraySchema } from "@/schemas/db/answers";
-
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
-
+import { accounts, games, users } from "@/server/db/schema";
 import { getRandomElement } from "@/utils/array/getRandomElement";
 import { getGraphQLFetchOptions } from "@/utils/query/getGraphQLFetchOptions";
 import { getSelectedIDs } from "@/utils/query/getSelectedIDs";
@@ -69,14 +68,19 @@ export const gameRouter = createTRPCRouter({
           };
         });
 
-        const gameData = await db.game.create({
-          data: {
+        const [gameData] = await db
+          .insert(games)
+          .values({
             amount,
             animes: gameAnimes,
             userId: session.user.id,
             isShowingResult,
-          },
-        });
+          })
+          .returning({ id: games.id });
+
+        if (!gameData) {
+          throw new TRPCError({ code: "NOT_FOUND" });
+        }
 
         return gameData.id;
       } catch (error: unknown) {
@@ -85,31 +89,37 @@ export const gameRouter = createTRPCRouter({
     }),
 
   getGameInfo: publicProcedure
-    .input(z.object({ gameId: z.cuid() }))
+    .input(z.object({ gameId: z.uuid() }))
     .query(async ({ ctx: { db }, input: { gameId } }) => {
       try {
-        const gameInfo = await db.game.findUniqueOrThrow({
-          where: {
-            id: gameId,
-          },
-        });
+        const [gameInfo] = await db.select().from(games).where(eq(games.id, gameId)).limit(1);
 
-        const userShikimoriInfo = await db.user.findUnique({
-          where: {
-            id: gameInfo?.userId,
-          },
-          select: {
-            name: true,
-            accounts: {
-              where: {
-                provider: "shikimori",
-              },
-              select: {
-                providerAccountId: true,
-              },
-            },
-          },
-        });
+        if (!gameInfo) {
+          throw new TRPCError({ code: "NOT_FOUND" });
+        }
+
+        const userRows = await db
+          .select({
+            userName: users.name,
+            providerAccountId: accounts.providerAccountId,
+          })
+          .from(users)
+          .leftJoin(
+            accounts,
+            and(eq(accounts.userId, users.id), eq(accounts.provider, "shikimori")),
+          )
+          .where(eq(users.id, gameInfo.userId));
+
+        const userRow = userRows[0];
+
+        const userShikimoriInfo = userRow
+          ? {
+              name: userRow.userName,
+              accounts: userRow.providerAccountId
+                ? [{ providerAccountId: userRow.providerAccountId }]
+                : [],
+            }
+          : null;
 
         return {
           ...gameInfo,
@@ -124,38 +134,39 @@ export const gameRouter = createTRPCRouter({
   updateGameAnswers: protectedProcedure
     .input(
       z.object({
-        gameId: z.cuid(),
+        gameId: z.uuid(),
         answers: DBAnswerArraySchema,
         isFinished: z.boolean().default(false),
       }),
     )
     .mutation(async ({ ctx: { db }, input: { gameId, answers, isFinished } }) => {
       try {
-        return await db.game.update({
-          where: {
-            id: gameId,
-          },
-          data: {
+        const [updatedGame] = await db
+          .update(games)
+          .set({
             answers,
             currentAnimeIndex: answers.length,
-            isFinished: isFinished,
-          },
-        });
+            isFinished,
+          })
+          .where(eq(games.id, gameId))
+          .returning();
+
+        return updatedGame;
       } catch (error: unknown) {
         processError(error);
       }
     }),
 
   deleteGame: protectedProcedure
-    .input(z.object({ gameId: z.cuid() }))
+    .input(z.object({ gameId: z.uuid() }))
     .mutation(async ({ ctx: { db }, input: { gameId } }) => {
       try {
-        const game = await db.game.delete({
-          where: {
-            id: gameId,
-          },
-        });
-        return game.id;
+        const [game] = await db
+          .delete(games)
+          .where(eq(games.id, gameId))
+          .returning({ id: games.id });
+
+        return game?.id;
       } catch (error: unknown) {
         processError(error);
       }

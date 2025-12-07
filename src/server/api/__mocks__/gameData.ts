@@ -1,5 +1,5 @@
 export const gameDataMock = {
-  id: "cll17jrnk000008l7bdc8bspm",
+  id: "de19226b-f066-40af-a6c8-c2f14eac38cb",
   amount: 5,
   animes: [
     {
@@ -92,7 +92,7 @@ export const gameDataMock = {
 
 export const createGameDataMock = {
   ...gameDataMock,
-  id: "cll183wn6000008mtf2waez94",
+  id: "3a27e343-c250-4eb2-b790-ee47392ff11e",
   animes: gameDataMock.animes,
   answers: null,
   currentAnimeIndex: 0,

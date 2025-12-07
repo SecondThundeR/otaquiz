@@ -1,15 +1,12 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { prisma as prismaMock } from "@/mocks/prisma";
 import { appRouter } from "@/server/api/root";
 import { createCallerFactory, createInnerTRPCContext } from "@/server/api/trpc";
-
+import { accounts, games, users } from "@/server/db/schema";
+import { dbTest } from "~/tests/fixtures";
 import { accountDataMock } from "../__mocks__/accountData";
 import { createGameDataMock, gameDataMock } from "../__mocks__/gameData";
 import { emptySession, exampleSession } from "../__mocks__/session";
-import { userAccountMock } from "../__mocks__/userAccount";
 import { userDataMock } from "../__mocks__/userData";
-
-vi.mock("../../db");
 
 describe("Game Router", () => {
   describe("createGame", () => {
@@ -17,11 +14,11 @@ describe("Game Router", () => {
       vi.restoreAllMocks();
     });
 
-    it("should not be able to create game for unauthed user", async () => {
+    dbTest("should not be able to create game for unauthed user", async ({ db }) => {
       const ctx = createInnerTRPCContext(emptySession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const example = caller.game.createGame({
@@ -31,27 +28,29 @@ describe("Game Router", () => {
       await expect(example).rejects.toThrow();
     });
 
-    it("should be able to create game for authed user", async () => {
-      prismaMock.game.create.mockResolvedValueOnce(createGameDataMock);
+    dbTest("should be able to create game for authed user", async ({ db }) => {
+      await db.insert(users).values({
+        id: "123",
+      });
 
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const example = await caller.game.createGame({
         options: { limit: 5 },
       });
 
-      expect(example).toBe(createGameDataMock.id);
+      expect(example).toBeDefined();
     });
 
-    it("should fail on empty options", async () => {
+    dbTest("should fail on empty options", async ({ db }) => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const exampleUndefinedInput = caller.game.createGame(undefined as never);
@@ -65,11 +64,11 @@ describe("Game Router", () => {
       await expect(exampleUndefinedOptions).rejects.toThrow();
     });
 
-    it("should fail on incorrect amount range", async () => {
+    dbTest("should fail on incorrect amount range", async ({ db }) => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const exampleMin = caller.game.createGame({
@@ -85,11 +84,11 @@ describe("Game Router", () => {
       await expect(exampleMax).rejects.toThrow();
     });
 
-    it("should fail on incorrect score range", async () => {
+    dbTest("should fail on incorrect score range", async ({ db }) => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const exampleMin = caller.game.createGame({
@@ -111,15 +110,15 @@ describe("Game Router", () => {
       vi.restoreAllMocks();
     });
 
-    it("should be able to get game info for unauthed user", async () => {
-      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(createGameDataMock);
-      // @ts-expect-error This findUnique returns accounts data
-      prismaMock.user.findUnique.mockResolvedValueOnce(userAccountMock);
+    dbTest("should be able to get game info for unauthed user", async ({ db }) => {
+      await db.insert(users).values(userDataMock);
+      await db.insert(accounts).values(accountDataMock);
+      await db.insert(games).values(createGameDataMock);
 
       const ctx = createInnerTRPCContext(emptySession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const example = await caller.game.getGameInfo({
@@ -133,15 +132,15 @@ describe("Game Router", () => {
       });
     });
 
-    it("should be able to get game info for authed user", async () => {
-      prismaMock.game.findUniqueOrThrow.mockResolvedValueOnce(createGameDataMock);
-      // @ts-expect-error This findUnique returns accounts data
-      prismaMock.user.findUnique.mockResolvedValueOnce(userAccountMock);
+    dbTest("should be able to get game info for authed user", async ({ db }) => {
+      await db.insert(users).values(userDataMock);
+      await db.insert(accounts).values(accountDataMock);
+      await db.insert(games).values(createGameDataMock);
 
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const example = await caller.game.getGameInfo({
@@ -175,13 +174,11 @@ describe("Game Router", () => {
       await expect(exampleNonCUID).rejects.toThrow();
     });
 
-    it("should fail on wrong gameId", async () => {
-      prismaMock.game.findUniqueOrThrow.mockRejectedValueOnce(null);
-
+    dbTest("should fail on wrong gameId", async ({ db }) => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const exampleWrongID = caller.game.getGameInfo({
@@ -197,11 +194,11 @@ describe("Game Router", () => {
       vi.restoreAllMocks();
     });
 
-    it("should not be able to update game answers for unauthed user", async () => {
+    dbTest("should not be able to update game answers for unauthed user", async ({ db }) => {
       const ctx = createInnerTRPCContext(emptySession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const example = caller.game.updateGameAnswers({
@@ -213,13 +210,15 @@ describe("Game Router", () => {
       await expect(example).rejects.toThrow();
     });
 
-    it("should be able to update game answers for authed user", async () => {
-      prismaMock.game.update.mockResolvedValueOnce(gameDataMock);
+    dbTest("should be able to update game answers for authed user", async ({ db }) => {
+      await db.insert(users).values(userDataMock);
+      await db.insert(accounts).values(accountDataMock);
+      await db.insert(games).values(gameDataMock);
 
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const example = await caller.game.updateGameAnswers({
@@ -228,14 +227,19 @@ describe("Game Router", () => {
         isFinished: gameDataMock.isFinished,
       });
 
-      expect(example).toEqual(gameDataMock);
+      const { updatedAt: exampleUpdatedAt, ...exampleRest } = example ?? {};
+
+      const { updatedAt: gameDataUpdatedAt, ...gameDataMockRest } = gameDataMock;
+
+      expect(exampleRest).toEqual(gameDataMockRest);
+      expect(exampleUpdatedAt).not.toEqual(gameDataUpdatedAt);
     });
 
-    it("should fail on empty input", async () => {
+    dbTest("should fail on empty input", async ({ db }) => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const example = caller.game.updateGameAnswers(undefined as never);
@@ -243,11 +247,11 @@ describe("Game Router", () => {
       await expect(example).rejects.toThrow();
     });
 
-    it("should fail on invalid input", async () => {
+    dbTest("should fail on invalid input", async ({ db }) => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const exampleEmptyID = caller.game.updateGameAnswers({
@@ -271,11 +275,11 @@ describe("Game Router", () => {
       vi.restoreAllMocks();
     });
 
-    it("should not be able to delete game for unauthed user", async () => {
+    dbTest("should not be able to delete game for unauthed user", async ({ db }) => {
       const ctx = createInnerTRPCContext(emptySession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const example = caller.game.deleteGame({
@@ -285,14 +289,15 @@ describe("Game Router", () => {
       await expect(example).rejects.toThrow();
     });
 
-    it("should be able to delete game for authed user", async () => {
-      prismaMock.game.create.mockResolvedValueOnce(gameDataMock);
-      prismaMock.game.delete.mockResolvedValueOnce(gameDataMock);
+    dbTest("should be able to delete game for authed user", async ({ db }) => {
+      await db.insert(users).values(userDataMock);
+      await db.insert(accounts).values(accountDataMock);
+      await db.insert(games).values(gameDataMock);
 
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const example = await caller.game.deleteGame({
@@ -302,13 +307,11 @@ describe("Game Router", () => {
       expect(example).toBe(gameDataMock.id);
     });
 
-    it("should fail on empty input", async () => {
-      prismaMock.game.create.mockResolvedValueOnce(gameDataMock);
-
+    dbTest("should fail on empty input", async ({ db }) => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const example = caller.game.deleteGame(undefined as never);
@@ -316,13 +319,11 @@ describe("Game Router", () => {
       await expect(example).rejects.toThrow();
     });
 
-    it("should fail on incorrect gameId", async () => {
-      prismaMock.game.create.mockResolvedValueOnce(gameDataMock);
-
+    dbTest("should fail on incorrect gameId", async ({ db }) => {
       const ctx = createInnerTRPCContext(exampleSession);
       const caller = createCallerFactory(appRouter)({
         ...ctx,
-        db: prismaMock,
+        db,
       });
 
       const exampleEmpty = caller.game.deleteGame({ gameId: "" });
