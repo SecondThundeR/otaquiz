@@ -21,48 +21,48 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@auth/drizzle-adapter": "^1.11.1",
-    "@mantine/form": "^8.3.15",
-    "@mantine/hooks": "^8.3.15",
-    "@primer/octicons-react": "^19.22.0",
-    "@t3-oss/env-nextjs": "^0.13.10",
-    "@tanstack/react-query": "^5.90.21",
-    "@trpc/client": "^11.11.0",
-    "@trpc/next": "^11.11.0",
-    "@trpc/react-query": "^11.11.0",
-    "@trpc/server": "^11.11.0",
-    "@vercel/speed-insights": "^1.3.1",
+    "@auth/drizzle-adapter": "1.11.1",
+    "@mantine/form": "8.3.17",
+    "@mantine/hooks": "8.3.17",
+    "@primer/octicons-react": "19.22.0",
+    "@t3-oss/env-nextjs": "0.13.10",
+    "@tanstack/react-query": "5.90.21",
+    "@trpc/client": "11.13.3",
+    "@trpc/next": "11.13.3",
+    "@trpc/react-query": "11.13.3",
+    "@trpc/server": "11.13.3",
+    "@vercel/speed-insights": "^2.0.0",
     "babel-plugin-react-compiler": "1.0.0",
-    "clsx": "^2.1.1",
-    "dayjs": "^1.11.19",
-    "drizzle-orm": "^0.45.1",
-    "next": "^16.1.6",
+    "clsx": "2.1.1",
+    "dayjs": "1.11.20",
+    "drizzle-orm": "0.45.1",
+    "next": "16.1.6",
     "next-auth": "5.0.0-beta.30",
-    "postgres": "^3.4.8",
+    "postgres": "3.4.8",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "superjson": "^2.2.6",
-    "tailwind-merge": "^3.5.0",
-    "zod": "^4.3.6"
+    "superjson": "2.2.6",
+    "tailwind-merge": "3.5.0",
+    "zod": "4.3.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.4",
-    "@electric-sql/pglite": "^0.3.15",
-    "@tailwindcss/postcss": "^4.2.1",
-    "@types/node": "^25.3.3",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "daisyui": "^5.5.19",
-    "drizzle-kit": "^0.31.9",
-    "msw": "^2.12.10",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.2.1",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.18",
-    "vitest-mock-extended": "^3.1.0"
+    "@biomejs/biome": "2.4.7",
+    "@electric-sql/pglite": "0.3.16",
+    "@tailwindcss/postcss": "4.2.1",
+    "@types/node": "25.5.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "daisyui": "5.5.19",
+    "drizzle-kit": "0.31.9",
+    "msw": "2.12.10",
+    "postcss": "8.5.8",
+    "tailwindcss": "4.2.1",
+    "typescript": "5.9.3",
+    "vitest": "4.1.0",
+    "vitest-mock-extended": "3.1.0"
   },
   "engines": {
-    "node": "^24.0.0"
+    "node": "24.0.0"
   },
   "ct3aMetadata": {
     "initVersion": "7.14.0"
@@ -83,5 +83,5 @@
       "rollup@<=4.53.5": ">=4.59.0"
     }
   },
-  "packageManager": "pnpm@10.30.3+sha512.c961d1e0a2d8e354ecaa5166b822516668b7f44cb5bd95122d590dd81922f606f5473b6d23ec4a5be05e7fcd18e8488d47d978bbe981872f1145d06e9a740017"
+  "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be"
 }
