@@ -26,7 +26,7 @@
     "@mantine/hooks": "8.3.18",
     "@primer/octicons-react": "19.23.0",
     "@t3-oss/env-nextjs": "0.13.10",
-    "@tanstack/react-query": "5.90.21",
+    "@tanstack/react-query": "5.91.0",
     "@trpc/client": "11.13.4",
     "@trpc/next": "11.13.4",
     "@trpc/react-query": "11.13.4",
@@ -36,7 +36,7 @@
     "clsx": "2.1.1",
     "dayjs": "1.11.20",
     "drizzle-orm": "0.45.1",
-    "next": "16.1.7",
+    "next": "16.2.0",
     "next-auth": "5.0.0-beta.30",
     "postgres": "3.4.8",
     "react": "19.2.4",
@@ -46,9 +46,9 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.7",
+    "@biomejs/biome": "2.4.8",
     "@electric-sql/pglite": "0.4.0",
-    "@tailwindcss/postcss": "4.2.1",
+    "@tailwindcss/postcss": "4.2.2",
     "@types/node": "25.5.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
@@ -56,7 +56,7 @@
     "drizzle-kit": "0.31.10",
     "msw": "2.12.13",
     "postcss": "8.5.8",
-    "tailwindcss": "4.2.1",
+    "tailwindcss": "4.2.2",
     "typescript": "5.9.3",
     "vitest": "4.1.0",
     "vitest-mock-extended": "3.1.0"
