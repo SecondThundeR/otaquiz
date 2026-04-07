@@ -46,23 +46,23 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.8",
-    "@electric-sql/pglite": "0.4.0",
+    "@biomejs/biome": "2.4.10",
+    "@electric-sql/pglite": "0.4.3",
     "@tailwindcss/postcss": "4.2.2",
-    "@types/node": "25.5.0",
+    "@types/node": "25.5.2",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "daisyui": "5.5.19",
     "drizzle-kit": "0.31.10",
-    "msw": "2.12.13",
+    "msw": "2.13.0",
     "postcss": "8.5.8",
     "tailwindcss": "4.2.2",
-    "typescript": "5.9.3",
-    "vitest": "4.1.0",
-    "vitest-mock-extended": "3.1.0"
+    "typescript": "6.0.2",
+    "vitest": "4.1.2",
+    "vitest-mock-extended": "4.0.0"
   },
   "engines": {
-    "node": "24.14.0"
+    "node": "24.14.1"
   },
   "ct3aMetadata": {
     "initVersion": "7.14.0"
@@ -83,5 +83,5 @@
       "rollup@<=4.53.5": ">=4.59.0"
     }
   },
-  "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be"
+  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
 }
