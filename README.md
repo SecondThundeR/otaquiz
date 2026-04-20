@@ -1,3 +1,8 @@
+> [!WARNING]
+> This project will be shut down on August 6, 2026, due to new rules and procedures for domain identification in the .ru domain space (as well as a lack of interest in further developing this project)
+>
+> After this date, the repository will be archived and the domain will no longer be renewed
+
 # Otaquiz
 
 > Otaku + quiz = Otaquiz
@@ -11,10 +16,6 @@ Some random anime quiz web application. Built with T3 Stack, powered by Shikimor
 ## Brief Description
 
 This is an anime quiz game, which queries random animes, shows screenshots and gives buttons for player to guess, which anime name is correct
-
-> ~More game modes are on the way~
->
-> **Note**: Project is currently in maintenance mode. New features will be developed starting in winter 2025
 
 ## Getting started
 
