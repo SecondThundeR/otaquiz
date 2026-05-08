@@ -1,4 +1,4 @@
-export const SHIKIMORI_URL = "https://shikimori.one/";
+export const SHIKIMORI_URL = "https://shikimori.io/";
 export const SHIKIMORI_ANIMES_URL = `${SHIKIMORI_URL}animes/`;
 export const SHIKIMORI_API_DOCS = `${SHIKIMORI_URL}api/doc/`;
 export const SHIKIMORI_GRAPHQL_API_URL = `${SHIKIMORI_URL}api/graphql`;
