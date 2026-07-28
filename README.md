@@ -1,7 +1,5 @@
 > [!WARNING]
-> This project will be shut down on August 6, 2026, due to new rules and procedures for domain identification in the .ru domain space (as well as a lack of interest in further developing this project)
->
-> After this date, the repository will be archived and the domain will no longer be renewed
+> This project was permanently shut down on July 28, 2026, due to new rules and procedures for domain identification in the .ru domain space, as well as a lack of interest in further developing the project
 
 # Otaquiz
 
@@ -10,8 +8,6 @@
 <img width="1792" height="1131" alt="image" src="https://github.com/user-attachments/assets/6d49d78e-0624-4f36-a0a7-5f09efa5e89e" />
 
 Some random anime quiz web application. Built with T3 Stack, powered by Shikimori API
-
-[Deployment link](https://otaquiz.ru/) | [Development roadmap](https://github.com/users/SecondThundeR/projects/7)
 
 ## Brief Description
 
